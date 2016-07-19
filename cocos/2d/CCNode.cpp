@@ -57,11 +57,11 @@ NS_CC_BEGIN
 
 bool nodeComparisonLess(Node* n1, Node* n2)
 {
-    return(n1->_getLocalZOrderValue() < n2->_getLocalZOrderValue());
+    return(n1->_localZOrder.value < n2->_localZOrder.value);
 }
 
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
-unsigned int Node::s_globalOrderOfArrival = 1;
+unsigned int Node::s_globalOrderOfArrival = 0;
 
 // MARK: Constructor, Destructor, Init
 
@@ -118,7 +118,7 @@ Node::Node()
 #endif
 {
     _localZOrder.value = 0;
-    _localZOrder.detail.z = CC_LOCALZORDER_ZERO;
+
     // set default scheduler and actionManager
     _director = Director::getInstance();
     _actionManager = _director->getActionManager();
@@ -258,11 +258,10 @@ void Node::setSkewY(float skewY)
 
 void Node::setLocalZOrder(int z)
 {
-    unsigned int usz = CC_LOCALZORDER_ZERO + z;
-    if (_localZOrder.detail.z == usz)
+    if (getLocalZOrder() == z)
         return;
-
-    _localZOrder.detail.z = usz;
+    
+    _setLocalZOrder(z);
     if (_parent)
     {
         _parent->reorderChild(this, z);
@@ -275,7 +274,12 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrder.detail.z = CC_LOCALZORDER_ZERO + z;
+    _localZOrder.detail.z = z;
+}
+
+void Node::_updateOrderOfArrival()
+{
+    _localZOrder.detail.a = s_globalOrderOfArrival++;
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -959,10 +963,10 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
 
     child->setParent(this);
     child->setCameraMask(getCameraMask());
-	
-    child->_setOrderOfArrival(s_globalOrderOfArrival++);
 
-    if (_running)
+    child->_updateOrderOfArrival();
+
+    if( _running )
     {
         child->onEnter();
         // prevent onEnterTransitionDidFinish to be called twice when a node is added in onEnter
@@ -991,8 +995,8 @@ void Node::addChild(Node *child, int zOrder)
 
 void Node::addChild(Node *child)
 {
-    CCASSERT(child != nullptr, "Argument must be non-nil");
-    this->addChild(child, child->getLocalZOrder(), child->_name);
+    CCASSERT( child != nullptr, "Argument must be non-nil");
+    this->addChild(child, child->_localZOrder.detail.z, child->_name);
 }
 
 void Node::removeFromParent()
@@ -1139,22 +1143,22 @@ void Node::insertChild(Node* child, int z)
     _transformUpdated = true;
     _reorderChildDirty = true;
     _children.pushBack(child);
-    child->_localZOrder.detail.z = CC_LOCALZORDER_ZERO + z;
+    child->_setLocalZOrder(z);
 }
 
 void Node::reorderChild(Node *child, int zOrder)
 {
     CCASSERT(child != nullptr, "Child must be non-nil");
     _reorderChildDirty = true;
-    child->_setOrderOfArrival(s_globalOrderOfArrival++);
-    child->_localZOrder.detail.z = CC_LOCALZORDER_ZERO + zOrder;
+    child->_updateOrderOfArrival();
+    child->_setLocalZOrder(zOrder);
 }
 
 void Node::sortAllChildren()
 {
     if (_reorderChildDirty)
     {
-        std::stable_sort(std::begin(_children), std::end(_children), nodeComparisonLess);
+        std::sort(std::begin(_children), std::end(_children), nodeComparisonLess);
         _reorderChildDirty = false;
     }
 }
@@ -1248,7 +1252,7 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
         {
             auto node = _children.at(i);
 
-            if (node && node->_localZOrder.detail.z < CC_LOCALZORDER_ZERO)
+            if (node && node->getLocalZOrder() < 0)
                 node->visit(renderer, _modelViewTransform, flags);
             else
                 break;
