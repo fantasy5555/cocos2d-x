@@ -105,7 +105,6 @@ Limitations:
 - A Node is a "void" object. If you want to draw something on the screen, you should use a Sprite instead. Or subclass Node and override `draw`.
 
 */
-#define CC_LOCALZORDER_ZERO 0x7fffffffU
 
 class CC_DLL Node : public Ref
 {

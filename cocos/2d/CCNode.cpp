@@ -1247,7 +1247,7 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     if (!_children.empty())
     {
         sortAllChildren();
-        // draw children zOrder < CC_LOCALZORDER_ZERO
+        // draw children zOrder < 0
         for (; i < _children.size(); i++)
         {
             auto node = _children.at(i);
