@@ -577,6 +577,53 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
                 }
                 else
                 {
+                    cocos2d::log("Regard image as BMP!");
+
+                    // Data read from the header of the BMP file
+                    const unsigned char* header = data;
+                    unsigned int dataPos;
+                    // Actual RGB data
+                    // Open the file
+                    /*FILE * file = fopen(imagepath, "rb");
+                    if (!file) { printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar(); return 0; }*/
+
+                    // Read the header, i.e. the 54 first bytes
+
+                    // If less than 54 bytes are read, problem
+                    if (dataLen < 54) {
+                        printf("Not a correct BMP file\n");
+                        return 0;
+                    }
+                    // A BMP files always begins with "BM"
+                    if (header[0] != 'B' || header[1] != 'M') {
+                        printf("Not a correct BMP file\n");
+                        return 0;
+                    }
+                    // Make sure this is a 24bpp file
+                    if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    return 0; }
+                    if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    return 0; }
+
+                    // Read the information about the image
+                    dataPos = *(int*)&(header[0x0A]);
+
+                    _renderFormat = Texture2D::PixelFormat::BGR888;
+                    _width = *(int*)&(header[0x12]);
+                    _height = *(int*)&(header[0x16]);
+                    _dataLen = *(int*)&(header[0x22]);
+
+                    // Some BMP files are misformatted, guess missing information
+                    if (_dataLen == 0)    _dataLen = _width*_height * 3; // 3 : one byte for each Red, Green and Blue component
+                    if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
+
+                                                         // Create a buffer
+                    // Read the actual data from the file into the buffer
+                    _data = static_cast<unsigned char*>(malloc(_dataLen * sizeof(unsigned char)));
+                    memcpy(_data, data + dataPos, _dataLen);
+
+                    _fileType = Format::UNKNOWN;
+
+                    _hasPremultipliedAlpha = false;
+
                     CCLOG("cocos2d: unsupported image format!");
                 }
                 
