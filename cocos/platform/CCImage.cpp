@@ -566,6 +566,9 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
         case Format::ATITC:
             ret = initWithATITCData(unpackedData, unpackedLen);
             break;
+        case Format::BMP:
+            ret = initWithBmpData(unpackedData, unpackedLen);
+            break;
         default:
             {
                 // load and detect image format
@@ -577,53 +580,6 @@ bool Image::initWithImageData(const unsigned char * data, ssize_t dataLen)
                 }
                 else
                 {
-                    cocos2d::log("Regard image as BMP!");
-
-                    // Data read from the header of the BMP file
-                    const unsigned char* header = data;
-                    unsigned int dataPos;
-                    // Actual RGB data
-                    // Open the file
-                    /*FILE * file = fopen(imagepath, "rb");
-                    if (!file) { printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar(); return 0; }*/
-
-                    // Read the header, i.e. the 54 first bytes
-
-                    // If less than 54 bytes are read, problem
-                    if (dataLen < 54) {
-                        printf("Not a correct BMP file\n");
-                        return 0;
-                    }
-                    // A BMP files always begins with "BM"
-                    if (header[0] != 'B' || header[1] != 'M') {
-                        printf("Not a correct BMP file\n");
-                        return 0;
-                    }
-                    // Make sure this is a 24bpp file
-                    if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    return 0; }
-                    if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    return 0; }
-
-                    // Read the information about the image
-                    dataPos = *(int*)&(header[0x0A]);
-
-                    _renderFormat = Texture2D::PixelFormat::BGR888;
-                    _width = *(int*)&(header[0x12]);
-                    _height = *(int*)&(header[0x16]);
-                    _dataLen = *(int*)&(header[0x22]);
-
-                    // Some BMP files are misformatted, guess missing information
-                    if (_dataLen == 0)    _dataLen = _width*_height * 3; // 3 : one byte for each Red, Green and Blue component
-                    if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
-
-                                                         // Create a buffer
-                    // Read the actual data from the file into the buffer
-                    _data = static_cast<unsigned char*>(malloc(_dataLen * sizeof(unsigned char)));
-                    memcpy(_data, data + dataPos, _dataLen);
-
-                    _fileType = Format::UNKNOWN;
-
-                    _hasPremultipliedAlpha = false;
-
                     CCLOG("cocos2d: unsupported image format!");
                 }
                 
@@ -653,6 +609,10 @@ bool Image::isPng(const unsigned char * data, ssize_t dataLen)
     return memcmp(PNG_SIGNATURE, data, sizeof(PNG_SIGNATURE)) == 0;
 }
 
+bool Image::isBmp(const unsigned char * data, ssize_t dataLen)
+{
+    return dataLen > 54 && data[0] == 'B' && data[1] == 'M';
+}
 
 bool Image::isEtc(const unsigned char * data, ssize_t dataLen)
 {
@@ -745,6 +705,10 @@ Image::Format Image::detectFormat(const unsigned char * data, ssize_t dataLen)
     else if (isJpg(data, dataLen))
     {
         return Format::JPG;
+    }
+    else if (isBmp(data, dataLen))
+    {
+        return Format::BMP;
     }
     else if (isTiff(data, dataLen))
     {
@@ -1311,6 +1275,86 @@ namespace
     }
 }
 #endif // CC_USE_TIFF
+
+bool Image::initWithBmpData(const unsigned char *data, ssize_t dataLen)
+{
+#if CC_USE_WIC
+    return decodeWithWIC(data, dataLen);
+#else
+    // Data read from the header of the BMP file
+    const unsigned char* header = data;
+    unsigned int dataPos;
+    // Actual RGB data
+    // Open the file
+    /*FILE * file = fopen(imagepath, "rb");
+    if (!file) { printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar(); return 0; }*/
+
+    // Read the header, i.e. the 54 first bytes
+
+    // If less than 54 bytes are read, problem
+    if (dataLen < 54) {
+        printf("Not a correct BMP file\n");
+        return 0;
+    }
+    // A BMP files always begins with "BM"
+    if (header[0] != 'B' || header[1] != 'M') {
+        printf("Not a correct BMP file\n");
+        return 0;
+    }
+    // Make sure this is a 24bpp file
+    if (*(int*)&(header[0x1E]) != 0) { printf("Not a correct BMP file\n");    return 0; }
+    if (*(int*)&(header[0x1C]) != 24) { printf("Not a correct BMP file\n");    return 0; }
+
+    // Read the information about the image
+    dataPos = *(int*)&(header[0x0A]);
+
+    _renderFormat = Texture2D::PixelFormat::BGR888;
+    _width = *(int*)&(header[0x12]);
+    _height = *(int*)&(header[0x16]);
+    _dataLen = *(int*)&(header[0x22]);
+
+    // Some BMP files are misformatted, guess missing information
+    if (_dataLen == 0)    _dataLen = _width*_height * 3; // 3 : one byte for each Red, Green and Blue component
+    if (dataPos == 0)      dataPos = 54; // The BMP header is done that way
+
+                                         // Create a buffer
+                                         // Read the actual data from the file into the buffer
+    _data = static_cast<unsigned char*>(malloc(_dataLen * sizeof(unsigned char)));
+    memcpy(_data, data + dataPos, _dataLen);
+
+    _fileType = Format::BMP;
+
+    _hasPremultipliedAlpha = false;
+
+    // Perform vertical flip 
+    size_t bytesPerLine = _width * 3;
+    std::string tempData(bytesPerLine, '\0');
+    int top = 0, bottom = _height - 1;
+    int half = _height / 2;
+    if (_height > 1) {
+        if (_height % 2 == 0) {
+            for (; top < half && bottom >= half; ++top, --bottom)
+            {
+                auto bottomData = _data + bottom * bytesPerLine;
+                auto topData = _data + top * bytesPerLine;
+                memcpy(&tempData.front(), bottomData, bytesPerLine);
+                memcpy(bottomData, topData, bytesPerLine);
+                memcpy(topData, &tempData.front(), bytesPerLine);
+            }
+        }
+        else {
+            for (; top < half && bottom > half; ++top, --bottom)
+            {
+                auto bottomData = _data + bottom * bytesPerLine;
+                auto topData = _data + top * bytesPerLine;
+                memcpy(&tempData.front(), bottomData, bytesPerLine);
+                memcpy(bottomData, topData, bytesPerLine);
+                memcpy(topData, &tempData.front(), bytesPerLine);
+            }
+        }
+    }
+#endif
+}
 
 bool Image::initWithTiffData(const unsigned char * data, ssize_t dataLen)
 {
