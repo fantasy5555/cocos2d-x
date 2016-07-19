@@ -109,6 +109,7 @@ Limitations:
 
 class CC_DLL Node : public Ref
 {
+    friend bool nodeComparisonLess(Node* n1, Node* n2);
 public:
     /** Default tag used for all the nodes */
     static const int INVALID_TAG = -1;
@@ -169,14 +170,26 @@ public:
     */
     CC_DEPRECATED_ATTRIBUTE virtual void _setLocalZOrder(int z);
 
-    /**
-    * Gets the local Z order of this node.
+    /** !!! ONLY FOR INTERNAL USE
+    * Sets the arrival order when this node has a same ZOrder with other children.
     *
-    * @see `setLocalZOrder(int)`
+    * A node which called addChild subsequently will take a larger arrival order,
+    * If two children have the same Z order, the child with larger arrival order will be drawn later.
     *
-    * @return The local (relative to its siblings) Z order.
+    * @warning This method is used internally for localZOrder sorting, don't change this manually
+    *
+    * @param orderOfArrival   The arrival order.
     */
-    virtual int getLocalZOrder() const { return static_cast<int>(_localZOrder.detail.z - CC_LOCALZORDER_ZERO); }
+    CC_DEPRECATED_ATTRIBUTE void _updateOrderOfArrival(void);
+
+    /**
+     * Gets the local Z order of this node.
+     *
+     * @see `setLocalZOrder(int)`
+     *
+     * @return The local (relative to its siblings) Z order.
+     */
+    virtual int getLocalZOrder() const { return _localZOrder.detail.z; }
     CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
 
 
@@ -1904,12 +1917,14 @@ protected:
 
     union {
         struct {
-            unsigned int z; // The actual Z order, store as unsigned, but signed for user
-            unsigned int a; // The order of arrival
+            int z;
+            unsigned int a;
         } detail;
-        unsigned long long value;
-    } _localZOrder;  ///< Local order storage (relative to its siblings) used to sort the node
+        long long value;
+    } _localZOrder;               ///< Local order (relative to its siblings) used to sort the node
     float _globalZOrder;            ///< Global order used to sort the node
+
+    static unsigned int s_globalOrderOfArrival;
 
     Vector<Node*> _children;        ///< array of children nodes
     Node *_parent;                  ///< weak reference to parent node
