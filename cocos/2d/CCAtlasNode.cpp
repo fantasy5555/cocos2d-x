@@ -131,7 +131,6 @@ void AtlasNode::updateAtlasValues()
 // AtlasNode - draw
 void AtlasNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
-    // x-studio365 spec: ETC1 ALPHA supports. -- TODO
     _quadCommand.init(_globalZOrder, _textureAtlas->getTexture()->getName(), getGLProgramState(), _blendFunc, _textureAtlas->getQuads(), _quadsToDraw, transform, flags, _textureAtlas->getTexture()->getAlphaTextureName());
     
     renderer->addCommand(&_quadCommand);

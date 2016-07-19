@@ -666,16 +666,15 @@ void Sprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     if(_insideBounds)
 #endif
     {
-        _trianglesCommand.init(_globalZOrder, 
-            _texture->getName(), 
-            getGLProgramState(), 
-            _blendFunc, 
-            _polyInfo.triangles, 
-            transform, 
-            flags, 
+        _trianglesCommand.init(_globalZOrder,
+            _texture->getName(),
+            getGLProgramState(),
+            _blendFunc,
+            _polyInfo.triangles,
+            transform,
+            flags,
             // x-studio365 spec, ETC1 ALPHA supports.
             _texture->getAlphaTextureName());
-
         renderer->addCommand(&_trianglesCommand);
         
 #if CC_SPRITE_DEBUG_DRAW

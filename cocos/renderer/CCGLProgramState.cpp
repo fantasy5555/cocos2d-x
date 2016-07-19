@@ -309,8 +309,7 @@ void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized
 //
 // GLProgramState
 //
-//
-GLProgramState* GLProgramState::getPositionTextureColorGLProgramState(Texture2D* texture, bool noMVP)
+//GLProgramState* GLProgramState::getPositionTextureColorGLProgramState(Texture2D* texture, bool noMVP)
 {
     GLProgramState* state = nullptr;
     if (texture != nullptr) {
@@ -342,10 +341,9 @@ GLProgramState* GLProgramState::getPositionTextureGrayGLProgramState(Texture2D* 
     else {
         state = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE);
     }
-    
+
     return state;
 }
-
 GLProgramState* GLProgramState::create(GLProgram *glprogram)
 {
     GLProgramState* ret = nullptr;
