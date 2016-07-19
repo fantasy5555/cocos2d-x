@@ -73,13 +73,8 @@ static void replaceDefines(const std::string& compileTimeDefines, std::string& o
 
 
 NS_CC_BEGIN
-const char* GLProgram::SHADER_NAME_ETC1AA_POSITION_TEXTURE_COLOR = "#ShaderETC1AAPositionTextureColor";
-const char* GLProgram::SHADER_NAME_ETC1AA_POSITION_TEXTURE_COLOR_NO_MVP = "#ShaderETC1AAPositionTextureColor_noMVP";
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR = "#ShaderETC1ASPositionTextureColor";
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR_NO_MVP = "#ShaderETC1ASPositionTextureColor_noMVP";
-
-const char* GLProgram::SHADER_NAME_ETC1AA_POSITION_TEXTURE_GRAY = "#ShaderETC1AAPositionTextureGray";
-const char* GLProgram::SHADER_NAME_ETC1AA_POSITION_TEXTURE_GRAY_NO_MVP = "#ShaderETC1AAPositionTextureGray_noMVP";
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY = "#ShaderETC1ASPositionTextureGray";
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY_NO_MVP = "#ShaderETC1ASPositionTextureGray_noMVP";
 
@@ -660,17 +655,17 @@ bool GLProgram::updateUniformLocation(GLint location, const GLvoid* data, unsign
     }
     else
     {
-        if (memcmp(element->second.first, data, bytes) == 0)
+        if (element->second.second < bytes)
         {
-            updated = false;
+            GLvoid* value = realloc(element->second.first, bytes);
+            memcpy(value, data, bytes);
+            _hashForUniforms[location] = std::make_pair(value, bytes);
         }
         else
         {
-            if (element->second.second < bytes)
+            if (memcmp(element->second.first, data, bytes) == 0)
             {
-                GLvoid* value = realloc(element->second.first, bytes);
-                memcpy(value, data, bytes );
-                _hashForUniforms[location] = std::make_pair(value, bytes);
+                updated = false;
             }
             else
                 memcpy(element->second.first, data, bytes);

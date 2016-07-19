@@ -309,12 +309,11 @@ void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized
 //
 // GLProgramState
 //
-//
-GLProgramState* GLProgramState::getPositionTextureColorGLProgramState(Texture2D* texture, bool noMVP)
+//GLProgramState* GLProgramState::getPositionTextureColorGLProgramState(Texture2D* texture, bool noMVP)
 {
     GLProgramState* state = nullptr;
     if (texture != nullptr) {
-        if (nullptr == texture->getAlphaTexture()) {
+        if (0 == texture->getAlphaTextureName()) {
             state = GLProgramState::getOrCreateWithGLProgramName(noMVP ? GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP : GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
         }
         else { // x-studio365 spec, ETC1 ALPHA supports.
@@ -332,7 +331,7 @@ GLProgramState* GLProgramState::getPositionTextureGrayGLProgramState(Texture2D* 
 {
     GLProgramState* state = nullptr;
     if (texture != nullptr) {
-        if (nullptr == texture->getAlphaTexture()) {
+        if (0 == texture->getAlphaTextureName()) {
             state = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE);
         }
         else { // x-studio365 spec, ETC1 ALPHA supports.
@@ -342,10 +341,9 @@ GLProgramState* GLProgramState::getPositionTextureGrayGLProgramState(Texture2D* 
     else {
         state = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE);
     }
-    
+
     return state;
 }
-
 GLProgramState* GLProgramState::create(GLProgram *glprogram)
 {
     GLProgramState* ret = nullptr;
