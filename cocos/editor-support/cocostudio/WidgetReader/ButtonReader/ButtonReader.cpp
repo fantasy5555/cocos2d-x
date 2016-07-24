@@ -108,7 +108,10 @@ namespace cocostudio
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
                 
-                button->loadTextureNormal(backgroundValue, imageFileNameType);
+                // assets[0] = backgroundValue;
+                auto fileData = cocos2d::wext::makeResourceData(backgroundValue, (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(button, fileData, 0);
+                button->loadTextureNormal(fileData.file, imageFileNameType);
                 
             }
             else if (key == P_PressedData){
@@ -120,7 +123,9 @@ namespace cocostudio
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
                 
-                button->loadTexturePressed(backgroundValue, imageFileNameType);
+                auto fileData = cocos2d::wext::makeResourceData(backgroundValue, (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(button, fileData, 1);
+                button->loadTexturePressed(fileData.file, imageFileNameType);
                 
             }
             else if (key == P_DisabledData){
@@ -132,7 +137,9 @@ namespace cocostudio
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
                 
-                button->loadTextureDisabled(backgroundValue, imageFileNameType);
+                auto fileData = cocos2d::wext::makeResourceData(backgroundValue, (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(button, fileData, 2);
+                button->loadTextureDisabled(fileData.file, imageFileNameType);
                 
             }else if (key == P_Text){
                 button->setTitleText(value);
@@ -158,7 +165,9 @@ namespace cocostudio
             }else if(key == P_FontSize){
                 button->setTitleFontSize(valueToFloat(value));
             }else if(key == P_FontName){
-                button->setTitleFontName(value);
+                auto fileData = cocos2d::wext::makeResourceData(value);
+                cocos2d::wext::onBeforeLoadObjectAsset(button, fileData, 3);
+                button->setTitleFontName(fileData.file); // fonts
             }
             
         } //end of for loop
@@ -181,6 +190,12 @@ namespace cocostudio
         
         
         Button* button = static_cast<Button*>(widget);
+
+        auto pHackAssets = new std::vector<std::string>();
+        button->setUserData(pHackAssets);
+        auto& hackAssets = *pHackAssets;
+        hackAssets.resize(4);
+
         bool scale9Enable = DICTOOL->getBooleanValue_json(options, P_Scale9Enable);
         button->setScale9Enabled(scale9Enable);
         
@@ -188,6 +203,7 @@ namespace cocostudio
         const rapidjson::Value& normalDic = DICTOOL->getSubDictionary_json(options, P_NormalData);
         int normalType = DICTOOL->getIntValue_json(normalDic, P_ResourceType);
         std::string normalTexturePath = this->getResourcePath(normalDic, P_Path, (Widget::TextureResType)normalType);
+        hackAssets[0] = normalTexturePath;
         button->loadTextureNormal(normalTexturePath, (Widget::TextureResType)normalType);
         
         
@@ -195,6 +211,7 @@ namespace cocostudio
         int pressedType = DICTOOL->getIntValue_json(pressedDic, P_ResourceType);
         
         std::string pressedTexturePath = this->getResourcePath(pressedDic, P_Path, (Widget::TextureResType)pressedType);
+        hackAssets[1] = pressedTexturePath;
         button->loadTexturePressed(pressedTexturePath, (Widget::TextureResType)pressedType);
         
         
@@ -202,6 +219,7 @@ namespace cocostudio
         int disabledType = DICTOOL->getIntValue_json(disabledDic, P_ResourceType);
         
         std::string disabledTexturePath = this->getResourcePath(disabledDic, P_Path, (Widget::TextureResType)disabledType);
+        hackAssets[2] = disabledTexturePath;
         button->loadTextureDisabled(disabledTexturePath, (Widget::TextureResType)disabledType);
        
         if (scale9Enable)
@@ -242,7 +260,7 @@ namespace cocostudio
         
 
         button->setTitleFontName(DICTOOL->getStringValue_json(options, P_FontName, ""));
-        
+        hackAssets[3] = button->getTitleFontName();
         
         
         WidgetReader::setColorPropsFromJsonDictionary(widget, options);
@@ -656,6 +674,7 @@ namespace cocostudio
     void ButtonReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *buttonOptions)
     {
         Button* button = static_cast<Button*>(node);
+
         auto options = (ButtonOptions*)buttonOptions;
         
         bool scale9Enabled = options->scale9Enabled() != 0;
@@ -663,20 +682,16 @@ namespace cocostudio
         
         bool normalFileExist = false;
         std::string normalErrorFilePath = "";
-        auto normalDic = options->normalData();
-        int normalType = normalDic->resourceType();
-        std::string normalTexturePath = normalDic->path()->c_str();
+        auto normalDic = cocos2d::wext::makeResourceData(options->normalData());
+        int normalType = normalDic.type;
+        std::string& normalTexturePath = normalDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(button, normalDic, 0);
         switch (normalType)
         {
             case 0:
                 if (FileUtils::getInstance()->isFileExist(normalTexturePath))
                 {
                     normalFileExist = true;
-                }
-                else if (SpriteFrameCache::getInstance()->getSpriteFrameByName(normalTexturePath))
-                {
-                    normalFileExist = true;
-                    normalType = 1;
                 }
                 else
                 {
@@ -687,7 +702,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = normalDic->plistFile()->c_str();
+                std::string& plist = normalDic.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(normalTexturePath);
                 if (spriteFrame)
                 {
@@ -724,9 +739,10 @@ namespace cocostudio
         
         bool pressedFileExist = false;
         std::string pressedErrorFilePath = "";
-        auto pressedDic = options->pressedData();
-        int pressedType = pressedDic->resourceType();
-        std::string pressedTexturePath = pressedDic->path()->c_str();
+        auto pressedDic = cocos2d::wext::makeResourceData(options->pressedData());
+        int pressedType = pressedDic.type;
+        std::string& pressedTexturePath = pressedDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(button, pressedDic, 1);
         switch (pressedType)
         {
             case 0:
@@ -745,7 +761,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = pressedDic->plistFile()->c_str();
+                std::string& plist = pressedDic.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(pressedTexturePath);
                 if (spriteFrame)
                 {
@@ -782,9 +798,10 @@ namespace cocostudio
         
         bool disabledFileExist = false;
         std::string disabledErrorFilePath = "";
-        auto disabledDic = options->disabledData();
-        int disabledType = disabledDic->resourceType();
-        std::string disabledTexturePath = disabledDic->path()->c_str();
+        auto disabledDic = cocos2d::wext::makeResourceData(options->disabledData());
+        int disabledType = disabledDic.type;
+        std::string& disabledTexturePath = disabledDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(button, disabledDic, 2);
         switch (disabledType)
         {
             case 0:
@@ -803,7 +820,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = disabledDic->plistFile()->c_str();
+                std::string& plist = disabledDic.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(disabledTexturePath);
                 if (spriteFrame)
                 {
@@ -860,10 +877,11 @@ namespace cocostudio
         std::string titleFontName = options->fontName()->c_str();
         button->setTitleFontName(titleFontName);
         
-        auto resourceData = options->fontResource();
+        auto resourceData = cocos2d::wext::makeResourceData(options->fontResource());
         bool fileExist = false;
         std::string errorFilePath = "";
-        std::string path = resourceData->path()->c_str();
+        std::string& path = resourceData.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(button, resourceData, 3); // font
         if (path != "")
         {
             if (FileUtils::getInstance()->isFileExist(path))
@@ -935,7 +953,7 @@ namespace cocostudio
     
     Node* ButtonReader::createNodeWithFlatBuffers(const flatbuffers::Table *buttonOptions)
     {
-        Button* button = Button::create();
+        Button* button = wext::aButton();// Button::create();
         
         setPropsWithFlatBuffers(button, (Table*)buttonOptions);
         

@@ -112,7 +112,10 @@ public:
     /* serialize flat buffers with XML */
     std::string serializeFlatBuffersWithXMLFile(const std::string& xmlFileName,
                                                 const std::string& flatbuffersFileName);
-
+    /* x-studio365 spec: serialize flat buffers with XML buffer */
+    std::string serializeFlatBuffersWithXMLBuffer(const std::string& xmlBuffer,
+        const std::string& flatbuffersFileName);
+    
     // NodeTree
     flatbuffers::Offset<flatbuffers::NodeTree> createNodeTree(const tinyxml2::XMLElement* objectData,
                                                               std::string classType);

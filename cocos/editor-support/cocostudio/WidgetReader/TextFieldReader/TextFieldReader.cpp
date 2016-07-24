@@ -80,7 +80,9 @@ namespace cocostudio
             }else if(key == P_FontSize){
                 textField->setFontSize(valueToInt(value));
             }else if(key == P_FontName){
-                textField->setFontName(value);
+                auto fontData = cocos2d::wext::makeResourceData(value);
+                cocos2d::wext::onBeforeLoadObjectAsset(textField, fontData, 0);
+                textField->setFontName(fontData.file);
             }else if(key == P_TouchSizeWidth){
                 textField->setTouchSize(Size(valueToFloat(value), textField->getTouchSize().height));
             }else if(key == P_TouchSizeHeight){
@@ -335,8 +337,9 @@ namespace cocostudio
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        auto resourceData = options->fontResource();
-        std::string path = resourceData->path()->c_str();
+        auto resourceData = cocos2d::wext::makeResourceData(options->fontResource());
+        std::string& path = resourceData.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(textField, resourceData, 0);
         if (path != "")
         {
             if (FileUtils::getInstance()->isFileExist(path))
@@ -373,7 +376,7 @@ namespace cocostudio
     
     Node* TextFieldReader::createNodeWithFlatBuffers(const flatbuffers::Table *textFieldOptions)
     {
-        TextField* textField = TextField::create();
+        TextField* textField = wext::aTextField();// TextField::create();
         
         setPropsWithFlatBuffers(textField, (Table*)textFieldOptions);
         

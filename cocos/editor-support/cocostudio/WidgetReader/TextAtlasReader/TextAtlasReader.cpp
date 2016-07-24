@@ -60,12 +60,13 @@ namespace cocostudio
 
         
         stExpCocoNode *stChildArray = cocoNode->GetChildArray(cocoLoader);
-        Widget::TextureResType type;
-        std::string charMapFileName;
+        //Widget::TextureResType type;
+        //std::string charMapFileName;
         std::string stringValue;
         std::string startCharMap;
         float itemWidth;
         float itemHeight;
+        cocos2d::ResourceData charmapFileData;
         for (int i = 0; i < cocoNode->GetChildNum(); ++i) {
             std::string key = stChildArray[i].GetName(cocoLoader);
             std::string value = stChildArray[i].GetValue(cocoLoader);
@@ -86,9 +87,9 @@ namespace cocostudio
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
                 
-                charMapFileName = backgroundValue;
-                type  = imageFileNameType;
-                
+                //charMapFileName = backgroundValue;
+                //type  = imageFileNameType;
+                charmapFileData = cocos2d::wext::makeResourceData(std::move(backgroundValue), (int)imageFileNameType);
             }else if(key == P_ItemWidth){
                 itemWidth = valueToFloat(value);
             }else if(key == P_ItemHeight){
@@ -98,8 +99,9 @@ namespace cocostudio
             }
         } //end of for loop
         
-        if (type == (Widget::TextureResType)0) {
-            labelAtlas->setProperty(stringValue, charMapFileName, itemWidth, itemHeight, startCharMap);
+        if (charmapFileData.type == 0) {
+            cocos2d::wext::onBeforeLoadObjectAsset(labelAtlas, charmapFileData, 0);
+            labelAtlas->setProperty(stringValue, charmapFileData.file, itemWidth, itemHeight, startCharMap);
         }
         this->endSetBasicProperties(widget);
     }
@@ -247,13 +249,14 @@ namespace cocostudio
         TextAtlas* labelAtlas = static_cast<TextAtlas*>(node);
         auto options = (TextAtlasOptions*)textAtlasOptions;
         
-        auto cmftDic = options->charMapFileData();
-        int cmfType = cmftDic->resourceType();
+        auto cmftDic = cocos2d::wext::makeResourceData(options->charMapFileData());
+        int cmfType = cmftDic.type;
+        cocos2d::wext::onBeforeLoadObjectAsset(labelAtlas, cmftDic, 0);
         switch (cmfType)
         {
             case 0:
             {
-                const char* cmfPath = cmftDic->path()->c_str();
+                const char* cmfPath = cmftDic.file.c_str();
                 
                 bool fileExist = false;
                 std::string errorFilePath = "";
@@ -296,7 +299,7 @@ namespace cocostudio
     
     Node* TextAtlasReader::createNodeWithFlatBuffers(const flatbuffers::Table *textAtlasOptions)
     {
-        TextAtlas* textAtlas = TextAtlas::create();
+        TextAtlas* textAtlas = wext::aTextAtlas(); // TextAtlas::create();
         
         setPropsWithFlatBuffers(textAtlas, (Table*)textAtlasOptions);
         

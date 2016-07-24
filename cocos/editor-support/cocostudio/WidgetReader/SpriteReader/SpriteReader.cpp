@@ -175,10 +175,12 @@ namespace cocostudio
         auto nodeReader = NodeReader::getInstance();
         nodeReader->setPropsWithFlatBuffers(node, (Table*)(options->nodeOptions()));
         
-        auto fileNameData = options->fileNameData();
+        auto fileNameData = cocos2d::wext::makeResourceData(options->fileNameData());
+
+        cocos2d::wext::onBeforeLoadObjectAsset(node, fileNameData, 0);
         
-        int resourceType = fileNameData->resourceType();
-        std::string path = fileNameData->path()->c_str();
+        int resourceType = fileNameData.type;
+        std::string& path = fileNameData.file;
         
         bool fileExist = false;
         std::string errorFilePath = "";
@@ -202,7 +204,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = fileNameData->plistFile()->c_str();
+                std::string& plist = fileNameData.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(path);
                 if (spriteFrame)
                 {
@@ -270,7 +272,7 @@ namespace cocostudio
     
     Node* SpriteReader::createNodeWithFlatBuffers(const flatbuffers::Table *spriteOptions)
     {
-        Sprite* sprite = Sprite::create();
+        Sprite* sprite = wext::aSprite();// Sprite::create();
         
         setPropsWithFlatBuffers(sprite, (Table*)spriteOptions);
         

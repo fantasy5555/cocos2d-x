@@ -494,7 +494,7 @@ namespace cocostudio
             node->setRotationSkewX(rotationSkewX);
         if (rotationSkewY != 0)
             node->setRotationSkewY(rotationSkewY);
-        if(anchorx != 0.5f || anchory != 0.5f)
+        // if(anchorx != 0.5f || anchory != 0.5f) x-studio365 spec: fix bugs, No need to check
             node->setAnchorPoint(Point(anchorx, anchory));
         if(zorder != 0)
             node->setLocalZOrder(zorder);
@@ -596,7 +596,7 @@ namespace cocostudio
 
     Node* NodeReader::createNodeWithFlatBuffers(const flatbuffers::Table *nodeOptions)
     {
-        Node* node = Node::create();
+        Node* node = wext::aNode(); // Node::create();
         
         setPropsWithFlatBuffers(node, nodeOptions);
         

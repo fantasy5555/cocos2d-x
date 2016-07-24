@@ -85,10 +85,12 @@ namespace cocostudio
             }else if(key == P_FontName){
                 std::string fontFilePath;
                 fontFilePath = binaryFilePath.append(value);
+                auto fontData = cocos2d::wext::makeResourceData(std::move(fontFilePath));
+                cocos2d::wext::onBeforeLoadObjectAsset(label, fontData, 0);
                 if (FileUtils::getInstance()->isFileExist(fontFilePath)) {
-                    label->setFontName(fontFilePath);
+                    label->setFontName(fontData.file);
                 }else{
-                    label->setFontName(value);
+                    label->setFontName(fontData.file);
                 }
             }else if(key == P_AreaWidth){
                 label->setTextAreaSize(Size(valueToFloat(value), label->getTextAreaSize().height));
@@ -418,8 +420,9 @@ namespace cocostudio
             label->setTextAreaSize(areaSize);
         }
 
-        auto resourceData = options->fontResource();
-        std::string path = resourceData->path()->c_str();
+        auto resourceData = cocos2d::wext::makeResourceData(options->fontResource());
+        std::string& path = resourceData.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(label, resourceData, 0);
         if (!path.empty() && FileUtils::getInstance()->isFileExist(path))
         {
             label->setFontName(path);
@@ -498,7 +501,7 @@ namespace cocostudio
     
     Node* TextReader::createNodeWithFlatBuffers(const flatbuffers::Table *textOptions)
     {
-        Text* text = Text::create();
+        Text* text = wext::aText(); // Text::create();
         
         setPropsWithFlatBuffers(text, (Table*)textOptions);
         
