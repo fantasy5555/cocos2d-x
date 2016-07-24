@@ -233,17 +233,16 @@ void Skin::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
     auto mv = Director::getInstance()->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
-    //TODO: implement z order
-    _quadCommand.init(_globalZOrder,
-        _texture->getName(),
-        getGLProgramState(),
-        _blendFunc,
-        &_quad,
+    // TODO: implement z order
+    _quadCommand.init(_globalZOrder, 
+        _texture, 
+        getGLProgramState(), 
+        _blendFunc, 
+        &_quad, 
         1,
-        mv,
-        flags,
-        // x-studio365 spec, ETC1 ALPHA supports.
-        _texture->getAlphaTextureName());
+        mv, 
+        flags);
+
     renderer->addCommand(&_quadCommand);
 }
 
