@@ -29,6 +29,7 @@ THE SOFTWARE.
 #ifndef __CCNODE_H__
 #define __CCNODE_H__
 
+#include <cstdint>
 #include "base/ccMacros.h"
 #include "base/CCVector.h"
 #include "base/CCProtocols.h"
@@ -179,7 +180,7 @@ public:
     *
     * @param orderOfArrival   The arrival order.
     */
-    CC_DEPRECATED_ATTRIBUTE void _updateOrderOfArrival(void);
+    void updateOrderOfArrival();
 
     /**
      * Gets the local Z order of this node.
@@ -1916,10 +1917,10 @@ protected:
 
     union {
         struct {
-            int z;
-            unsigned int a;
+            std::int32_t z; // The original localZOrder
+            std::uint32_t a; // Order Of Arrival, for avoid sort problem with unstable_sort algorithm.
         } detail;
-        long long value;
+        std::int64_t value; // The value to be used in sort
     } _localZOrder;               ///< Local order (relative to its siblings) used to sort the node
     float _globalZOrder;            ///< Global order used to sort the node
 
