@@ -281,9 +281,7 @@ void GLProgramCache::loadDefaultGLPrograms()
     
     p = new (std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_CameraClear);
-    _programs.insert(std::make_pair(GLProgram::SHADER_CAMERA_CLEAR, p));
-
-    /// x-studio365 spec,ETC1 ALPHA supports.
+    _programs.insert(std::make_pair(GLProgram::SHADER_CAMERA_CLEAR, p));/// x-studio365 spec,ETC1 ALPHA supports.
     p = new(std::nothrow) GLProgram();
     loadDefaultGLProgram(p, kShaderType_ETC1ASPositionTextureColor);
     _programs.insert(std::make_pair(GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR, p));
@@ -587,6 +585,7 @@ void GLProgramCache::loadDefaultGLProgram(GLProgram *p, int type)
             break;
         case kShaderType_CameraClear:
             p->initWithByteArrays(ccCameraClearVert, ccCameraClearFrag);
+            break;
             break;
             /// x-studio365 spec, ETC1 ALPHA supports.
         case kShaderType_ETC1ASPositionTextureColor:
