@@ -326,7 +326,6 @@ GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& 
 
     return GLProgramState::getOrCreateWithGLProgramName(glProgramName);
 }
-
 GLProgramState* GLProgramState::create(GLProgram *glprogram)
 {
     GLProgramState* ret = nullptr;

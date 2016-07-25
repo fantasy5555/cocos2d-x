@@ -230,14 +230,14 @@ void ActionNode::initWithDictionary(const rapidjson::Value& dic, Ref* root)
         stExpCocoNode *stFrameChildNode = frameListNode->GetChildArray(cocoLoader);
         for (int i=0; i<actionFrameCount; i++) {
             
-            int frameIndex;
-            int frameTweenType;
-            float positionX;
-            float positionY;
-            float scaleX;
-            float scaleY;
-            float rotation;
-            int opacity;
+            int frameIndex = 0;
+            int frameTweenType = 0;
+            float positionX = 0;
+            float positionY = 0;
+            float scaleX = 1;
+            float scaleY = 1;
+            float rotation = 0;
+            int opacity = 255;
             int colorR = -1;
             int colorG = -1;
             int colorB = -1;

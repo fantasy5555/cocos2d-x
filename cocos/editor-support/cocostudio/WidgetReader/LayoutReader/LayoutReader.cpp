@@ -145,8 +145,9 @@ namespace cocostudio
                     Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                     
                     std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
-                    
-                    panel->setBackGroundImage(backgroundValue, imageFileNameType);
+                    auto fileData = cocos2d::wext::makeResourceData(std::move(backgroundValue), (int)imageFileNameType);
+                    cocos2d::wext::onBeforeLoadObjectAsset(panel, fileData, 0);
+                    panel->setBackGroundImage(fileData.file, imageFileNameType);
                 }
                 
             }else if(key == P_CapInsetsX){
@@ -621,9 +622,10 @@ namespace cocostudio
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        auto imageFileNameDic = options->backGroundImageData();
-        int imageFileNameType = imageFileNameDic->resourceType();
-        std::string imageFileName = imageFileNameDic->path()->c_str();
+        auto imageFileNameDic = cocos2d::wext::makeResourceData(options->backGroundImageData());
+        int imageFileNameType = imageFileNameDic.type;
+        std::string& imageFileName = imageFileNameDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(panel, imageFileNameDic, 0);
         if (imageFileName != "")
         {
             switch (imageFileNameType)
@@ -644,7 +646,7 @@ namespace cocostudio
                     
                 case 1:
                 {
-                    std::string plist = imageFileNameDic->plistFile()->c_str();
+                    std::string& plist = imageFileNameDic.plist;
                     SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
                     if (spriteFrame)
                     {
@@ -715,7 +717,7 @@ namespace cocostudio
     
     Node* LayoutReader::createNodeWithFlatBuffers(const flatbuffers::Table *layoutOptions)
     {
-        Layout* layout = Layout::create();
+        Layout* layout = wext::aLayout(); // Layout::create();
         
         setPropsWithFlatBuffers(layout, (Table*)layoutOptions);
         

@@ -177,12 +177,12 @@ namespace cocostudio
         ParticleSystemQuad* particle = nullptr;
         
         auto options = (ParticleSystemOptions*)particleOptions;
-        auto fileNameData = options->fileNameData();
+        auto fileNameData = cocos2d::wext::makeResourceData(options->fileNameData());
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        std::string path = fileNameData->path()->c_str();
-        int resourceType = fileNameData->resourceType();
+        std::string& path = fileNameData.file;
+        int resourceType = fileNameData.type;
         switch (resourceType)
         {
             case 0:
@@ -204,7 +204,9 @@ namespace cocostudio
         }
         if (fileExist)
         {
-            particle = ParticleSystemQuad::create(path);
+            cocos2d::wext::onBeforeLoadObjectAsset(nullptr, fileNameData, 0); // consider, currently only particle is nullptr
+            particle = wext::aParticleSystemQuad(path); // ParticleSystemQuad::create(path);
+            // cocos2d::wext::onAfterLoadObjectAsset(particle, fileNameData, 0);
             if (particle)
             {
                 setPropsWithFlatBuffers(particle, (Table*)particleOptions);
@@ -213,7 +215,7 @@ namespace cocostudio
         }
         else
         {
-            Node* node = Node::create();
+            Node* node = wext::aNode();// Node::create();
             setPropsWithFlatBuffers(node, (Table*)particleOptions);
             return node;
         }
