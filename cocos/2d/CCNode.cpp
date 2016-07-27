@@ -57,7 +57,7 @@ NS_CC_BEGIN
 
 bool nodeComparisonLess(Node* n1, Node* n2)
 {
-#if defined(_M_X64) || defined(_LP64) || defined(__x86_64) || defined(_WIN64)
+#if defined(_M_X64) || defined(_WIN64) || defined(__LP64__) || defined(_LP64) || defined(__x86_64)
     return (n1->_localZOrder.value < n2->_localZOrder.value);
 #else
     return n1->_localZOrder.detail.z < n2->_localZOrder.detail.z || 
