@@ -1917,8 +1917,8 @@ protected:
 
     union {
         struct {
-            std::int32_t z; // The original localZOrder
             std::uint32_t a; // Order Of Arrival, for avoid sort problem with unstable_sort algorithm.
+            std::int32_t z; // The original localZOrder
         } detail;
         std::int64_t value; // The value to be used in sort
     } _localZOrder;               ///< Local order (relative to its siblings) used to sort the node
