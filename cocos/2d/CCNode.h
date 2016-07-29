@@ -711,7 +711,6 @@ public:
     *
     * @return The local (relative to its siblings) Z order.
     */
-    unsigned long long _getLocalZOrderValue() const { return _localZOrder.value; }
 
     /** @deprecated No longer needed
     * @lua NA
@@ -1980,8 +1979,6 @@ protected:
     Color3B     _realColor;
     bool        _cascadeColorEnabled;
     bool        _cascadeOpacityEnabled;
-
-    static unsigned int s_globalOrderOfArrival;
 
     // camera mask, it is visible only when _cameraMask & current camera' camera flag is true
     unsigned short _cameraMask;

@@ -712,11 +712,6 @@ void Node::setUserData(void *userData)
     _userData = userData;
 }
 
-void Node::_setOrderOfArrival(unsigned int orderOfArrival)
-{
-    _localZOrder.detail.a = orderOfArrival;
-}
-
 void Node::setUserObject(Ref* userObject)
 {
 #if CC_ENABLE_GC_FOR_NATIVE_OBJECTS

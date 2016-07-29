@@ -174,12 +174,6 @@ public:
 
     static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY;
     static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY_NO_MVP;
-    /** x-studio365 spec: ETC1 ALPHA supports for 2d */
-    static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR;
-    static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR_NO_MVP;
-
-    static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY;
-    static const char* SHADER_NAME_ETC1AS_POSITION_TEXTURE_GRAY_NO_MVP;
 
     /**Built in shader for 2d. Support Position, Texture and Color vertex attribute.*/
     static const char* SHADER_NAME_POSITION_TEXTURE_COLOR;
