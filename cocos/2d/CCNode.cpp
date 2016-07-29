@@ -57,7 +57,11 @@ NS_CC_BEGIN
 
 bool nodeComparisonLess(Node* n1, Node* n2)
 {
-    return(n1->_localZOrder.value < n2->_localZOrder.value);
+#if CC_64BITS
+    return (n1->_localZOrder < n2->_localZOrder);
+#else
+    return n1->_localZOrder < n2->_localZOrder || (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival);
+#endif
 }
 
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
@@ -87,6 +91,10 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
+, _localZOrder(0)
+#if !CC_64BITS
+, _orderOfArrival(0)
+#endif
 , _globalZOrder(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
@@ -117,8 +125,6 @@ Node::Node()
 , _physicsBody(nullptr)
 #endif
 {
-    _localZOrder.value = 0;
-
     // set default scheduler and actionManager
     _director = Director::getInstance();
     _actionManager = _director->getActionManager();
@@ -274,12 +280,20 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrder.detail.z = z;
+#if CC_64BITS
+    _localZOrder = (static_cast<std::int64_t>(z) << 32) | (_localZOrder & 0xffffffff);
+#else
+    _localZOrder = z;
+#endif
 }
 
 void Node::updateOrderOfArrival()
 {
-    _localZOrder.detail.a = s_globalOrderOfArrival++;
+#if CC_64BITS
+    _localZOrder = (_localZOrder & 0xffffffff00000000) | (s_globalOrderOfArrival++);
+#else
+    _orderOfArrival = s_globalOrderOfArrival++;
+#endif
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -996,7 +1010,7 @@ void Node::addChild(Node *child, int zOrder)
 void Node::addChild(Node *child)
 {
     CCASSERT( child != nullptr, "Argument must be non-nil");
-    this->addChild(child, child->_localZOrder.detail.z, child->_name);
+    this->addChild(child, child->getLocalZOrder(), child->_name);
 }
 
 void Node::removeFromParent()
@@ -1252,7 +1266,7 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
         {
             auto node = _children.at(i);
 
-            if (node && node->_localZOrder.detail.z < 0)
+            if (node && node->_localZOrder < 0)
                 node->visit(renderer, _modelViewTransform, flags);
             else
                 break;
