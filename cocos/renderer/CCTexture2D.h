@@ -78,8 +78,10 @@ public:
         BGRA8888,
         //! 32-bit texture: RGBA8888
         RGBA8888,
-        //! 24-bit texture: RGBA888
+        //! 24-bit texture: RGB888
         RGB888,
+        //! 24-bit texture: BGR888
+        BGR888,
         //! 16-bit texture without Alpha channel
         RGB565,
         //! 8-bit textures used as masks
@@ -410,6 +412,9 @@ public:
 
     std::string getPath()const { return _filePath; }
 
+    void setAlphaTexture(Texture2D* alphaTexture);
+
+    GLuint getAlphaTextureName() const;
 public:
     /** Get pixel info map, the key-value pairs is PixelFormat and PixelFormatInfo.*/
     static const PixelFormatInfoMap& getPixelFormatInfoMap();
@@ -547,6 +552,8 @@ protected:
 
     bool _valid;
     std::string _filePath;
+
+    Texture2D* _alphaTexture;
 };
 
 

@@ -72,6 +72,10 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite);
+
+    auto sp2 = Sprite::create("xp-run-view.bmp");
+    sp2->setPosition(Vec2(visibleSize / 2) + origin);
+    this->addChild(sp2);
     
     return true;
 }

@@ -148,22 +148,28 @@ void FlatBuffersSerialize::deleteFlatBufferBuilder()
     }
 }
 
-std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLFile(const std::string &xmlFileName,
-                                                                  const std::string &flatbuffersFileName)
+std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLFile(const std::string& xmlFileName, const std::string& flatbuffersFileName)
 {
-    
-    std::string inFullpath = FileUtils::getInstance()->fullPathForFilename(xmlFileName);
-    
+    std::string inFullpath = FileUtils::getInstance()->fullPathForFilename(xmlFileName).c_str();
+
     // xml read
     if (!FileUtils::getInstance()->isFileExist(inFullpath))
     {
-        return ".csd file does not exist.";
+        return ".csd file doesn not exists ";
     }
+
+    std::string xmlBuffer = FileUtils::getInstance()->getFileData(inFullpath);
+    return serializeFlatBuffersWithXMLBuffer(xmlBuffer, flatbuffersFileName);
+}
+
+std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::string &xmlBuffer,
+                                                                  const std::string &flatbuffersFileName)
+{
     
-    std::string content = FileUtils::getInstance()->getStringFromFile(inFullpath);
+    const std::string& content = xmlBuffer;
     
     // xml parse
-    tinyxml2::XMLDocument* document = new (std::nothrow) tinyxml2::XMLDocument();
+    tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
     document->Parse(content.c_str());
     
     const tinyxml2::XMLElement* rootElement = document->RootElement();// Root
@@ -319,6 +325,8 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLFile(const std::str
         deleteFlatBufferBuilder();
     }
     
+    delete document; // x-studio365 spec: avoid memory leak
+
     return "";
 }
 

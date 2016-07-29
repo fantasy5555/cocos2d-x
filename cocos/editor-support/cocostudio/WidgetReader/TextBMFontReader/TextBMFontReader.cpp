@@ -73,8 +73,11 @@ namespace cocostudio
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
+
+                auto fileData = cocos2d::wext::makeResourceData(std::move(backgroundValue), (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(labelBMFont, fileData, 0);
                 if (imageFileNameType == (Widget::TextureResType)0) {
-                    labelBMFont->setFntFile(backgroundValue);
+                    labelBMFont->setFntFile(fileData.file);
                 }
                 
             }else if(key == P_Text){
@@ -203,12 +206,13 @@ namespace cocostudio
         TextBMFont* labelBMFont = static_cast<TextBMFont*>(node);
         auto options = (TextBMFontOptions*)textBMFontOptions;
         
-        auto cmftDic = options->fileNameData();
+        auto cmftDic = cocos2d::wext::makeResourceData(options->fileNameData());
         bool fileExist = false;
         std::string errorFilePath = "";
         std::string errorContent = "";
-        std::string path = cmftDic->path()->c_str();
-        int cmfType = cmftDic->resourceType();
+        std::string& path = cmftDic.file;
+        int cmfType = cmftDic.type;
+        cocos2d::wext::onBeforeLoadObjectAsset(labelBMFont, cmftDic, 0);
         switch (cmfType)
         {
             case 0:
@@ -257,7 +261,7 @@ namespace cocostudio
     
     Node* TextBMFontReader::createNodeWithFlatBuffers(const flatbuffers::Table *textBMFontOptions)
     {
-        TextBMFont* textBMFont = TextBMFont::create();
+        TextBMFont* textBMFont = wext::aTextBMFont(); // TextBMFont::create();
         
         setPropsWithFlatBuffers(textBMFont, (Table*)textBMFontOptions);
         

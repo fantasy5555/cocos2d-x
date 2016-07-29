@@ -86,8 +86,9 @@ namespace cocostudio
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
-
-                imageView->loadTexture(backgroundValue, imageFileNameType);
+                auto fileData = cocos2d::wext::makeResourceData(std::move(backgroundValue), (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(imageView, fileData, 0);
+                imageView->loadTexture(fileData.file, imageFileNameType);
                 
             }
             else if(key == P_Scale9Width){
@@ -301,9 +302,10 @@ namespace cocostudio
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        auto imageFileNameDic = options->fileNameData();
-        int imageFileNameType = imageFileNameDic->resourceType();
-        std::string imageFileName = imageFileNameDic->path()->c_str();
+        auto imageFileNameDic = cocos2d::wext::makeResourceData(options->fileNameData());
+        int imageFileNameType = imageFileNameDic.type;
+        std::string& imageFileName = imageFileNameDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(imageView, imageFileNameDic, 0);
         switch (imageFileNameType)
         {
             case 0:
@@ -311,11 +313,6 @@ namespace cocostudio
                 if (FileUtils::getInstance()->isFileExist(imageFileName))
                 {
                     fileExist = true;
-                }
-                else if(SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName))
-                {
-                    fileExist = true;
-                    imageFileNameType = 1;
                 }
                 else
                 {
@@ -327,7 +324,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = imageFileNameDic->plistFile()->c_str();
+                std::string& plist = imageFileNameDic.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
                 if (spriteFrame)
                 {
@@ -391,7 +388,7 @@ namespace cocostudio
     
     Node* ImageViewReader::createNodeWithFlatBuffers(const flatbuffers::Table *imageViewOptions)
     {
-        ImageView* imageView = ImageView::create();
+        ImageView* imageView = wext::aImageView();// ImageView::create();
         
         setPropsWithFlatBuffers(imageView, (Table*)imageViewOptions);
         

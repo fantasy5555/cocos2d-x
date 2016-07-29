@@ -348,9 +348,10 @@ namespace cocostudio
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        auto imageFileNameDic = options->backGroundImageData();
-        int imageFileNameType = imageFileNameDic->resourceType();
-        std::string imageFileName = imageFileNameDic->path()->c_str();
+        auto imageFileNameDic = cocos2d::wext::makeResourceData(options->backGroundImageData());
+        int imageFileNameType = imageFileNameDic.type;
+        std::string& imageFileName = imageFileNameDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(pageView, imageFileNameDic, 0);
         if (imageFileName != "")
         {
             switch (imageFileNameType)
@@ -371,7 +372,7 @@ namespace cocostudio
                     
                 case 1:
                 {
-                    std::string plist = imageFileNameDic->plistFile()->c_str();
+                    std::string& plist = imageFileNameDic.plist;
                     SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
                     if (spriteFrame)
                     {
@@ -441,7 +442,7 @@ namespace cocostudio
     
     Node* PageViewReader::createNodeWithFlatBuffers(const flatbuffers::Table *pageViewOptions)
     {
-        PageView* pageView = PageView::create();
+        PageView* pageView = wext::aPageView(); // PageView::create();
         
         setPropsWithFlatBuffers(pageView, (Table*)pageViewOptions);
         
