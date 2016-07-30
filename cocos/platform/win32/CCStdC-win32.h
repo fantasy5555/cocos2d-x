@@ -139,9 +139,10 @@ inline errno_t strcpy_s(char *strDestination, size_t numberOfElements,
 #endif // __MINGW32__
 
 // Conflicted with cocos2d::MessageBox, so we need to undef it.
-#ifdef MessageBox
-#undef MessageBox
-#endif
+//// x-studio365 spec: change cocos2d::MessageBox to cocos2d::ccMessageBox is a good solution.
+//#ifdef MessageBox
+//#undef MessageBox
+//#endif
 
 // Conflicted with ParticleSystem::PositionType::RELATIVE, so we need to undef it.
 #ifdef RELATIVE

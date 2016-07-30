@@ -126,7 +126,7 @@ protected:
 
     // GLFW callbacks
     void onGLFWError(int errorID, const char* errorDesc);
-    void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int modify);
+    void onGLFWMouseCallBackEx(GLFWwindow* window, int button, int action, int modify, double x, double y); // x-studio365 spec
     void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y);
     void onGLFWMouseScrollCallback(GLFWwindow* window, double x, double y);
     void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

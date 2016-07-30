@@ -73,7 +73,11 @@ bool Control::init()
         setSelected(false);
         setHighlighted(false);
 
-        auto dispatcher = Director::getInstance()->getEventDispatcher();
+        // x-studio365 spec
+        setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
+        setTouchEnabled(true);
+
+        /*auto dispatcher = Director::getInstance()->getEventDispatcher();
         auto touchListener = EventListenerTouchOneByOne::create();
         touchListener->setSwallowTouches(true);
         touchListener->onTouchBegan = CC_CALLBACK_2(Control::onTouchBegan, this);
@@ -81,7 +85,7 @@ bool Control::init()
         touchListener->onTouchEnded = CC_CALLBACK_2(Control::onTouchEnded, this);
         touchListener->onTouchCancelled = CC_CALLBACK_2(Control::onTouchCancelled, this);
         
-        dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+        dispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);*/
         
         return true;
     }

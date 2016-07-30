@@ -38,7 +38,9 @@
 #endif
 #include "platform/CCPlatformMacros.h"
 
-#define QUEUEBUFFER_NUM 5
+#define _USE_DYNAMIC_BUFFER CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+
+#define QUEUEBUFFER_NUM 512
 #define QUEUEBUFFER_TIME_STEP 0.1f
 
 NS_CC_BEGIN
@@ -90,8 +92,13 @@ protected:
     /*Queue buffer related stuff
      *  Streaming in OpenAL when sizeInBytes greater then PCMDATA_CACHEMAXSIZE
      */
+#if _USE_DYNAMIC_BUFFER
+    std::vector<char*> _queBuffers;
+    std::vector<ALsizei> _queBufferSize;
+#else
     char* _queBuffers[QUEUEBUFFER_NUM];
     ALsizei _queBufferSize[QUEUEBUFFER_NUM];
+#endif
     int _queBufferFrames;
     int _queBufferBytes;
 

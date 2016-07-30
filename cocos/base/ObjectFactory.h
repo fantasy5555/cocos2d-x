@@ -59,6 +59,9 @@ public:
     void registerType(const TInfo &t);
     void removeAll();
 
+    // x-studio365 spec, cocosstudio1.6 csb batch import support
+    TInfo* getTypeInfo(const char* className);
+
 protected:
     ObjectFactory(void);
     virtual ~ObjectFactory(void);

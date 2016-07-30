@@ -294,7 +294,7 @@ std::set<unsigned int>* BMFontConfiguration::parseConfigFile(const std::string& 
     
     std::set<unsigned int> *validCharsString = new (std::nothrow) std::set<unsigned int>();
     
-    auto contentsLen = strlen(contents);
+    auto contentsLen = data.size();
     char line[512] = {0};
     
     auto next = strchr(contents, '\n');

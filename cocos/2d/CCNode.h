@@ -685,23 +685,6 @@ public:
     virtual float getRotationSkewY() const;
     CC_DEPRECATED_ATTRIBUTE virtual float getRotationY() const { return getRotationSkewY(); }
 
-    /** !!! ONLY FOR INTERNAL USE
-    * Sets the arrival order when this node has a same ZOrder with other children.
-    *
-    * A node which called addChild subsequently will take a larger arrival order,
-    * If two children have the same Z order, the child with larger arrival order will be drawn later.
-    *
-    * @warning This method is used internally for localZOrder sorting, don't change this manually
-    *
-    * @param orderOfArrival   The arrival order.
-    */
-    void _setOrderOfArrival(unsigned int orderOfArrival);
-
-    /** !!! ONLY FOR INTERNAL USE
-    * Gets the local order value of arrival this node.
-    *
-    * @return The local (relative to its siblings) Z order.
-    */
 
     /** @deprecated No longer needed
     * @lua NA
@@ -1724,7 +1707,13 @@ public:
     */
     virtual void removeAllComponents();
     /// @} end of component functions
+	/// x-studio365 spec, insert a child without sort when index != -1
+    virtual void insertAt(Node* n, int index = -1);
 
+    void bringToFront(void);
+    void sendToBack(void);
+
+	void moveAfter(Node* where);
     // overrides
     /**
     * Return the node's opacity.

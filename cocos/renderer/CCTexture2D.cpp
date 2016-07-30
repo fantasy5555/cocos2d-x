@@ -54,8 +54,20 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+static bool intriAntiAliasEnabled = true;
 
+namespace wext {
+    /// x-studio365 spec, PC render resolution 
+    void CC_DLL setTextureRenderMode(bool original)
+    {
+        intriAntiAliasEnabled = !original;
+    }
 
+    bool CC_DLL isRenderTextureOriginal()
+    {
+        return !intriAntiAliasEnabled;
+    }
+}
 namespace {
     typedef Texture2D::PixelFormatInfoMap::value_type PixelFormatInfoMapValue;
     static const PixelFormatInfoMapValue TexturePixelFormatInfoTablesValue[] =
@@ -710,6 +722,8 @@ bool Texture2D::initWithMipmaps(MipmapInfo* mipmaps, int mipmapsNum, PixelFormat
 
     // shader
     setGLProgram(GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_NAME_POSITION_TEXTURE));
+    if (wext::isRenderTextureOriginal())
+        setAliasTexParameters();
     return true;
 }
 
@@ -1164,6 +1178,9 @@ bool Texture2D::initWithString(const char *text, const FontDefinition& textDefin
         free(outTempData);
     }
     _hasPremultipliedAlpha = hasPremultipliedAlpha;
+    /// x-studio365 spec, PC render resolution 
+    if (wext::isRenderTextureOriginal())
+        setAliasTexParameters();
 
     return ret;
 }

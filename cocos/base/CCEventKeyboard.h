@@ -227,6 +227,7 @@ public:
      */
     EventKeyboard(KeyCode keyCode, bool isPressed);
     
+    bool _isRepeated; // x-studio365 spec
 private:
     KeyCode _keyCode;
     bool _isPressed;

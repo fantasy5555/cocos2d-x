@@ -59,6 +59,25 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
     return ret;
 }
 
+#if 1
+inline std::string _transcode$IL(const std::wstring& wcb, UINT cp = CP_ACP)
+{
+    int buffersize = WideCharToMultiByte(cp, 0, wcb.c_str(), -1, NULL, 0, NULL, NULL);
+    std::string buffer(buffersize, '\0');
+    WideCharToMultiByte(cp, 0, wcb.c_str(), -1, &buffer.front(), buffersize, NULL, NULL);
+    buffer.resize(buffersize - 1);
+    return  std::move(buffer);
+}
+
+inline std::wstring _transcode$IL(const std::string& mcb, UINT cp = CP_ACP)
+{
+    int buffersize = MultiByteToWideChar(cp, 0, mcb.c_str(), -1, NULL, 0);
+    std::wstring buffer(buffersize, '\0');
+    MultiByteToWideChar(cp, 0, mcb.c_str(), -1, &buffer.front(), buffersize);
+    buffer.resize(buffersize - 1);
+    return std::move(buffer);
+}
+#endif
 static void _checkPath()
 {
     if (s_resourcePath.empty())
@@ -71,7 +90,7 @@ static void _checkPath()
         WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
 
         char utf8ExeDir[CC_MAX_PATH] = { 0 };
-        int nNum = WideCharToMultiByte(CP_UTF8, 0, pUtf16ExePath, pUtf16DirEnd-pUtf16ExePath+1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
+        int nNum = WideCharToMultiByte(CP_ACP, 0, pUtf16ExePath, pUtf16DirEnd-pUtf16ExePath+1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
 
         s_resourcePath = convertPathFormatToUnixStyle(utf8ExeDir);
     }
@@ -116,7 +135,7 @@ bool FileUtilsWin32::isDirectoryExistInternal(const std::string& dirPath) const
 
 std::string FileUtilsWin32::getSuitableFOpen(const std::string& filenameUtf8) const
 {
-    return UTF8StringToMultiByte(filenameUtf8);
+    return filenameUtf8; // UTF8StringToMultiByte(filenameUtf8); x-studio365 spec, TODO: optimize me.
 }
 
 long FileUtilsWin32::getFileSize(const std::string &filepath)
@@ -162,6 +181,51 @@ bool FileUtilsWin32::isAbsolutePath(const std::string& strPath) const
     return false;
 }
 
+#if 0
+// Because windows is case insensitive, so we should check the file names.
+static bool checkFileName(const std::string& fullPath, const std::string& filename)
+{
+    std::string tmpPath=convertPathFormatToUnixStyle(fullPath);
+    size_t len = tmpPath.length();
+    size_t nl = filename.length();
+    std::string realName;
+
+    while (tmpPath.length() >= len - nl && tmpPath.length()>2)
+    {
+        //CCLOG("%s", tmpPath.c_str());
+        WIN32_FIND_DATAA data;
+        HANDLE h = FindFirstFileA(tmpPath.c_str(), &data);
+        FindClose(h);
+        if (h != INVALID_HANDLE_VALUE)
+        {
+            int fl = strlen(data.cFileName);
+            if (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+            {
+                realName = "/" + realName;
+            }
+            realName = data.cFileName + realName;
+            if (0 != strcmp(&tmpPath.c_str()[tmpPath.length() - fl], data.cFileName))
+            {
+                std::string msg = "File path error: \"";
+                msg.append(filename).append("\" the real name is: ").append(realName);
+
+                CCLOG("%s", msg.c_str());
+                return false;
+            }
+        }
+        else
+        {
+            break;
+        }
+
+        do
+        {
+            tmpPath = tmpPath.substr(0, tmpPath.rfind("/"));
+        } while (tmpPath.back() == '.');
+    }
+    return true;
+}
+#endif
 
 FileUtils::Status FileUtilsWin32::getContents(const std::string& filename, ResizableBuffer* buffer)
 {
@@ -269,7 +333,7 @@ string FileUtilsWin32::getWritablePath() const
         retPath = retPath.substr(0, retPath.rfind(L"\\") + 1);
     }
 
-    return convertPathFormatToUnixStyle(StringWideCharToUtf8(retPath));
+    return convertPathFormatToUnixStyle(_transcode$IL(retPath));
 }
 
 bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
@@ -354,7 +418,7 @@ bool FileUtilsWin32::createDirectory(const std::string& dirPath)
         {
             subpath += dirs[i];
 
-            std::string utf8Path = StringWideCharToUtf8(subpath);
+            std::string utf8Path = _transcode$IL(subpath);
             if (!isDirectoryExist(utf8Path))
             {
                 BOOL ret = CreateDirectory(subpath.c_str(), NULL);
@@ -405,7 +469,7 @@ bool FileUtilsWin32::removeDirectory(const std::string& dirPath)
                 if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
                 {
                     temp += '/';
-                    ret = ret && this->removeDirectory(StringWideCharToUtf8(temp));
+                    ret = ret && this->removeDirectory(_transcode$IL(temp));
                 }
                 else
                 {

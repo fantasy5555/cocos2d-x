@@ -62,7 +62,11 @@ AudioPlayer::AudioPlayer(const AudioPlayer& player)
 AudioPlayer::~AudioPlayer()
 {
     if (_audioCache && _audioCache->_queBufferFrames > 0) {
+#if _USE_DYNAMIC_BUFFER
+        alDeleteBuffers(_bufferIds.size(), &_bufferIds.front());
+#else
         alDeleteBuffers(QUEUEBUFFER_NUM, _bufferIds);
+#endif
     }
 }
 
@@ -99,6 +103,22 @@ bool AudioPlayer::play2d(AudioCache* cache)
         _streamingSource = true;
         alSourcei(_alSource, AL_LOOPING, AL_FALSE);
 
+#if _USE_DYNAMIC_BUFFER
+        auto alError = alGetError();
+        _bufferIds.resize(_audioCache->_queBuffers.size());
+        alGenBuffers(_audioCache->_queBuffers.size(), &_bufferIds.front());
+        alError = alGetError();
+        if (alError == AL_NO_ERROR) {
+            for (int index = 0; index < _bufferIds.size(); ++index) {
+                alBufferData(_bufferIds[index], _audioCache->_alBufferFormat, _audioCache->_queBuffers[index], _audioCache->_queBufferSize[index], _audioCache->_sampleRate);
+            }
+            alSourceQueueBuffers(_alSource, _bufferIds.size(), &_bufferIds.front());
+        }
+        else {
+            log("%s:alGenBuffers error code:%x", __FUNCTION__,alError);
+            return false;
+        }
+#else
         auto alError = alGetError();
         alGenBuffers(QUEUEBUFFER_NUM, _bufferIds);
         alError = alGetError();
@@ -112,11 +132,12 @@ bool AudioPlayer::play2d(AudioCache* cache)
             log("%s:alGenBuffers error code:%x", __FUNCTION__,alError);
             return false;
         }
+#endif
     }
 
     if (_streamingSource)
     {
-        _rotateBufferThread = std::thread(&AudioPlayer::rotateBufferThread, this, _audioCache->_queBufferFrames * QUEUEBUFFER_NUM + 1);
+        _rotateBufferThread = std::thread(&AudioPlayer::rotateBufferThread, this, _audioCache->_queBufferFrames * _audioCache->_queBuffers.size() + 1);
         _rotateBufferThread.detach();
     }
     else

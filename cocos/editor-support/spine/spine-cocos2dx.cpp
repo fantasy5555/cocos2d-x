@@ -34,6 +34,10 @@
 
 USING_NS_CC;
 
+namespace spine {
+    void(*onLoadTextureFailed)(const char* format, ...) = nullptr;
+}
+
 GLuint wrap (spAtlasWrap wrap) {
 	return wrap == SP_ATLAS_CLAMPTOEDGE ? GL_CLAMP_TO_EDGE : GL_REPEAT;
 }
@@ -60,18 +64,27 @@ GLuint filter (spAtlasFilter filter) {
 
 void _spAtlasPage_createTexture (spAtlasPage* self, const char* path) {
 	Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
-	texture->retain();
+    if(texture != nullptr) {
+	    texture->retain();
 
-	Texture2D::TexParams textureParams = {filter(self->minFilter), filter(self->magFilter), wrap(self->uWrap), wrap(self->vWrap)};
-	texture->setTexParameters(textureParams);
+		Texture2D::TexParams textureParams = {filter(self->minFilter), filter(self->magFilter), wrap(self->uWrap), wrap(self->vWrap)};
+		texture->setTexParameters(textureParams);
 
-	self->rendererObject = texture;
-	self->width = texture->getPixelsWide();
-	self->height = texture->getPixelsHigh();
+		self->rendererObject = texture;
+		self->width = texture->getPixelsWide();
+		self->height = texture->getPixelsHigh();
+    }
+	else {
+	    if(spine::onLoadTextureFailed != nullptr)
+		{
+		    spine::onLoadTextureFailed("_spAtlasPage_createTexture failed: missing texture: %s", path);
+		}
+	}
 }
 
 void _spAtlasPage_disposeTexture (spAtlasPage* self) {
-	((Texture2D*)self->rendererObject)->release();
+    if (self->rendererObject != nullptr)  // x-studio365 spec, avoid crash when texture file missing. 
+        ((Texture2D*)self->rendererObject)->release();
 }
 
 char* _spUtil_readFile (const char* path, int* length) {

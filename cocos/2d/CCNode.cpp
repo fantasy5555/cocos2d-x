@@ -55,6 +55,17 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+CC_DLL float s_default2dObjectGlobalZOrder = 0;
+
+namespace wext {
+    void CC_DLL let3DObjectZOrderProperly(bool yes)
+    {
+        if (yes)
+            s_default2dObjectGlobalZOrder = 1.f;
+        else
+            s_default2dObjectGlobalZOrder = 0.f;
+    }
+}
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
 unsigned int Node::s_globalOrderOfArrival = 0;
 
@@ -986,6 +997,8 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
         updateCascadeOpacity();
     }
 }
+
+
 
 void Node::addChild(Node *child, int zOrder)
 {
@@ -2121,6 +2134,164 @@ void Node::disableCascadeColor()
     }
 }
 
+///////////////// x-studio365 spec ///////////////////////////
+void Node::insertAt(Node* child, int index)
+{
+    if (_children.empty())
+    {
+        this->childrenAlloc();
+    }
+
+    _transformUpdated = true;
+    _reorderChildDirty = true;
+
+    child->updateOrderOfArrival();
+	
+    if (index >= 0) {
+        _children.insert(index, child);
+    }
+    else {
+        _children.pushBack(child);
+    }
+    child->_localZOrder = 0;
+
+    child->setParent(this);
+
+    if (_running)
+    {
+        child->onEnter();
+        // prevent onEnterTransitionDidFinish to be called twice when a node is added in onEnter
+        if (_isTransitionFinished)
+        {
+            child->onEnterTransitionDidFinish();
+        }
+    }
+
+    if (_cascadeColorEnabled)
+    {
+        updateCascadeColor();
+    }
+
+    if (_cascadeOpacityEnabled)
+    {
+        updateCascadeOpacity();
+    }
+}
+
+void Node::moveAfter(Node* where)
+{
+	auto parent = this->getParent();
+	if (where->getParent() != parent)
+		return;
+
+	if (parent != nullptr && parent->getChildrenCount() >= 2) {
+
+        auto& ss = parent->getChildren();
+        auto whereIt = std::find(ss.begin(), ss.end(), where);
+        auto myIt = std::find(ss.begin(), ss.end(), this);
+
+        assert((myIt != ss.end() && whereIt != ss.end()));
+
+        if (myIt != whereIt) {
+            auto moving = *myIt;
+            Node** ppv = nullptr;
+            auto delta = (myIt - whereIt);
+            if (delta > 1) {
+                ppv = &(*(whereIt + 1));
+                ::memmove(&*(whereIt + 2), ppv, (myIt - whereIt - 1) * sizeof(Node*));
+                *ppv = moving;
+            }
+            else if (-delta > 1) {
+                ppv = &(*(whereIt));
+                ::memmove(&(*(myIt)), &(*(myIt + 1)), (whereIt - myIt) * sizeof(Node*));
+                *ppv = moving;
+            }
+            else if (-delta == 1) { // myIt - whereIt == 1(do nothing) || whereIt - myIt == 1(swap only)
+                std::swap(*myIt, *whereIt);
+            }
+        }
+        else { // be samlar with bubble, swap only.
+            if (++whereIt != ss.end()) {
+                std::swap(*myIt, *whereIt);
+            }
+        }
+
+		_eventDispatcher->setDirtyForNode(this);
+	}
+}
+
+void Node::bringToFront(void)
+{ // unused for editor: can be remove
+    auto parent = this->getParent();
+    if (parent != nullptr && parent->getChildrenCount() >= 2) {
+
+        auto& siblings = parent->getChildren();
+
+        auto last = *siblings.rbegin();
+        // auto topOrderOfArrival = last->getOrderOfArrival();
+        auto topLocalZOrder = last->getLocalZOrder();
+
+        for (size_t idx = siblings.size() - 1; idx > 0; --idx)
+        {
+            auto sibling = siblings.at(idx);
+            if (sibling != this) {
+                //sibling->setOrderOfArrival(siblings.at(idx - 1)->getOrderOfArrival());
+                sibling->_setLocalZOrder(siblings.at(idx - 1)->getLocalZOrder());
+            }
+            else {
+                break;
+            }
+        }
+
+        // this->setOrderOfArrival(topOrderOfArrival);
+        this->_setLocalZOrder(topLocalZOrder);
+
+        sortNodes(siblings); // std::sort(std::begin(siblings), std::end(siblings), nodeComparisonLess);
+        _eventDispatcher->setDirtyForNode(this);
+    }
+}
+
+void Node::sendToBack(void)
+{
+    auto parent = this->getParent();
+    if (parent != nullptr && parent->getChildrenCount() >= 2) {
+
+        auto& ss = parent->getChildren();
+        auto iter = std::find(ss.begin(), ss.end(), this);
+        if (iter != ss.end()) {
+            auto moving = *iter;
+            ::memmove(&(*(ss.begin() + 1)), &(*ss.begin()), (iter - ss.begin()) * sizeof(Node*));
+            *ss.begin() = moving;
+        }
+
+#if 0
+        auto& siblings = parent->getChildren();
+        auto start = *siblings.begin();
+        //auto bottomOrderOfArrival = start->getOrderOfArrival();
+        auto bottomLocalZOrder = start->getLocalZOrder();
+
+        for (size_t idx = 0; idx < siblings.size() - 1; ++idx)
+        {
+            auto c = siblings.at(idx);
+            if (c != this) {
+               // c->setOrderOfArrival(siblings.at(idx + 1)->getOrderOfArrival());
+                c->_setLocalZOrder(siblings.at(idx + 1)->getLocalZOrder());
+            }
+            else {
+                break;
+            }
+        }
+
+       // this->setOrderOfArrival(bottomOrderOfArrival);
+        this->_setLocalZOrder(bottomLocalZOrder);
+
+        sortNodes(siblings);
+#endif
+        _eventDispatcher->setDirtyForNode(this);
+    }
+}
+
+//======================= end of x-studio365 spec =============================
 bool isScreenPointInRect(const Vec2 &pt, const Camera* camera, const Mat4& w2l, const Rect& rect, Vec3 *p)
 {
     if (nullptr == camera || rect.size.width <= 0 || rect.size.height <= 0)

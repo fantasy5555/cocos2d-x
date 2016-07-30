@@ -123,4 +123,13 @@ void ObjectFactory::registerType(const TInfo &t)
     _typeMap.insert(std::make_pair(t._class, t));
 }
 
+ObjectFactory::TInfo* ObjectFactory::getTypeInfo(const char* className)
+{
+    auto infoIt = _typeMap.find(className);
+    if (infoIt != _typeMap.end())
+        return &infoIt->second;
+
+    return nullptr;
+}
+
 NS_CC_END

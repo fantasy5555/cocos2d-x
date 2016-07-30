@@ -38,6 +38,13 @@ THE SOFTWARE.
 #include "base/ccUtils.h"
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
+#include "glfw3ext.h"
+
+#define IRREGULARGL_SUPPORT 0
+
+#if IRREGULARGL_SUPPORT
+#include "IrregularGL.inl"
+#endif
 
 NS_CC_BEGIN
 
@@ -52,10 +59,12 @@ public:
             _view->onGLFWError(errorID, errorDesc);
     }
 
-    static void onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int modify)
+    static void onGLFWMouseCallBackEx(GLFWwindow* window, int button, int action, int modify, double x, double y)
     {
-        if (_view)
-            _view->onGLFWMouseCallBack(window, button, action, modify);
+        if (_view) {
+            // _view->onGLFWMouseMoveCallBack(window, x, y);
+            _view->onGLFWMouseCallBackEx(window, button, action, modify, x, y);
+        }
     }
 
     static void onGLFWMouseMoveCallBack(GLFWwindow* window, double x, double y)
@@ -263,7 +272,84 @@ static keyCodeItem g_keyCodeStructArray[] = {
 // implement GLViewImpl
 //////////////////////////////////////////////////////////////////////////
 
+/// *** x-studio365 spec
+static bool s_intriWindowNoB = false;
+static bool s_intriWindowVisible = true;
+static bool s_intriWindowAlphaEnabled = false;
+static HWND s_intriWindowParent = nullptr;
+static bool s_intriGdipCanvasEnabled = false;
+static FARPROC s_onGLFWError = nullptr;
 
+static Point s_intriUpdatingPos;
+static bool s_intriUpdatePosRequired = false;
+
+namespace wext {
+
+    void CC_DLL setGLErrorCallback(FARPROC callback)
+    {
+        s_onGLFWError = callback;
+    }
+
+	void CC_DLL setGLSurfaceParent(HWND hwndParent)
+	{
+		s_intriWindowParent = hwndParent;
+	}
+
+	void CC_DLL setGLSurfaceNoB(bool nob = false, bool visible = false)
+	{
+		s_intriWindowNoB = nob;
+		s_intriWindowVisible = visible;
+	}
+
+	void CC_DLL setGLSurfaceAlphaEnabled(bool alphaEnabled = false)
+	{
+		s_intriWindowAlphaEnabled = alphaEnabled;
+	}
+
+	// support move popup window properly
+	void CC_DLL triggerMouseLeftRelease()
+	{
+		GLFWEventHandler::onGLFWMouseCallBackEx(nullptr, GLFW_MOUSE_BUTTON_LEFT, GLFW_RELEASE, 0, 0, 0);
+	}
+
+    void CC_DLL updateGLWindowPos(const Point& p)
+    {
+        s_intriUpdatingPos = p;
+        s_intriUpdatePosRequired = true;
+    }
+
+#if IRREGULARGL_SUPPORT
+	void CC_DLL enableGdipCanvas(const char* iamgeSource)
+	{
+		// check file exist
+		std::string fullPath = FileUtils::getInstance()->fullPathForFilename(iamgeSource);
+		WCHAR wszBuf[256] = { 0 };
+		MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, wszBuf, sizeof(wszBuf) / sizeof(wszBuf[0]));
+
+		if (FileUtils::getInstance()->isFileExist(fullPath)) {
+			s_intriGdipCanvasEnabled = true;
+			IrregularGL::thisObject()->setBkgndSource(wszBuf);
+		}
+	}
+
+	void CC_DLL changeGdipCanvas(const char* iamgeSource)
+	{
+		if (s_intriGdipCanvasEnabled) {
+			// check file exist
+			std::string fullPath = FileUtils::getInstance()->fullPathForFilename(iamgeSource);
+			WCHAR wszBuf[256] = { 0 };
+			MultiByteToWideChar(CP_ACP, 0, fullPath.c_str(), -1, wszBuf, sizeof(wszBuf) / sizeof(wszBuf[0]));
+
+			if (FileUtils::getInstance()->isFileExist(fullPath)) {
+				IrregularGL::thisObject()->setBkgndSource(wszBuf);
+				IrregularGL::thisObject()->reloadBkgnd();
+			}
+		}
+	}
+#endif
+}
+
+/// ### x-studio365 spec
 GLViewImpl::GLViewImpl(bool initglfw)
 : _captured(false)
 , _supportTouch(false)
@@ -284,10 +370,13 @@ GLViewImpl::GLViewImpl(bool initglfw)
     }
 
     GLFWEventHandler::setGLViewImpl(this);
-    if (initglfw)
+
+    glfwSetErrorCallback(GLFWEventHandler::onGLFWError);
+    if (initglfw && !glfwxInit()) 
     {
-        glfwSetErrorCallback(GLFWEventHandler::onGLFWError);
-        glfwInit();
+        if (s_onGLFWError != nullptr)
+            s_onGLFWError();
+        ccMessageBox("glfwxInit failed!", "error");
     }
 }
 
@@ -353,6 +442,10 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
 
     _frameZoomFactor = frameZoomFactor;
 
+#if IRREGULARGL_SUPPORT
+	if (s_intriGdipCanvasEnabled)
+		IrregularGL::thisObject()->setupGL();
+#endif
     glfwWindowHint(GLFW_RESIZABLE,resizable?GL_TRUE:GL_FALSE);
     glfwWindowHint(GLFW_RED_BITS,_glContextAttrs.redBits);
     glfwWindowHint(GLFW_GREEN_BITS,_glContextAttrs.greenBits);
@@ -360,6 +453,13 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
     glfwWindowHint(GLFW_ALPHA_BITS,_glContextAttrs.alphaBits);
     glfwWindowHint(GLFW_DEPTH_BITS,_glContextAttrs.depthBits);
     glfwWindowHint(GLFW_STENCIL_BITS,_glContextAttrs.stencilBits);
+	// x-studio365 spec hints
+    glfwWindowHint(GLFW_DECORATED, !s_intriWindowNoB);
+    glfwWindowHint(GLFW_VISIBLE, s_intriWindowVisible);
+#if IRREGULARGL_SUPPORT
+	glfwWindowHint(GLFW_ALPHA_MASK, s_intriWindowAlphaEnabled);
+#endif
+	glfwxSetParent(s_intriWindowParent);
 
     int neededWidth = rect.size.width * _frameZoomFactor;
     int neededHeight = rect.size.height * _frameZoomFactor;
@@ -375,7 +475,7 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
             message.append(_glfwError);
         }
 
-        MessageBox(message.c_str(), "Error launch application");
+        ccMessageBox(message.c_str(), "Error launch application");
         return false;
     }
 
@@ -402,7 +502,8 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
 
     glfwMakeContextCurrent(_mainWindow);
 
-    glfwSetMouseButtonCallback(_mainWindow, GLFWEventHandler::onGLFWMouseCallBack);
+	// x-studio365 spec: use glfwx setMouseButtonCallback ensure update mouse coord immediately.
+    glfwxSetMouseButtonCallback(_mainWindow, GLFWEventHandler::onGLFWMouseCallBackEx);
     glfwSetCursorPosCallback(_mainWindow, GLFWEventHandler::onGLFWMouseMoveCallBack);
     glfwSetScrollCallback(_mainWindow, GLFWEventHandler::onGLFWMouseScrollCallback);
     glfwSetCharCallback(_mainWindow, GLFWEventHandler::onGLFWCharCallback);
@@ -423,7 +524,7 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
         sprintf(strComplain,
                 "OpenGL 1.5 or higher is required (your version is %s). Please upgrade the driver of your video card.",
                 glVersion);
-        MessageBox(strComplain, "OpenGL version too old");
+        ccMessageBox(strComplain, "OpenGL version too old");
         return false;
     }
 
@@ -581,8 +682,13 @@ void GLViewImpl::updateFrameSize()
             {
                 _retinaFactor = 1;
             }
-            glfwSetWindowSize(_mainWindow, _screenSize.width * _retinaFactor * _frameZoomFactor, _screenSize.height *_retinaFactor * _frameZoomFactor);
-
+            if (!s_intriUpdatePosRequired) {
+                glfwSetWindowSize(_mainWindow, _screenSize.width * _retinaFactor * _frameZoomFactor, _screenSize.height *_retinaFactor * _frameZoomFactor);
+            }
+            else {
+                glfwxSetWindowPos(_mainWindow, s_intriUpdatingPos.x, s_intriUpdatingPos.y, _screenSize.width * _retinaFactor * _frameZoomFactor, _screenSize.height *_retinaFactor * _frameZoomFactor);
+                s_intriUpdatePosRequired = false;
+            }
             _isInRetinaMonitor = false;
         }
     }
@@ -624,19 +730,30 @@ Rect GLViewImpl::getScissorRect() const
 
 void GLViewImpl::onGLFWError(int errorID, const char* errorDesc)
 {
-    if (_mainWindow)
-    {
-        _glfwError = StringUtils::format("GLFWError #%d Happen, %s", errorID, errorDesc);
-    }
-    else
-    {
-        _glfwError.append(StringUtils::format("GLFWError #%d Happen, %s\n", errorID, errorDesc));
-    }
+    _glfwError = StringUtils::format("GLFWError #%d Happen, %s", errorID, errorDesc);
     CCLOGERROR("%s", _glfwError.c_str());
+    if (s_onGLFWError != nullptr)
+        s_onGLFWError();
+    ccMessageBox(_glfwError.c_str(), "onGLFWError");
 }
 
-void GLViewImpl::onGLFWMouseCallBack(GLFWwindow* window, int button, int action, int modify)
-{
+void GLViewImpl::onGLFWMouseCallBackEx(GLFWwindow* window, int button, int action, int modify, double x, double y)
+{ // support when context menu display, make sure the cursor is correct.
+    /* x-studio365 spec */
+    _mouseX = (float)x;
+    _mouseY = (float)y;
+
+    _mouseX /= this->getFrameZoomFactor();
+    _mouseY /= this->getFrameZoomFactor();
+    if (_isInRetinaMonitor)
+    {
+        if (_retinaFactor == 1)
+        {
+            _mouseX *= 2;
+            _mouseY *= 2;
+        }
+    }
+    /* End x-studio365 spec */
     if(GLFW_MOUSE_BUTTON_LEFT == button)
     {
         if(GLFW_PRESS == action)
@@ -737,12 +854,14 @@ void GLViewImpl::onGLFWMouseScrollCallback(GLFWwindow* window, double x, double 
 
 void GLViewImpl::onGLFWKeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    if (GLFW_REPEAT != action)
-    {
-        EventKeyboard event(g_keyCodeMap[key], GLFW_PRESS == action);
+    // modified for x-studio365 use, for repeat press key support.
+    /*if (GLFW_REPEAT != action)
+    {*/
+        EventKeyboard event(g_keyCodeMap[key], GLFW_PRESS == action || GLFW_REPEAT == action);
+        event._isRepeated = GLFW_REPEAT == action;
         auto dispatcher = Director::getInstance()->getEventDispatcher();
         dispatcher->dispatchEvent(&event);
-    }
+    //}
 
     if (GLFW_RELEASE != action)
     {
@@ -924,7 +1043,7 @@ bool GLViewImpl::initGlew()
     GLenum GlewInitResult = glewInit();
     if (GLEW_OK != GlewInitResult)
     {
-        MessageBox((char *)glewGetErrorString(GlewInitResult), "OpenGL error");
+        ccMessageBox((char *)glewGetErrorString(GlewInitResult), "OpenGL error");
         return false;
     }
 
@@ -949,9 +1068,11 @@ bool GLViewImpl::initGlew()
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
     if(glew_dynamic_binding() == false)
     {
-        MessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
+        ccMessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
         return false;
     }
+    // x-studio365 close _vsync_ default, for nvidia display card
+    ::glfwSwapInterval(0);
 #endif
 
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)

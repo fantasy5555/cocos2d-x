@@ -34,11 +34,10 @@ NS_CC_BEGIN
 
 #define MAX_LEN         (cocos2d::kMaxLogLen + 1)
 
-void MessageBox(const char * pszMsg, const char * pszTitle)
+/// conflict with system macro MessageBox
+void ccMessageBox(const char * pszMsg, const char * pszTitle)
 {
-    std::wstring wsMsg = cocos2d::StringUtf8ToWideChar(pszMsg);
-    std::wstring wsTitle = cocos2d::StringUtf8ToWideChar(pszTitle);
-    MessageBoxW(nullptr, wsMsg.c_str(), wsTitle.c_str(), MB_OK);
+    MessageBoxA(nullptr, pszMsg, pszTitle, MB_OK);
 }
 
 void LuaLog(const char *pszMsg)

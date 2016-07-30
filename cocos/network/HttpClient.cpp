@@ -33,6 +33,14 @@
 
 NS_CC_BEGIN
 
+std::function<void(const std::function<void()>&)> s_customHttpResponseDispatcher = nullptr;
+
+namespace wext {
+	void CC_DLL setCustomHttpResponseDispatcher(const std::function<void(const std::function<void()>&)>& dispatcher)
+	{
+		s_customHttpResponseDispatcher = dispatcher;
+	}
+};
 namespace network {
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
@@ -114,10 +122,16 @@ void HttpClient::networkThread()
         _responseQueueMutex.unlock();
         
 		_schedulerMutex.lock();
-		if (nullptr != _scheduler)
-		{
-			_scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
-		}
+        if (s_customHttpResponseDispatcher != nullptr)
+        {
+            s_customHttpResponseDispatcher(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+        }
+        else {
+            if (nullptr != _scheduler)
+            {
+                _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+            }
+        }
 		_schedulerMutex.unlock();
     }
     
@@ -142,7 +156,27 @@ void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response
 	processResponse(response, responseMessage);
 	
 	_schedulerMutex.lock();
-	if (nullptr != _scheduler)
+    if (s_customHttpResponseDispatcher)
+    {
+        s_customHttpResponseDispatcher([this, response, request] {
+            const ccHttpRequestCallback& callback = request->getCallback();
+            Ref* pTarget = request->getTarget();
+            SEL_HttpResponse pSelector = request->getSelector();
+
+            if (callback != nullptr)
+            {
+                callback(this, response);
+            }
+            else if (pTarget && pSelector)
+            {
+                (pTarget->*pSelector)(this, response);
+            }
+            response->release();
+            // do not release in other thread
+            request->release();
+        });
+    }
+    else if (nullptr != _scheduler)
 	{
 		_scheduler->performFunctionInCocosThread([this, response, request]{
 			const ccHttpRequestCallback& callback = request->getCallback();

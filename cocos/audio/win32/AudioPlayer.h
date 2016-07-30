@@ -75,7 +75,11 @@ protected:
     float _currTime;
     bool _timeDirty;
     bool _streamingSource;
+#if _USE_DYNAMIC_BUFFER
+    std::vector<ALuint> _bufferIds;
+#else
     ALuint _bufferIds[QUEUEBUFFER_NUM];
+#endif
     std::thread _rotateBufferThread;
     std::mutex _sleepMutex;
     std::condition_variable _sleepCondition;

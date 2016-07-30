@@ -22,7 +22,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-
+/// x-studio 365 sepc
+#ifndef GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#endif
+#ifndef GLFW_EXPOSE_NATIVE_WGL
+#define GLFW_EXPOSE_NATIVE_WGL
+#endif
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
@@ -32,6 +38,11 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
 #include <WinVer.h>
+/// x-studio365 spec
+#include <glfw3.h>
+#include <glfw3native.h>
+
+#pragma comment(lib, "Winmm.lib")
 /**
 @brief    This function change the PVRFrame show/hide setting in register.
 @param  bEnable If true show the PVRFrame window, otherwise hide.
@@ -39,7 +50,19 @@ THE SOFTWARE.
 static void PVRFrameEnableControlWindow(bool bEnable);
 
 NS_CC_BEGIN
+/// *** x-studio365 spec
+static bool s_fullSpeedMode = false;
+namespace wext {
+    void CC_DLL setFullSpeedEnabled(bool enabled)
+    {
+        s_fullSpeedMode = enabled;
+    }
 
+    bool CC_DLL isFullSpeedEnabled(void)
+    {
+        return s_fullSpeedMode;
+    }
+}
 // sharedApplication pointer
 Application * Application::sm_pSharedApplication = nullptr;
 
@@ -83,21 +106,29 @@ int Application::run()
     // Retain glview to avoid glview being released in the while loop
     glview->retain();
 
+    timeBeginPeriod(1);
     while(!glview->windowShouldClose())
     {
-        QueryPerformanceCounter(&nNow);
-        if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
-        {
-            nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
-            
+        if (!s_fullSpeedMode) {
+            QueryPerformanceCounter(&nNow);
+            if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
+            {
+                nLast.QuadPart = nNow.QuadPart - (nNow.QuadPart % _animationInterval.QuadPart);
+
+                director->mainLoop();
+                glview->pollEvents();
+            }
+            else
+            {
+                Sleep(1); //  Do Nothing, Sleep(1);
+            }
+        }
+        else {
             director->mainLoop();
             glview->pollEvents();
         }
-        else
-        {
-            Sleep(1);
-        }
     }
+    timeEndPeriod(1);
 
     // Director should still do a cleanup if the window was closed manually.
     if (glview->isOpenGLReady())
@@ -215,7 +246,7 @@ const char * Application::getCurrentLanguageCode()
 
 Application::Platform Application::getTargetPlatform()
 {
-    return Platform::OS_WINDOWS;
+    return Platform::OS_WINDOWS_COCOS_SPEC;
 }
 
 std::string Application::getVersion()

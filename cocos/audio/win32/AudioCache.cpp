@@ -35,7 +35,7 @@
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
-#define PCMDATA_CACHEMAXSIZE 2621440
+#define PCMDATA_CACHEMAXSIZE (2621440 << 2) // 10M
 
 using namespace cocos2d::experimental;
 
@@ -79,9 +79,18 @@ AudioCache::~AudioCache()
     }
 
     if (_queBufferFrames > 0) {
+#if _USE_DYNAMIC_BUFFER
+        for(auto buffer : _queBuffers)
+        {
+            free(buffer);
+        }
+        _queBuffers.clear();
+        _queBufferSize.clear();
+#else
         for (int index = 0; index < QUEUEBUFFER_NUM; ++index) {
             free(_queBuffers[index]);
         }
+#endif
     }
 }
 
@@ -215,6 +224,37 @@ void AudioCache::readDataTask()
         _queBufferFrames = _sampleRate * QUEUEBUFFER_TIME_STEP;
         _queBufferBytes = _queBufferFrames * _bytesPerFrame;
 
+#if _USE_DYNAMIC_BUFFER
+        size_t n = 0;
+        for (;;) {
+            auto buffer = (char*)malloc(_queBufferBytes);
+
+            switch (_fileFormat){
+            case FileFormat::MP3:
+            {
+                // size_t done = 0;
+                mpg123_read(mpg123handle, (unsigned char*)buffer, _queBufferBytes, &n);
+            }
+            break;
+            case FileFormat::OGG:
+            {
+                int current_section;
+                n = ov_read(vf, buffer, _queBufferBytes, 0, 2, 1, &current_section);
+            }
+            break;
+            }
+
+            if (n > 0) {
+                _queBufferSize.push_back(n);
+                _queBuffers.push_back(buffer);
+                _bytesOfRead += n;
+            }
+            else {
+                free(buffer);
+                break;
+            }
+        } 
+#else
         for (int index = 0; index < QUEUEBUFFER_NUM; ++index) {
             _queBuffers[index] = (char*)malloc(_queBufferBytes);
             
@@ -236,6 +276,7 @@ void AudioCache::readDataTask()
                 break;
             }
         }
+#endif
     }
     
 ExitThread:
