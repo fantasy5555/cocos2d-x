@@ -79,8 +79,4 @@ char* _spUtil_readFile (const char* path, int* length) {
 			FileUtils::getInstance()->fullPathForFilename(path));
     if (data.isNull()) return 0;
     return (char*)data.takeBuffer((ssize_t*)length);
-	/**length = static_cast<int>(data.getSize());
-	char* bytes = MALLOC(char, *length);
-	memcpy(bytes, data.getBytes(), *length);
-	return bytes;*/
 }
