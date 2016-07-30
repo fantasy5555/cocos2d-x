@@ -186,8 +186,11 @@ public:
      *
      * @return The local (relative to its siblings) Z order.
      */
-
+#if CC_64BITS
+    virtual int getLocalZOrder() const { return static_cast<int>(_localZOrder >> 32); }
+#else
     virtual int getLocalZOrder() const { return _localZOrder; }
+#endif
 
     CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
 
@@ -956,7 +959,11 @@ public:
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrderAndArrival < n2->_localZOrderAndArrival);
+            return (n1->_localZOrder < n2->_localZOrder);
+        });
+#elif defined(_WIN32)
+        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
+            return (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival) || n1->_localZOrder < n2->_localZOrder;
         });
 #else
         std::stable_sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
@@ -1932,8 +1939,14 @@ protected:
     mutable bool _additionalTransformDirty; ///< transform dirty ?
     bool _transformUpdated;         ///< Whether or not the Transform object was updated since the last frame
 
-    std::int64_t _localZOrderAndArrival; /// cache, for 64bits compress optimize.
+#if CC_64BITS
+    std::int64_t _localZOrder; /// cache, for 64bits compress optimize.
+#else
     int _localZOrder; /// < Local order (relative to its siblings) used to sort the node
+#if defined(_WIN32)
+    unsigned int _orderOfArrival;
+#endif
+#endif
 
     float _globalZOrder;            ///< Global order used to sort the node
 
