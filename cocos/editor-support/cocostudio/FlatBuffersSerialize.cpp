@@ -158,7 +158,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLFile(const std::str
         return ".csd file doesn not exists ";
     }
 
-    std::string xmlBuffer = FileUtils::getInstance()->getFileData(inFullpath);
+    std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(inFullpath);
     return serializeFlatBuffersWithXMLBuffer(xmlBuffer, flatbuffersFileName);
 }
 
