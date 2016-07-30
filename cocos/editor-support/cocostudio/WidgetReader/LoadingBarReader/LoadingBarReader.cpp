@@ -61,6 +61,7 @@ namespace cocostudio
         WidgetReader::setPropsFromBinary(widget, cocoLoader, cocoNode);
         
         LoadingBar* loadingBar = static_cast<LoadingBar*>(widget);
+
         this->beginSetBasicProperties(widget);
         float capsx = 0.0f, capsy = 0.0, capsWidth = 0.0, capsHeight = 0.0f;
         int percent = loadingBar->getPercent();
@@ -87,8 +88,9 @@ namespace cocostudio
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
                 std::string backgroundValue = this->getResourcePath(cocoLoader, &stChildArray[i], imageFileNameType);
-                
-                loadingBar->loadTexture(backgroundValue, imageFileNameType);
+                auto fileData = cocos2d::wext::makeResourceData(std::move(backgroundValue), (int)imageFileNameType);
+                cocos2d::wext::onBeforeLoadObjectAsset(loadingBar, fileData, 0);
+                loadingBar->loadTexture(fileData.file, imageFileNameType);
                 
             }
             else if(key == P_CapInsetsX){
@@ -247,13 +249,15 @@ namespace cocostudio
     void LoadingBarReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *loadingBarOptions)
     {
         LoadingBar* loadingBar = static_cast<LoadingBar*>(node);
+
         auto options = (LoadingBarOptions*)loadingBarOptions;
         
         bool fileExist = false;
         std::string errorFilePath = "";
-        auto imageFileNameDic = options->textureData();
-        int imageFileNameType = imageFileNameDic->resourceType();
-        std::string imageFileName = imageFileNameDic->path()->c_str();
+        auto imageFileNameDic = cocos2d::wext::makeResourceData(options->textureData());
+        int imageFileNameType = imageFileNameDic.type;
+        std::string& imageFileName = imageFileNameDic.file;
+        cocos2d::wext::onBeforeLoadObjectAsset(loadingBar, imageFileNameDic, 0);
         switch (imageFileNameType)
         {
             case 0:
@@ -277,7 +281,7 @@ namespace cocostudio
                 
             case 1:
             {
-                std::string plist = imageFileNameDic->plistFile()->c_str();
+                std::string& plist = imageFileNameDic.plist;
                 SpriteFrame* spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(imageFileName);
                 if (spriteFrame)
                 {
@@ -324,7 +328,7 @@ namespace cocostudio
     
     Node* LoadingBarReader::createNodeWithFlatBuffers(const flatbuffers::Table *loadingBarOptions)
     {
-        LoadingBar* loadingBar = LoadingBar::create();
+        LoadingBar* loadingBar = wext::aLoadingBar();// LoadingBar::create();
         
         setPropsWithFlatBuffers(loadingBar, (Table*)loadingBarOptions);
         

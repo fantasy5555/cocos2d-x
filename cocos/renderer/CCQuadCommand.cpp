@@ -33,6 +33,7 @@
 #include "renderer/CCPass.h"
 #include "renderer/CCTexture2D.h"
 #include "xxhash.h"
+#include "renderer/CCTexture2D.h" // ETC1 ALPLA supports
 
 NS_CC_BEGIN
 

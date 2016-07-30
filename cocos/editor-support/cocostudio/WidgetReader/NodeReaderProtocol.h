@@ -26,6 +26,7 @@
 #define __cocos2d_libs__NodeReaderProtocol__
 
 #include "editor-support/cocostudio/CocosStudioExport.h"
+#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 namespace flatbuffers
 {
@@ -33,6 +34,8 @@ namespace flatbuffers
     template<typename T> struct Offset;
     
     class Table;
+
+    struct ResourceData; // x-studio365 spec, csb batch load support, assets hook functions.
 }
 
 namespace tinyxml2
@@ -59,5 +62,59 @@ namespace cocostudio
         virtual cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) = 0;
     };
 }
+
+// x-studio365 spec, csb batch load support, assets hook functions.
+namespace cocos2d {
+
+    // builtin ui predecl
+    class Sprite;
+    class ParticleSystemQuad;
+    namespace ui {
+        class ImageView;
+
+        class Button;
+        class CheckBox;
+        class Slider;
+        class LoadingBar;
+
+        class Text;
+        class TextField;
+        class TextAtlas;
+        class TextBMFont;
+
+        class Layout;
+        class ScrollView;
+        class ListView;
+        class PageView;
+    }
+    namespace wext {
+        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const flatbuffers::ResourceData* data);
+        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const std::string& path, int type = 0);
+        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(std::string&& path, int type = 0);
+        CC_STUDIO_DLL extern void resetReaderAllHooks();
+
+        /// Assets Hooks
+        CC_STUDIO_DLL extern void(*onBeforeLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
+        CC_STUDIO_DLL extern void(*onAfterLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
+
+        // Object creator Hooks
+        CC_STUDIO_DLL extern cocos2d::Node*(*aNode)();
+        CC_STUDIO_DLL extern cocos2d::Sprite*(*aSprite)();
+        CC_STUDIO_DLL extern cocos2d::ui::ImageView*(*aImageView)();
+        CC_STUDIO_DLL extern cocos2d::ui::Button*(*aButton)();
+        CC_STUDIO_DLL extern cocos2d::ui::CheckBox*(*aCheckBox)();
+        CC_STUDIO_DLL extern cocos2d::ui::Slider*(*aSlider)();
+        CC_STUDIO_DLL extern cocos2d::ui::LoadingBar*(*aLoadingBar)();
+        CC_STUDIO_DLL extern cocos2d::ui::Text*(*aText)();
+        CC_STUDIO_DLL extern cocos2d::ui::TextField*(*aTextField)();
+        CC_STUDIO_DLL extern cocos2d::ui::TextAtlas*(*aTextAtlas)();
+        CC_STUDIO_DLL extern cocos2d::ui::TextBMFont*(*aTextBMFont)();
+        CC_STUDIO_DLL extern cocos2d::ui::Layout*(*aLayout)();
+        CC_STUDIO_DLL extern cocos2d::ui::ScrollView*(*aScrollView)();
+        CC_STUDIO_DLL extern cocos2d::ui::ListView*(*aListView)();
+        CC_STUDIO_DLL extern cocos2d::ui::PageView*(*aPageView)();
+        CC_STUDIO_DLL extern cocos2d::ParticleSystemQuad*(*aParticleSystemQuad)(const std::string&);
+    };
+};
 
 #endif /* defined(__cocos2d_libs__NodeReaderProtocol__) */

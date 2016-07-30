@@ -18,12 +18,38 @@ struct CC_DLL ResourceData
         file = "";
         plist = "";
     }
+    ResourceData(const ResourceData& rv)
+    {
+        type = rv.type;
+        file = rv.file;
+        plist = rv.plist;
+    }
+    ResourceData(ResourceData&& rv)
+    {
+        type = rv.type;
+        file = std::move(rv.file);
+        plist = std::move(rv.plist);
+    }
 
     ResourceData(int iType, std::string sFile, std::string sPlist)
     {
         type = iType;
         file = sFile;
         plist = sPlist;
+    }
+    ResourceData& operator=(const ResourceData& rv)
+    {
+        type = rv.type;
+        file = rv.file;
+        plist = rv.plist;
+        return *this;
+    }
+    ResourceData& operator=(ResourceData&& rv)
+    {
+        type = rv.type;
+        file = std::move(rv.file);
+        plist = std::move(rv.plist);
+        return *this;
     }
 };
 

@@ -746,7 +746,11 @@ Frame* ActionTimelineCache::loadTextureFrameWithFlatBuffers(const flatbuffers::T
         case 0:
         {
             path = fileNameData->path()->c_str();
-            if (FileUtils::getInstance()->isFileExist(path))
+            if (!FileUtils::getInstance()->isFileExist(path))
+            {
+                path = "";
+            } // pitfall: x-studio365 spec, use fullPath will lead some asset managment solution not work  with ETC1 seperate ALPHA channel.
+            /*if (FileUtils::getInstance()->isFileExist(path))
             {
                 std::string fullPath = FileUtils::getInstance()->fullPathForFilename(path);
                 path = fullPath;
@@ -754,7 +758,7 @@ Frame* ActionTimelineCache::loadTextureFrameWithFlatBuffers(const flatbuffers::T
             else
             {
                 path = "";
-            }
+            }*/
             break;
         }
             
