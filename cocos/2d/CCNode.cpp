@@ -55,15 +55,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-bool nodeComparisonLess(Node* n1, Node* n2)
-{
-#if CC_64BITS
-    return (n1->_localZOrder < n2->_localZOrder);
-#else
-    return n1->_localZOrder < n2->_localZOrder || (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival);
-#endif
-}
-
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
 unsigned int Node::s_globalOrderOfArrival = 0;
 
@@ -91,10 +82,8 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
+, _localZOrderAndArrival(0)
 , _localZOrder(0)
-#if !CC_64BITS
-, _orderOfArrival(0)
-#endif
 , _globalZOrder(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
@@ -280,20 +269,13 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-#if CC_64BITS
-    _localZOrder = (static_cast<std::int64_t>(z) << 32) | (_localZOrder & 0xffffffff);
-#else
+    _localZOrderAndArrival = (static_cast<std::int64_t>(z) << 32) | (_localZOrderAndArrival & 0xffffffff);
     _localZOrder = z;
-#endif
 }
 
 void Node::updateOrderOfArrival()
 {
-#if CC_64BITS
-    _localZOrder = (_localZOrder & 0xffffffff00000000) | (s_globalOrderOfArrival++);
-#else
-    _orderOfArrival = s_globalOrderOfArrival++;
-#endif
+    _localZOrderAndArrival = (_localZOrderAndArrival & 0xffffffff00000000) | (++s_globalOrderOfArrival);
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -1172,7 +1154,7 @@ void Node::sortAllChildren()
 {
     if (_reorderChildDirty)
     {
-        std::sort(std::begin(_children), std::end(_children), nodeComparisonLess);
+        sortNodes(_children);
         _reorderChildDirty = false;
     }
 }
