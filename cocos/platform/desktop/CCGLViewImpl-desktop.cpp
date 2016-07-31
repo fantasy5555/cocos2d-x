@@ -949,6 +949,9 @@ void GLViewImpl::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int 
 {
     if (width && height && _resolutionPolicy != ResolutionPolicy::UNKNOWN)
     {
+#if 1
+        updateDesignResolutionSize();
+#else // cocos2d-x-3.13 lead x-studio365 with view size bug
         Size baseDesignSize = _designResolutionSize;
         ResolutionPolicy baseResolutionPolicy = _resolutionPolicy;
 
@@ -956,6 +959,7 @@ void GLViewImpl::onGLFWWindowSizeFunCallback(GLFWwindow *window, int width, int 
         int frameHeight = height / _frameZoomFactor;
         setFrameSize(frameWidth, frameHeight);
         setDesignResolutionSize(baseDesignSize.width, baseDesignSize.height, baseResolutionPolicy);
+#endif
         Director::getInstance()->setViewport();
     }
 }
