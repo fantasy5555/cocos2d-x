@@ -88,6 +88,8 @@ namespace cocos2d {
         class PageView;
     }
     namespace wext {
+        CC_STUDIO_DLL extern void(*onLoadSpriteFramesWithFile)(std::string& file);
+
         CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const flatbuffers::ResourceData* data);
         CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const std::string& path, int type = 0);
         CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(std::string&& path, int type = 0);

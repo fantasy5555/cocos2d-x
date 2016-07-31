@@ -59,11 +59,16 @@ static cocos2d::ParticleSystemQuad* aParticleSystemQuadDef(const std::string& pa
     return cocos2d::ParticleSystemQuad::create(path);
 }
 
+static void onLoadSpriteFramesWithFileDummy(std::string&)
+{
+
+}
+
 namespace cocos2d {
     namespace wext {
         void(*onBeforeLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/) = &onLoadObjectAssetDummy;
         void(*onAfterLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/) = &onLoadObjectAssetDummy;
-        
+        void(*onLoadSpriteFramesWithFile)(std::string& file) = nullptr;
         cocos2d::Node*(*aNode)();
         cocos2d::Sprite*(*aSprite)();
         cocos2d::ui::ImageView*(*aImageView)();
@@ -83,6 +88,7 @@ namespace cocos2d {
 
         void resetReaderAllHooks()
         {
+            onLoadSpriteFramesWithFile = onLoadSpriteFramesWithFileDummy;
             onBeforeLoadObjectAsset = onLoadObjectAssetDummy;
             onAfterLoadObjectAsset = onLoadObjectAssetDummy;
 

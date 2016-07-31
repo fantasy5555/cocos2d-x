@@ -453,7 +453,7 @@ namespace cocostudio
         std::string backGroundErrorFilePath = "";
         auto backGroundDic = cocos2d::wext::makeResourceData(options->backGroundBoxData());
         int backGroundType = backGroundDic.type;
-        std::string backGroundTexturePath = backGroundDic.file;
+        std::string& backGroundTexturePath = backGroundDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(checkBox, backGroundDic, 0);
         switch (backGroundType)
         {
@@ -513,7 +513,7 @@ namespace cocostudio
         std::string backGroundSelectedErrorFilePath = "";
         auto backGroundSelectedDic = cocos2d::wext::makeResourceData(options->backGroundBoxSelectedData());
         int backGroundSelectedType = backGroundSelectedDic.type;
-        std::string backGroundSelectedTexturePath = backGroundSelectedDic.file;
+        std::string& backGroundSelectedTexturePath = backGroundSelectedDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(checkBox, backGroundSelectedDic, 1);
         switch (backGroundSelectedType)
         {
@@ -573,7 +573,7 @@ namespace cocostudio
         std::string frontCrossErrorFilePath = "";
         auto frontCrossDic = cocos2d::wext::makeResourceData(options->frontCrossData());
         int frontCrossType = frontCrossDic.type;
-        std::string frontCrossFileName = frontCrossDic.file;
+        std::string& frontCrossFileName = frontCrossDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(checkBox, frontCrossDic, 2);
         switch (frontCrossType)
         {
@@ -633,7 +633,7 @@ namespace cocostudio
         std::string backGroundBoxDisabledErrorFilePath = "";
         auto backGroundDisabledDic = cocos2d::wext::makeResourceData(options->backGroundBoxDisabledData());
         int backGroundDisabledType = backGroundDisabledDic.type;
-        std::string backGroundDisabledFileName = backGroundDisabledDic.file;
+        std::string& backGroundDisabledFileName = backGroundDisabledDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(checkBox, backGroundDisabledDic, 3);
         switch (backGroundDisabledType)
         {
@@ -693,7 +693,7 @@ namespace cocostudio
         std::string frontCrossDisabledErrorFilePath = "";
         auto frontCrossDisabledDic = cocos2d::wext::makeResourceData(options->frontCrossDisabledData());
         int frontCrossDisabledType = frontCrossDisabledDic.type;
-        std::string frontCrossDisabledFileName = frontCrossDisabledDic.file;
+        std::string& frontCrossDisabledFileName = frontCrossDisabledDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(checkBox, frontCrossDisabledDic, 4);
         switch (frontCrossDisabledType)
         {

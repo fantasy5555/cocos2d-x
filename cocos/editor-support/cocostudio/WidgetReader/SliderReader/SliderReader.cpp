@@ -481,7 +481,7 @@ namespace cocostudio
         std::string imageErrorFilePath = "";
         auto imageFileNameDic = cocos2d::wext::makeResourceData(options->barFileNameData());
         int imageFileNameType = imageFileNameDic.type;
-        std::string imageFileName = imageFileNameDic.file;
+        std::string& imageFileName = imageFileNameDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(slider, imageFileNameDic, 0);
         switch (imageFileNameType)
         {
@@ -547,7 +547,7 @@ namespace cocostudio
         std::string normalErrorFilePath = "";
         auto normalDic = cocos2d::wext::makeResourceData(options->ballNormalData());
         int normalType = normalDic.type;
-        std::string normalFileName = normalDic.file;
+        std::string& normalFileName = normalDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(slider, normalDic, 1);
         switch (normalType)
         {
@@ -613,7 +613,7 @@ namespace cocostudio
         std::string pressedErrorFilePath = "";
         auto pressedDic = cocos2d::wext::makeResourceData(options->ballPressedData());
         int pressedType = pressedDic.type;
-        std::string pressedFileName = pressedDic.file;
+        std::string& pressedFileName = pressedDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(slider, pressedDic, 2);
         switch (pressedType)
         {
@@ -679,7 +679,7 @@ namespace cocostudio
         std::string disabledErrorFilePath = "";
         auto disabledDic = cocos2d::wext::makeResourceData(options->ballDisabledData());
         int disabledType = disabledDic.type;
-        std::string disabledFileName = disabledDic.file;
+        std::string& disabledFileName = disabledDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(slider, disabledDic, 3);
         switch (disabledType)
         {
@@ -745,7 +745,7 @@ namespace cocostudio
         std::string progressErrorFilePath = "";
         auto progressBarDic = cocos2d::wext::makeResourceData(options->progressBarData());
         int progressBarType = progressBarDic.type;
-        std::string progressBarFileName = progressBarDic.file;
+        std::string& progressBarFileName = progressBarDic.file;
         cocos2d::wext::onBeforeLoadObjectAsset(slider, progressBarDic, 4);
         switch (progressBarType)
         {

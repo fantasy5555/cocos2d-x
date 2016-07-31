@@ -898,7 +898,9 @@ Node * CSLoader::createNode(const Data& data, const ccNodeLoadCallback &callback
         CCLOG("textureSize = %d", textureSize);
         for (int i = 0; i < textureSize; ++i)
         {
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile(textures->Get(i)->c_str());
+            std::string plist = textures->Get(i)->c_str();
+            wext::onLoadSpriteFramesWithFile(plist);
+            SpriteFrameCache::getInstance()->addSpriteFramesWithFile(plist);
         }
 
         node = loader->nodeWithFlatBuffers(csparsebinary->nodeTree(), callback);
@@ -988,7 +990,9 @@ Node* CSLoader::nodeWithFlatBuffersFile(const std::string &fileName, const ccNod
     int textureSize = textures->size();
     for (int i = 0; i < textureSize; ++i)
     {
-        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(textures->Get(i)->c_str());
+        std::string plist = textures->Get(i)->c_str();
+        wext::onLoadSpriteFramesWithFile(plist);
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(plist);
     }
     
     Node* node = nodeWithFlatBuffers(csparsebinary->nodeTree(), callback);
