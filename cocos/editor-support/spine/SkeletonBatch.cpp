@@ -81,7 +81,7 @@ void SkeletonBatch::update (float delta) {
 	_command = _firstCommand;
 }
 
-void SkeletonBatch::addCommand (cocos2d::Renderer* renderer, float globalZOrder, GLuint textureID, GLProgramState* glProgramState,
+void SkeletonBatch::addCommand (cocos2d::Renderer* renderer, float globalZOrder, cocos2d::Texture2D* texture, GLProgramState* glProgramState,
 	BlendFunc blendFunc, const TrianglesCommand::Triangles& triangles, const Mat4& transform, uint32_t transformFlags
 ) {
 	if (_position + triangles.vertCount > _capacity) {
@@ -110,7 +110,7 @@ void SkeletonBatch::addCommand (cocos2d::Renderer* renderer, float globalZOrder,
 	_command->triangles->indexCount = triangles.indexCount;
 	_command->triangles->indices = triangles.indices;
 
-	_command->trianglesCommand->init(globalZOrder, textureID, glProgramState, blendFunc, *_command->triangles, transform, transformFlags);
+	_command->trianglesCommand->init(globalZOrder, texture, glProgramState, blendFunc, *_command->triangles, transform, transformFlags);
 	renderer->addCommand(_command->trianglesCommand);
 
 	if (!_command->next) _command->next = new Command();

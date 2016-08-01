@@ -66,8 +66,6 @@ void SkeletonRenderer::initialize () {
 	_blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 	setOpacityModifyRGB(true);
 
-	// setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP));
-
     Texture2D *texture = nullptr;
     for (int i = 0, n = _skeleton->slotsCount; i < n; i++) {
         spSlot* slot = _skeleton->drawOrder[i];
@@ -83,12 +81,12 @@ void SkeletonRenderer::initialize () {
             texture = static_cast<AttachmentVertices*>(attachment->rendererObject)->_texture;
             break;
         }
-        default:;
+        default:
+            continue;
         }
-        break;
+        
+        _glProgramStates.push_back(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture));
     }
-
-    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture));
 }
 
 void SkeletonRenderer::setSkeletonData (spSkeletonData *skeletonData, bool ownsSkeletonData) {
@@ -169,7 +167,7 @@ void SkeletonRenderer::update (float deltaTime) {
 void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t transformFlags) {
 	SkeletonBatch* batch = SkeletonBatch::getInstance();
 
-	Color3B nodeColor = getColor();
+	Color3B nodeColor = getDisplayedColor();
 	_skeleton->r = nodeColor.r / (float)255;
 	_skeleton->g = nodeColor.g / (float)255;
 	_skeleton->b = nodeColor.b / (float)255;
@@ -177,7 +175,8 @@ void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t
 
 	Color4B color;
 	AttachmentVertices* attachmentVertices = nullptr;
-	for (int i = 0, n = _skeleton->slotsCount; i < n; ++i) {
+
+	for (int i = 0, k = 0, n = _skeleton->slotsCount; i < n; ++i) {
 		spSlot* slot = _skeleton->drawOrder[i];
 		if (!slot->attachment) continue;
 
@@ -238,7 +237,7 @@ void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t
 			blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
 		}
 
-		batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture->getName(), _glProgramState, blendFunc,
+		batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _glProgramStates[k++], blendFunc,
 			*attachmentVertices->_triangles, transform, transformFlags);
 	}
 
