@@ -94,7 +94,7 @@ Node::Node()
 // children (lazy allocs)
 // lazy alloc
 , _localZOrder(0)
-#if defined(_WIN32)
+#if !CC_64BITS && defined(_WIN32)
 , _orderOfArrival(0)
 #endif
 , _globalZOrder(0)
