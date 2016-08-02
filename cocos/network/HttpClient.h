@@ -197,7 +197,7 @@ private:
 
     HttpCookie* _cookie;
 
-    std::condition_variable_any _sleepCondition;
+    std::condition_variable _sleepCondition; // Visual Studio 2015 Update3 original std::condition_variable_any has a stupid compatiable issues.
 
     char _responseMessage[RESPONSE_BUFFER_SIZE];
 
