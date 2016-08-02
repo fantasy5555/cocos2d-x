@@ -1347,6 +1347,8 @@ bool Image::initWithBmpData(const unsigned char *data, ssize_t dataLen)
             }
         }
     }
+
+    return true;
 #endif
 }
 
