@@ -35,6 +35,15 @@
 #include <time.h>
 #include <fcntl.h>
 
+// XP compatible
+#include <purelib/xxsocket.h>
+#ifdef _DEBUG
+#pragma comment(lib, "purelib32_d.lib")
+#else
+#pragma comment(lib, "purelib32.lib")
+#endif
+using namespace purelib::inet;
+
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #include <io.h>
 #include <WS2tcpip.h>
@@ -431,7 +440,7 @@ bool Console::listenOnTCP(int port)
 #endif
 
     if ( (n = getaddrinfo(nullptr, serv, &hints, &res)) != 0) {
-        fprintf(stderr,"net_listen error for %s: %s", serv, gai_strerror(n));
+        fprintf(stderr,"net_listen error for %s: %s", serv, gai_strerrorA(n));
         return false;
     }
 
@@ -450,12 +459,12 @@ bool Console::listenOnTCP(int port)
             if (res->ai_family == AF_INET)
             {
                 struct sockaddr_in *sin = (struct sockaddr_in*) res->ai_addr;
-                inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin_addr);
+                ip::compat::inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin_addr);
             }
             else if (res->ai_family == AF_INET6)
             {
                 struct sockaddr_in6 *sin = (struct sockaddr_in6*) res->ai_addr;
-                inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin6_addr);
+                ip::compat::inet_pton(res->ai_family, _bindAddress.c_str(), (void*)&sin->sin6_addr);
             }
         }
 
@@ -481,14 +490,14 @@ bool Console::listenOnTCP(int port)
     if (res->ai_family == AF_INET) {
         char buf[INET_ADDRSTRLEN] = "";
         struct sockaddr_in *sin = (struct sockaddr_in*) res->ai_addr;
-        if( inet_ntop(res->ai_family, &sin->sin_addr, buf, sizeof(buf)) != nullptr )
+        if( ip::compat::inet_ntop(res->ai_family, &sin->sin_addr, buf, sizeof(buf)) != nullptr )
             cocos2d::log("Console: listening on  %s : %d", buf, ntohs(sin->sin_port));
         else
             perror("inet_ntop");
     } else if (res->ai_family == AF_INET6) {
         char buf[INET6_ADDRSTRLEN] = "";
         struct sockaddr_in6 *sin = (struct sockaddr_in6*) res->ai_addr;
-        if( inet_ntop(res->ai_family, &sin->sin6_addr, buf, sizeof(buf)) != nullptr )
+        if(ip::compat::inet_ntop(res->ai_family, &sin->sin6_addr, buf, sizeof(buf)) != nullptr )
             cocos2d::log("Console: listening on  %s : %d", buf, ntohs(sin->sin6_port));
         else
             perror("inet_ntop");
