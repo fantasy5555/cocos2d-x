@@ -62,20 +62,24 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
 #if 1
 inline std::string _transcode$IL(const std::wstring& wcb, UINT cp = CP_ACP)
 {
+    if (wcb.empty())
+        return "";
     int buffersize = WideCharToMultiByte(cp, 0, wcb.c_str(), -1, NULL, 0, NULL, NULL);
     std::string buffer(buffersize, '\0');
     WideCharToMultiByte(cp, 0, wcb.c_str(), -1, &buffer.front(), buffersize, NULL, NULL);
     buffer.resize(buffersize - 1);
-    return  std::move(buffer);
+    return  buffer;
 }
 
 inline std::wstring _transcode$IL(const std::string& mcb, UINT cp = CP_ACP)
 {
+    if (mcb.empty())
+        return L"";
     int buffersize = MultiByteToWideChar(cp, 0, mcb.c_str(), -1, NULL, 0);
     std::wstring buffer(buffersize, '\0');
     MultiByteToWideChar(cp, 0, mcb.c_str(), -1, &buffer.front(), buffersize);
     buffer.resize(buffersize - 1);
-    return std::move(buffer);
+    return buffer;
 }
 #endif
 static void _checkPath()
@@ -124,7 +128,7 @@ bool FileUtilsWin32::init()
 
 bool FileUtilsWin32::isDirectoryExistInternal(const std::string& dirPath) const
 {
-    unsigned long fAttrib = GetFileAttributes(StringUtf8ToWideChar(dirPath).c_str());
+    unsigned long fAttrib = GetFileAttributes(_transcode$IL(dirPath).c_str());
     if (fAttrib != INVALID_FILE_ATTRIBUTES &&
         (fAttrib & FILE_ATTRIBUTE_DIRECTORY))
     {
@@ -141,7 +145,7 @@ std::string FileUtilsWin32::getSuitableFOpen(const std::string& filenameUtf8) co
 long FileUtilsWin32::getFileSize(const std::string &filepath)
 {
     WIN32_FILE_ATTRIBUTE_DATA fad;
-    if (!GetFileAttributesEx(StringUtf8ToWideChar(filepath).c_str(), GetFileExInfoStandard, &fad))
+    if (!GetFileAttributesEx(_transcode$IL(filepath).c_str(), GetFileExInfoStandard, &fad))
     {
         return 0; // error condition, could call GetLastError to find out more
     }
@@ -164,7 +168,7 @@ bool FileUtilsWin32::isFileExistInternal(const std::string& strFilePath) const
         strPath.insert(0, _defaultResRootPath);
     }
 
-    DWORD attr = GetFileAttributesW(StringUtf8ToWideChar(strPath).c_str());
+    DWORD attr = GetFileAttributesW(_transcode$IL(strPath).c_str());
     if(attr == INVALID_FILE_ATTRIBUTES || (attr & FILE_ATTRIBUTE_DIRECTORY))
         return false;   //  not a file
     return true;
@@ -235,7 +239,7 @@ FileUtils::Status FileUtilsWin32::getContents(const std::string& filename, Resiz
     // read the file from hardware
     std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filename);
 
-    HANDLE fileHandle = ::CreateFile(StringUtf8ToWideChar(fullPath).c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, nullptr);
+    HANDLE fileHandle = ::CreateFile(_transcode$IL(fullPath).c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, nullptr);
     if (fileHandle == INVALID_HANDLE_VALUE)
         return FileUtils::Status::OpenFailed;
 
@@ -341,8 +345,8 @@ bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::strin
     CCASSERT(!oldfullpath.empty(), "Invalid path");
     CCASSERT(!newfullpath.empty(), "Invalid path");
 
-    std::wstring _wNew = StringUtf8ToWideChar(newfullpath);
-    std::wstring _wOld = StringUtf8ToWideChar(oldfullpath);
+    std::wstring _wNew = _transcode$IL(newfullpath);
+    std::wstring _wOld = _transcode$IL(oldfullpath);
 
     if (FileUtils::getInstance()->isFileExist(newfullpath))
     {
@@ -383,7 +387,7 @@ bool FileUtilsWin32::createDirectory(const std::string& dirPath)
     if (isDirectoryExist(dirPath))
         return true;
 
-    std::wstring path = StringUtf8ToWideChar(dirPath);
+    std::wstring path = _transcode$IL(dirPath);
 
     // Split the path
     size_t start = 0;
@@ -438,7 +442,7 @@ bool FileUtilsWin32::removeFile(const std::string &filepath)
     std::regex pat("\\/");
     std::string win32path = std::regex_replace(filepath, pat, "\\");
 
-    if (DeleteFile(StringUtf8ToWideChar(win32path).c_str()))
+    if (DeleteFile(_transcode$IL(win32path).c_str()))
     {
         return true;
     }
@@ -451,7 +455,7 @@ bool FileUtilsWin32::removeFile(const std::string &filepath)
 
 bool FileUtilsWin32::removeDirectory(const std::string& dirPath)
 {
-    std::wstring wpath = StringUtf8ToWideChar(dirPath);
+    std::wstring wpath = _transcode$IL(dirPath);
     std::wstring files = wpath + L"*.*";
     WIN32_FIND_DATA wfd;
     HANDLE  search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
