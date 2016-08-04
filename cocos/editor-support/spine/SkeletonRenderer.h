@@ -99,6 +99,9 @@ public:
     virtual void setOpacityModifyRGB (bool value) override;
     virtual bool isOpacityModifyRGB () const override;
 
+    // ---- ETC1 Alpha builtin support
+    void updateGLProgramState();
+
 CC_CONSTRUCTOR_ACCESS:
 	SkeletonRenderer ();
 	SkeletonRenderer (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
@@ -112,6 +115,8 @@ CC_CONSTRUCTOR_ACCESS:
 	void initWithFile (const std::string& skeletonDataFile, const std::string& atlasFile, float scale = 1);
 
 	void initialize ();
+
+
 
 protected:
 	void setSkeletonData (spSkeletonData* skeletonData, bool ownsSkeletonData);
@@ -129,8 +134,6 @@ protected:
 	float _timeScale;
 	bool _debugSlots;
 	bool _debugBones;
-
-    std::vector<cocos2d::GLProgramState*> _glProgramStates;
 };
 
 }

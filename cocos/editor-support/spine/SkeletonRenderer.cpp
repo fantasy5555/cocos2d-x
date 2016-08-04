@@ -64,8 +64,13 @@ void SkeletonRenderer::initialize () {
 	_worldVertices = new float[1000]; // Max number of vertices per mesh.
 
 	_blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
-	setOpacityModifyRGB(true);
+	setOpacityModifyRGB(true);  
 
+    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP));
+}
+
+void SkeletonRenderer::updateGLProgramState()
+{
     Texture2D *texture = nullptr;
     for (int i = 0, n = _skeleton->slotsCount; i < n; i++) {
         spSlot* slot = _skeleton->drawOrder[i];
@@ -84,9 +89,13 @@ void SkeletonRenderer::initialize () {
         default:
             continue;
         }
-        
-        _glProgramStates.push_back(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture));
+
+        if (texture != nullptr) {
+            break;
+        }
     }
+
+    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture));
 }
 
 void SkeletonRenderer::setSkeletonData (spSkeletonData *skeletonData, bool ownsSkeletonData) {
@@ -237,7 +246,7 @@ void SkeletonRenderer::draw (Renderer* renderer, const Mat4& transform, uint32_t
 			blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
 		}
 
-		batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _glProgramStates[k++], blendFunc,
+		batch->addCommand(renderer, _globalZOrder, attachmentVertices->_texture, _glProgramState, blendFunc,
 			*attachmentVertices->_triangles, transform, transformFlags);
 	}
 
