@@ -35,7 +35,7 @@
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
-#define PCMDATA_CACHEMAXSIZE (2621440 << 2) // 10M
+#define PCMDATA_CACHEMAXSIZE (2621440) // 5M
 
 using namespace cocos2d::experimental;
 
