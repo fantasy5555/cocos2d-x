@@ -304,6 +304,9 @@ namespace cocostudio
         Color4B shadowColor = Color4B::BLACK;
         Size shadowOffset = Size(2, -2);
         int shadowBlurRadius = 0;
+
+		bool glowEnabled = false;
+		Color4B glowColor = Color4B::BLACK;
         
         // attributes
         const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
@@ -379,6 +382,9 @@ namespace cocostudio
             {
                 shadowBlurRadius = atoi(value.c_str());
             }
+			else if (name == "GlowEnabled") {
+				glowEnabled = (value == "True") ? true : false;
+			}
             
             attribute = attribute->Next();
         }
@@ -622,6 +628,34 @@ namespace cocostudio
                     attribute = attribute->Next();
                 }
             }
+			else if (name == "GlowColor") {
+				attribute = child->FirstAttribute();
+
+				while (attribute)
+				{
+					name = attribute->Name();
+					std::string value = attribute->Value();
+
+					if (name == "A")
+					{
+						glowColor.a = atoi(value.c_str());
+					}
+					else if (name == "R")
+					{
+						glowColor.r = atoi(value.c_str());
+					}
+					else if (name == "G")
+					{
+						glowColor.g = atoi(value.c_str());
+					}
+					else if (name == "B")
+					{
+						glowColor.b = atoi(value.c_str());
+					}
+
+					attribute = attribute->Next();
+				}
+			}
             
             child = child->NextSiblingElement();
         }
@@ -631,6 +665,7 @@ namespace cocostudio
         FlatSize f_scale9Size(scale9Size.width, scale9Size.height);
         flatbuffers::Color f_outlineColor(outlineColor.a, outlineColor.r, outlineColor.g, outlineColor.b);
         flatbuffers::Color f_shadowColor(shadowColor.a, shadowColor.r, shadowColor.g, shadowColor.b);
+		flatbuffers::Color f_glowColor(glowColor.a, glowColor.r, glowColor.g, glowColor.b);
         
         auto options = CreateButtonOptions(*builder,
                                            widgetOptions,
@@ -666,6 +701,8 @@ namespace cocostudio
                                            shadowOffset.width,
                                            shadowOffset.height,
                                            shadowBlurRadius,
+			                               glowEnabled,
+		                                   &f_glowColor,
                                            isLocalized);
         
         return *(Offset<Table>*)(&options);
@@ -926,6 +963,16 @@ namespace cocostudio
                 label->enableShadow(shadowColor, Size(options->shadowOffsetX(), options->shadowOffsetY()), options->shadowBlurRadius());
             }
         }
+
+		if (options->glowEnabled() != 0) {
+			auto f_glowColor = options->glowColor();
+			if (f_glowColor)
+			{
+				Color4B glowColor(f_glowColor->r(), f_glowColor->g(), f_glowColor->b(), f_glowColor->a());
+				auto label = button->getTitleRenderer();
+				label->enableGlow(glowColor);
+			}
+		}
         
         auto widgetReader = WidgetReader::getInstance();
         widgetReader->setPropsWithFlatBuffers(node, (Table*)options->widgetOptions());

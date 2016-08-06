@@ -359,13 +359,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\..\external\edtaa3func\edtaa3func.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\flatc.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_gen_cpp.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_gen_fbs.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_gen_general.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_gen_go.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_gen_text.cpp" />
-    <ClCompile Include="..\..\external\flatbuffers\idl_parser.cpp" />
     <ClCompile Include="..\..\external\poly2tri\common\shapes.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\advancing_front.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\cdt.cc" />
