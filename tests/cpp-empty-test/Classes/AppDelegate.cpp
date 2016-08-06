@@ -40,7 +40,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     director->setOpenGLView(glview);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    glview->setDesignResolutionSize(960, 640, ResolutionPolicy::NO_BORDER);
 
 	Size frameSize = glview->getFrameSize();
     
@@ -51,6 +51,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     // We use the ratio of resource's height to the height of design resolution,
     // this can make sure that the resource's height could fit for the height of design resolution.
 
+#if 0
     // if the frame's height is larger than the height of medium resource size, select large resource.
 	if (frameSize.height > mediumResource.size.height)
 	{
@@ -72,7 +73,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
         director->setContentScaleFactor(MIN(smallResource.size.height/designResolutionSize.height, smallResource.size.width/designResolutionSize.width));
     }
-    
+#endif
+
     // set searching path
     FileUtils::getInstance()->setSearchPaths(searchPath);
 
