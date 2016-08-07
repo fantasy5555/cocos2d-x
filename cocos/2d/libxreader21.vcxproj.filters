@@ -1,0 +1,699 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="reader21">
+      <UniqueIdentifier>{dbdbbfad-71fc-4f1d-a809-b43651f87267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\TimelineAction">
+      <UniqueIdentifier>{c75d4c37-d555-4a5b-a0ba-4bc9a3d846e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader">
+      <UniqueIdentifier>{67bdb22e-8cfc-41ed-bb07-861e88a31752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader">
+      <UniqueIdentifier>{284a709e-9efa-484a-a595-83db6c7836c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ButtonReader">
+      <UniqueIdentifier>{3c7267f2-06ea-4c7c-a13c-552076a3dc8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\CheckBoxReader">
+      <UniqueIdentifier>{b47c2297-bf5e-43e6-ae70-741efee00689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ImageViewReader">
+      <UniqueIdentifier>{1b5e8a9e-87cf-4800-bb7b-4f63504fb132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\LayoutReader">
+      <UniqueIdentifier>{d47fb3dd-9ab8-4559-b8b5-776d87aba319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ListViewReader">
+      <UniqueIdentifier>{65c0429b-5a85-46ac-ab4a-edb0aeb5d388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\LoadingBarReader">
+      <UniqueIdentifier>{8bdf34ea-1e66-41b0-9dbf-7530ba14dce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\PageViewReader">
+      <UniqueIdentifier>{690fb572-be0b-4bb6-9b8b-a007afb99b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ScrollViewReader">
+      <UniqueIdentifier>{5e397fa9-4e36-43f3-8c4f-1dd3382c1458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\SliderReader">
+      <UniqueIdentifier>{fa2abcd0-6362-4741-a144-a3b0226fe4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\TextAtlasReader">
+      <UniqueIdentifier>{03596848-0d59-4d69-8193-30f404683c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\TextBMFontReader">
+      <UniqueIdentifier>{4d27423a-d9e8-496b-bcc4-8684230c6c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\TextFieldReader">
+      <UniqueIdentifier>{075b4cf0-63ae-4cb1-a6d8-e7cb24146531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\TextReader">
+      <UniqueIdentifier>{9421ece2-69f8-4cee-8e59-575c3ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\Node3DReader">
+      <UniqueIdentifier>{9421ece2-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\UserCameraReader">
+      <UniqueIdentifier>{9421e104-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\Particle3DReader">
+      <UniqueIdentifier>{9421e104-1028-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\Sprite3DReader">
+      <UniqueIdentifier>{94210432-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\json">
+      <UniqueIdentifier>{a9901b6a-0c7b-4adb-8e17-105c872d744d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\json\rapidjson">
+      <UniqueIdentifier>{a9a3bf20-9daf-465d-9525-cce2ab0d85a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\json\rapidjson\internal">
+      <UniqueIdentifier>{0cf2210c-3544-41ed-9d4e-88987a1c7bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\components">
+      <UniqueIdentifier>{dc6e53e4-e518-403f-b2a9-97f6f7cd0961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature">
+      <UniqueIdentifier>{22a4587f-d4ca-44fa-a734-ded122cd79e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature\animation">
+      <UniqueIdentifier>{137efcbb-0d14-4f1c-a856-7b1669a6d2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature\datas">
+      <UniqueIdentifier>{4825cd2d-ca8b-434c-8c79-2d3d3258086f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature\display">
+      <UniqueIdentifier>{57ba2fcb-04bd-4b2f-9ae6-375992ad363a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature\physics">
+      <UniqueIdentifier>{acdfaa6f-1374-4611-a5e7-9038dc6900c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\armature\utils">
+      <UniqueIdentifier>{f195e2f1-1030-4848-9498-f8142bf89009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\action">
+      <UniqueIdentifier>{d48c8016-e933-48dd-a5c0-202b0a84b82a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\TimelineAction\trigger">
+      <UniqueIdentifier>{0554a5b1-03a1-4d38-87a5-976dbe9a39d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\json\flatbuffers">
+      <UniqueIdentifier>{db915acb-1838-413d-b290-dc280365eabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ComAudioReader">
+      <UniqueIdentifier>{b71e98df-9863-4ee5-9818-04fad2ef8da1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\GameMapReader">
+      <UniqueIdentifier>{78a3fbcc-4233-47f0-9b53-5a445dad9400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\NodeReader">
+      <UniqueIdentifier>{737cc376-2a40-4203-8280-842362c5db49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ParticleReader">
+      <UniqueIdentifier>{7604b98b-40ff-440f-8335-7729e1fa310c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ProjectNodeReader">
+      <UniqueIdentifier>{da363675-4650-4c12-892e-d5755a8b608f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\SingleNodeReader">
+      <UniqueIdentifier>{39a43e29-dd58-47a3-9906-bf714b185f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\SpriteReader">
+      <UniqueIdentifier>{9aee531c-f935-4836-bf84-be42e78e38bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\ArmatureNodeReader">
+      <UniqueIdentifier>{e1848cce-b225-42c4-bb6e-6430b6da123b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\SkeletonReader">
+      <UniqueIdentifier>{8405cf93-e86c-4ec1-8b16-01058f542b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\TimelineAction\Skeleton">
+      <UniqueIdentifier>{ca5e1475-3bfd-4aae-ad54-2e19d5021b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader21\reader\WidgetReader\TabControlReader">
+      <UniqueIdentifier>{8686c220-18af-4bea-abce-f4797afd01f1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\editor-support\reader21\TriggerBase.cpp">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\TriggerMng.cpp">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\TriggerObj.cpp">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCActionTimeline.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCFrame.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCActionTimelineCache.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCTimeLine.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCSGUIReader.cpp">
+      <Filter>reader21\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCSSceneReader.cpp">
+      <Filter>reader21\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\WidgetReader.cpp">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ButtonReader\ButtonReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ButtonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\CheckBoxReader\CheckBoxReader.cpp">
+      <Filter>reader21\reader\WidgetReader\CheckBoxReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ImageViewReader\ImageViewReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ImageViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\LayoutReader\LayoutReader.cpp">
+      <Filter>reader21\reader\WidgetReader\LayoutReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ListViewReader\ListViewReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ListViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\LoadingBarReader\LoadingBarReader.cpp">
+      <Filter>reader21\reader\WidgetReader\LoadingBarReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\PageViewReader\PageViewReader.cpp">
+      <Filter>reader21\reader\WidgetReader\PageViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ScrollViewReader\ScrollViewReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ScrollViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\SliderReader\SliderReader.cpp">
+      <Filter>reader21\reader\WidgetReader\SliderReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\TextAtlasReader\TextAtlasReader.cpp">
+      <Filter>reader21\reader\WidgetReader\TextAtlasReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\TextBMFontReader\TextBMFontReader.cpp">
+      <Filter>reader21\reader\WidgetReader\TextBMFontReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\TextFieldReader\TextFieldReader.cpp">
+      <Filter>reader21\reader\WidgetReader\TextFieldReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\TextReader\TextReader.cpp">
+      <Filter>reader21\reader\WidgetReader\TextReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\Node3DReader\Node3DReader.cpp">
+      <Filter>reader21\reader\WidgetReader\Node3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\Sprite3DReader\Sprite3DReader.cpp">
+      <Filter>reader21\reader\WidgetReader\Sprite3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\UserCameraReader\UserCameraReader.cpp">
+      <Filter>reader21\reader\WidgetReader\UserCameraReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\Particle3DReader\Particle3DReader.cpp">
+      <Filter>reader21\reader\WidgetReader\Particle3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CocoLoader.cpp">
+      <Filter>reader21\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\DictionaryHelper.cpp">
+      <Filter>reader21\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCComAttribute.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCComAudio.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCComController.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCComRender.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCInputDelegate.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCArmature.cpp">
+      <Filter>reader21\armature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCBone.cpp">
+      <Filter>reader21\armature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCArmatureAnimation.cpp">
+      <Filter>reader21\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCProcessBase.cpp">
+      <Filter>reader21\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCTween.cpp">
+      <Filter>reader21\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCDatas.cpp">
+      <Filter>reader21\armature\datas</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCBatchNode.cpp">
+      <Filter>reader21\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCDecorativeDisplay.cpp">
+      <Filter>reader21\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCDisplayFactory.cpp">
+      <Filter>reader21\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCDisplayManager.cpp">
+      <Filter>reader21\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCSkin.cpp">
+      <Filter>reader21\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCColliderDetector.cpp">
+      <Filter>reader21\armature\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCArmatureDataManager.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCArmatureDefine.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCDataReaderHelper.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCSpriteFrameCacheHelper.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCTransformHelp.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCUtilMath.cpp">
+      <Filter>reader21\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCActionFrame.cpp">
+      <Filter>reader21\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCActionFrameEasing.cpp">
+      <Filter>reader21\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCActionManagerEx.cpp">
+      <Filter>reader21\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCActionNode.cpp">
+      <Filter>reader21\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCActionObject.cpp">
+      <Filter>reader21\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CSLoader.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\FlatBuffersSerialize.cpp">
+      <Filter>reader21\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ComAudioReader\ComAudioReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ComAudioReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\GameMapReader\GameMapReader.cpp">
+      <Filter>reader21\reader\WidgetReader\GameMapReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\NodeReader\NodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\NodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ParticleReader\ParticleReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ParticleReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ProjectNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\SingleNodeReader\SingleNodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\SingleNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\SpriteReader\SpriteReader.cpp">
+      <Filter>reader21\reader\WidgetReader\SpriteReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetCallBackHandlerProtocol.cpp">
+      <Filter>reader21\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCActionTimelineNode.cpp">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\SkeletonReader\BoneNodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\SkeletonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\SkeletonReader\SkeletonNodeReader.cpp">
+      <Filter>reader21\reader\WidgetReader\SkeletonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCBoneNode.cpp">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCSkeletonNode.cpp">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\ActionTimeline\CCSkinNode.cpp">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CCComExtensionData.cpp">
+      <Filter>reader21\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\TabControlReader\TabControlReader.cpp">
+      <Filter>reader21\reader\WidgetReader\TabControlReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\LocalizationManager.cpp">
+      <Filter>reader21\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\GameNode3DReader\GameNode3DReader.cpp">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\WidgetReader\Light3DReader\Light3DReader.cpp">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader21\CocoStudio.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\editor-support\reader21\CocosStudioExport.h">
+      <Filter>reader21</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\TriggerBase.h">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\TriggerMng.h">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\TriggerObj.h">
+      <Filter>reader21\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCActionTimeline.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCFrame.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCActionTimelineCache.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCTimeLine.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCTimelineMacro.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCSGUIReader.h">
+      <Filter>reader21\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCSSceneReader.h">
+      <Filter>reader21\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\WidgetReader.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\WidgetReaderProtocol.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ButtonReader\ButtonReader.h">
+      <Filter>reader21\reader\WidgetReader\ButtonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\CheckBoxReader\CheckBoxReader.h">
+      <Filter>reader21\reader\WidgetReader\CheckBoxReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ImageViewReader\ImageViewReader.h">
+      <Filter>reader21\reader\WidgetReader\ImageViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\LayoutReader\LayoutReader.h">
+      <Filter>reader21\reader\WidgetReader\LayoutReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ListViewReader\ListViewReader.h">
+      <Filter>reader21\reader\WidgetReader\ListViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\LoadingBarReader\LoadingBarReader.h">
+      <Filter>reader21\reader\WidgetReader\LoadingBarReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\PageViewReader\PageViewReader.h">
+      <Filter>reader21\reader\WidgetReader\PageViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ScrollViewReader\ScrollViewReader.h">
+      <Filter>reader21\reader\WidgetReader\ScrollViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SliderReader\SliderReader.h">
+      <Filter>reader21\reader\WidgetReader\SliderReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TextAtlasReader\TextAtlasReader.h">
+      <Filter>reader21\reader\WidgetReader\TextAtlasReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TextBMFontReader\TextBMFontReader.h">
+      <Filter>reader21\reader\WidgetReader\TextBMFontReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TextFieldReader\TextFieldReader.h">
+      <Filter>reader21\reader\WidgetReader\TextFieldReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TextReader\TextReader.h">
+      <Filter>reader21\reader\WidgetReader\TextReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\Node3DReader\Node3DReader.h">
+      <Filter>reader21\reader\WidgetReader\Node3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\UserCameraReader\UserCameraReader.h">
+      <Filter>reader21\reader\WidgetReader\UserCameraReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\Particle3DReader\Particle3DReader.h">
+      <Filter>reader21\reader\WidgetReader\Particle3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\Sprite3DReader\Sprite3DReader.h">
+      <Filter>reader21\reader\WidgetReader\Sprite3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CocoLoader.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\DictionaryHelper.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\document.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\filestream.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\prettywriter.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\rapidjson.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\reader.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\stringbuffer.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\writer.h">
+      <Filter>reader21\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\pow10.h">
+      <Filter>reader21\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\stack.h">
+      <Filter>reader21\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\strfunc.h">
+      <Filter>reader21\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComAttribute.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComAudio.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComBase.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComController.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComRender.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCInputDelegate.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCArmature.h">
+      <Filter>reader21\armature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCBone.h">
+      <Filter>reader21\armature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCArmatureAnimation.h">
+      <Filter>reader21\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCProcessBase.h">
+      <Filter>reader21\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCTween.h">
+      <Filter>reader21\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCDatas.h">
+      <Filter>reader21\armature\datas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCBatchNode.h">
+      <Filter>reader21\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCDecorativeDisplay.h">
+      <Filter>reader21\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCDisplayFactory.h">
+      <Filter>reader21\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCDisplayManager.h">
+      <Filter>reader21\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCSkin.h">
+      <Filter>reader21\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCColliderDetector.h">
+      <Filter>reader21\armature\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCArmatureDataManager.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCArmatureDefine.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCDataReaderHelper.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCSpriteFrameCacheHelper.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCTransformHelp.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCUtilMath.h">
+      <Filter>reader21\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCActionFrame.h">
+      <Filter>reader21\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCActionFrameEasing.h">
+      <Filter>reader21\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCActionManagerEx.h">
+      <Filter>reader21\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCActionNode.h">
+      <Filter>reader21\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCActionObject.h">
+      <Filter>reader21\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CSLoader.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\flatbuffers.h">
+      <Filter>reader21\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\idl.h">
+      <Filter>reader21\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\util.h">
+      <Filter>reader21\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CSParseBinary_generated.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CSParse3DBinary_generated.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\FlatBuffersSerialize.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ComAudioReader\ComAudioReader.h">
+      <Filter>reader21\reader\WidgetReader\ComAudioReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\GameMapReader\GameMapReader.h">
+      <Filter>reader21\reader\WidgetReader\GameMapReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\NodeReader\NodeReader.h">
+      <Filter>reader21\reader\WidgetReader\NodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ParticleReader\ParticleReader.h">
+      <Filter>reader21\reader\WidgetReader\ParticleReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ProjectNodeReader\ProjectNodeReader.h">
+      <Filter>reader21\reader\WidgetReader\ProjectNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SingleNodeReader\SingleNodeReader.h">
+      <Filter>reader21\reader\WidgetReader\SingleNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SpriteReader\SpriteReader.h">
+      <Filter>reader21\reader\WidgetReader\SpriteReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\NodeReaderDefine.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\NodeReaderProtocol.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetCallBackHandlerProtocol.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCActionTimelineNode.h">
+      <Filter>reader21\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.h">
+      <Filter>reader21\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\ArmatureNodeReader\CSArmatureNode_generated.h">
+      <Filter>reader21\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SkeletonReader\BoneNodeReader.h">
+      <Filter>reader21\reader\WidgetReader\SkeletonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SkeletonReader\CSBoneBinary_generated.h">
+      <Filter>reader21\reader\WidgetReader\SkeletonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\SkeletonReader\SkeletonNodeReader.h">
+      <Filter>reader21\reader\WidgetReader\SkeletonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCBoneNode.h">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCSkeletonNode.h">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\ActionTimeline\CCSkinNode.h">
+      <Filter>reader21\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CCComExtensionData.h">
+      <Filter>reader21\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\CSLanguageDataBinary_generated.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TabControlReader\CSTabControl_generated.h">
+      <Filter>reader21\reader\WidgetReader\TabControlReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\TabControlReader\TabControlReader.h">
+      <Filter>reader21\reader\WidgetReader\TabControlReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\LocalizationManager.h">
+      <Filter>reader21\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\GameNode3DReader\GameNode3DReader.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader21\WidgetReader\Light3DReader\Light3DReader.h">
+      <Filter>reader21\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\editor-support\reader21\CocoStudio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="libxreader21.rc" />
+  </ItemGroup>
+</Project>

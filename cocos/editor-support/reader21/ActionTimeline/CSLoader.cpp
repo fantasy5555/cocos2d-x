@@ -38,7 +38,7 @@
 #include "editor-support/cocostudio/ActionTimeline/CCActionTimelineNode.h"
 #include "editor-support/cocostudio/CCSGUIReader.h"
 #include "editor-support/cocostudio/CocoStudio.h"
-#include "editor-support/cocostudio/CSParseBinary_generated.h"
+#include "editor-support/reader21/CSParseBinary_generated.h"
 
 #include "editor-support/cocostudio/WidgetReader/NodeReaderProtocol.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReaderDefine.h"
@@ -196,7 +196,7 @@ CSLoader::CSLoader()
 , _jsonPath("")
 , _monoCocos2dxVersion("")
 , _rootNode(nullptr)
-, _csBuildID("10.0.593.0")
+, _csBuildID("2.1.0.0")
 {
     CREATE_CLASS_NODE_READER_INFO(NodeReader);
     CREATE_CLASS_NODE_READER_INFO(SingleNodeReader);

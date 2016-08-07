@@ -29,7 +29,7 @@
 #include "platform/CCFileUtils.h"
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "editor-support/cocostudio/CSLanguageDataBinary_generated.h"
-#include "editor-support/cocostudio/CSParseBinary_generated.h"
+#include "editor-support/reader21/CSParseBinary_generated.h"
 
 #include "editor-support/cocostudio/WidgetReader/NodeReaderProtocol.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReaderDefine.h"
@@ -192,7 +192,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::s
             if (attribute)
                 thiz->_csdVersion = attribute->Value();
 
-            thiz->_csdVersion = "10.0.593.0";
+            thiz->_csdVersion = "2.1.0.0";
         }
 
         if (strcmp("Content", element->Name()) == 0)

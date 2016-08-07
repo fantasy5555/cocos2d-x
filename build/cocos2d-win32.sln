@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 12.0.21005.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-tests", "..\tests\cpp-tests\proj.win32\cpp-tests.vcxproj", "{76A39BB2-9B84-4C65-98A5-654D86B86F2A}"
 EndProject
@@ -16,6 +16,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcocos2d", "..\cocos\2d\l
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libluacocos2d", "..\cocos\scripting\lua-bindings\proj.win32\libluacocos2d.vcxproj", "{9F2D6CE6-C893-4400-B50C-6DB70CC2562F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E} = {98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{92D54E36-7916-48EF-A951-224DD3B25442}"
 EndProject
@@ -32,6 +35,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "js-tests", "..\tests\js-tests\project\proj.win32\js-tests.vcxproj", "{D0F06A44-A245-4D13-A498-0120C203B539}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "performance-tests", "..\tests\performance-tests\proj.win32\performance-tests.vcxproj", "{2778C02D-DDD0-4A92-A6AA-C3E2B7EDE3FF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxreader", "..\cocos\2d\libxreader.vcxproj", "{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxreader21", "..\cocos\2d\libxreader21.vcxproj", "{5EFAF027-CF79-4A52-9AAB-877719C479DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "reader", "reader", "{D2E0C472-5E1D-41DF-AB24-963559AF6E82}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxreaderp", "..\cocos\2d\libxreaderp.vcxproj", "{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +130,24 @@ Global
 		{2778C02D-DDD0-4A92-A6AA-C3E2B7EDE3FF}.Release|ARM.ActiveCfg = Release|Win32
 		{2778C02D-DDD0-4A92-A6AA-C3E2B7EDE3FF}.Release|Win32.ActiveCfg = Release|Win32
 		{2778C02D-DDD0-4A92-A6AA-C3E2B7EDE3FF}.Release|Win32.Build.0 = Release|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Debug|ARM.ActiveCfg = Debug|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Debug|Win32.Build.0 = Debug|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Release|ARM.ActiveCfg = Release|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Release|Win32.ActiveCfg = Release|Win32
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E}.Release|Win32.Build.0 = Release|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Debug|ARM.ActiveCfg = Debug|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Debug|Win32.Build.0 = Debug|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Release|ARM.ActiveCfg = Release|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Release|Win32.ActiveCfg = Release|Win32
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF}.Release|Win32.Build.0 = Release|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Debug|ARM.ActiveCfg = Debug|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Debug|Win32.Build.0 = Debug|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Release|ARM.ActiveCfg = Release|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Release|Win32.ActiveCfg = Release|Win32
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +157,9 @@ Global
 		{929480E7-23C0-4DF6-8456-096D71547116} = {92D54E36-7916-48EF-A951-224DD3B25442}
 		{012DFF48-A13F-4F52-B07B-F8B9D21CE95B} = {92D54E36-7916-48EF-A951-224DD3B25442}
 		{41E34993-647E-4282-8384-4AB1AE31A452} = {92D54E36-7916-48EF-A951-224DD3B25442}
+		{98A51BA9-FC3A-415B-AC8F-8C7BD464E93E} = {D2E0C472-5E1D-41DF-AB24-963559AF6E82}
+		{5EFAF027-CF79-4A52-9AAB-877719C479DF} = {D2E0C472-5E1D-41DF-AB24-963559AF6E82}
+		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E} = {D2E0C472-5E1D-41DF-AB24-963559AF6E82}
 	EndGlobalSection
 	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
 		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}

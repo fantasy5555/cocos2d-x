@@ -28,6 +28,35 @@
 #include "editor-support/cocostudio/CocosStudioExport.h"
 #include "editor-support/cocostudio/CocosStudioExtension.h"
 
+#if (defined(WIN32) && defined(_WINDOWS)) || defined(WINRT) || defined(WP8)
+#ifdef __MINGW32__
+#include <string.h>
+#endif
+
+#if defined(CC_STATIC)
+#define CC_STUDIO_DLL
+#else
+#if defined(_USRSTUDIOPDLL)
+#define CC_STUDIOP_DLL     __declspec(dllexport)
+#else         /* use a DLL library */
+#define CC_STUDIOP_DLL     __declspec(dllimport)
+#endif
+#endif
+
+ /* Define NULL pointer value */
+#ifndef NULL
+#ifdef __cplusplus
+#define NULL    0
+#else
+#define NULL    ((void *)0)
+#endif
+#endif
+#elif defined(_SHARED_)
+#define CC_STUDIOP_DLL     __attribute__((visibility("default")))
+#else
+#define CC_STUDIOP_DLL
+#endif
+
 namespace flatbuffers
 {
     class FlatBufferBuilder;
@@ -88,34 +117,34 @@ namespace cocos2d {
         class PageView;
     }
     namespace wext {
-        CC_STUDIO_DLL extern void(*onLoadSpriteFramesWithFile)(std::string& file);
+		CC_STUDIOP_DLL extern void(*onLoadSpriteFramesWithFile)(std::string& file);
 
-        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const flatbuffers::ResourceData* data);
-        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(const std::string& path, int type = 0);
-        CC_STUDIO_DLL extern cocos2d::ResourceData makeResourceData(std::string&& path, int type = 0);
-        CC_STUDIO_DLL extern void resetReaderAllHooks();
+		CC_STUDIOP_DLL extern cocos2d::ResourceData makeResourceData(const flatbuffers::ResourceData* data);
+		CC_STUDIOP_DLL extern cocos2d::ResourceData makeResourceData(const std::string& path, int type = 0);
+		CC_STUDIOP_DLL extern cocos2d::ResourceData makeResourceData(std::string&& path, int type = 0);
+		CC_STUDIOP_DLL extern void resetReaderAllHooks();
 
         /// Assets Hooks
-        CC_STUDIO_DLL extern void(*onBeforeLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
-        CC_STUDIO_DLL extern void(*onAfterLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
+		CC_STUDIOP_DLL extern void(*onBeforeLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
+		CC_STUDIOP_DLL extern void(*onAfterLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/);
 
         // Object creator Hooks
-        CC_STUDIO_DLL extern cocos2d::Node*(*aNode)();
-        CC_STUDIO_DLL extern cocos2d::Sprite*(*aSprite)();
-        CC_STUDIO_DLL extern cocos2d::ui::ImageView*(*aImageView)();
-        CC_STUDIO_DLL extern cocos2d::ui::Button*(*aButton)();
-        CC_STUDIO_DLL extern cocos2d::ui::CheckBox*(*aCheckBox)();
-        CC_STUDIO_DLL extern cocos2d::ui::Slider*(*aSlider)();
-        CC_STUDIO_DLL extern cocos2d::ui::LoadingBar*(*aLoadingBar)();
-        CC_STUDIO_DLL extern cocos2d::ui::Text*(*aText)();
-        CC_STUDIO_DLL extern cocos2d::ui::TextField*(*aTextField)();
-        CC_STUDIO_DLL extern cocos2d::ui::TextAtlas*(*aTextAtlas)();
-        CC_STUDIO_DLL extern cocos2d::ui::TextBMFont*(*aTextBMFont)();
-        CC_STUDIO_DLL extern cocos2d::ui::Layout*(*aLayout)();
-        CC_STUDIO_DLL extern cocos2d::ui::ScrollView*(*aScrollView)();
-        CC_STUDIO_DLL extern cocos2d::ui::ListView*(*aListView)();
-        CC_STUDIO_DLL extern cocos2d::ui::PageView*(*aPageView)();
-        CC_STUDIO_DLL extern cocos2d::ParticleSystemQuad*(*aParticleSystemQuad)(const std::string&);
+		CC_STUDIOP_DLL extern cocos2d::Node*(*aNode)();
+		CC_STUDIOP_DLL extern cocos2d::Sprite*(*aSprite)();
+		CC_STUDIOP_DLL extern cocos2d::ui::ImageView*(*aImageView)();
+        CC_STUDIOP_DLL extern cocos2d::ui::Button*(*aButton)();
+        CC_STUDIOP_DLL extern cocos2d::ui::CheckBox*(*aCheckBox)();
+        CC_STUDIOP_DLL extern cocos2d::ui::Slider*(*aSlider)();
+        CC_STUDIOP_DLL extern cocos2d::ui::LoadingBar*(*aLoadingBar)();
+        CC_STUDIOP_DLL extern cocos2d::ui::Text*(*aText)();
+        CC_STUDIOP_DLL extern cocos2d::ui::TextField*(*aTextField)();
+        CC_STUDIOP_DLL extern cocos2d::ui::TextAtlas*(*aTextAtlas)();
+        CC_STUDIOP_DLL extern cocos2d::ui::TextBMFont*(*aTextBMFont)();
+        CC_STUDIOP_DLL extern cocos2d::ui::Layout*(*aLayout)();
+        CC_STUDIOP_DLL extern cocos2d::ui::ScrollView*(*aScrollView)();
+        CC_STUDIOP_DLL extern cocos2d::ui::ListView*(*aListView)();
+        CC_STUDIOP_DLL extern cocos2d::ui::PageView*(*aPageView)();
+        CC_STUDIOP_DLL extern cocos2d::ParticleSystemQuad*(*aParticleSystemQuad)(const std::string&);
     };
 };
 
