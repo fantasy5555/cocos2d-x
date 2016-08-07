@@ -177,20 +177,20 @@ namespace {
             MultiByteToWideChar(CP_UTF8, 0, tempBuf, -1, wszBuf, sizeof(wszBuf));
             OutputDebugStringW(wszBuf);
             WideCharToMultiByte(CP_ACP, 0, wszBuf, -1, tempBuf, sizeof(tempBuf), nullptr, FALSE);
-            printf("%s", tempBuf);
+            // printf("%s", tempBuf);
             
             pos += MAX_LOG_LENGTH;
             
         } while (pos < len);
-        SendLogToWindow(buf);
-        fflush(stdout);
+        // SendLogToWindow(buf);
+        // fflush(stdout);
 #else
         // Linux, Mac, iOS, etc
         fprintf(stdout, "%s", buf);
         fflush(stdout);
 #endif
         
-        Director::getInstance()->getConsole()->log(buf);
+        // Director::getInstance()->getConsole()->log(buf);
         delete [] buf;
     }
 }
