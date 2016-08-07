@@ -365,11 +365,13 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_FLIPY = 30,
     VT_IGNORESIZE = 32,
     VT_TOUCHENABLED = 34,
-    VT_FRAMEEVENT = 36,
-    VT_CUSTOMPROPERTY = 38,
-    VT_CALLBACKTYPE = 40,
-    VT_CALLBACKNAME = 42,
-    VT_LAYOUTCOMPONENT = 44
+    VT_CASCADECOLORENABLED = 36,
+    VT_CASCADEOPACITYENABLED = 38,
+    VT_FRAMEEVENT = 40,
+    VT_CUSTOMPROPERTY = 42,
+    VT_CALLBACKTYPE = 44,
+    VT_CALLBACKNAME = 46,
+    VT_LAYOUTCOMPONENT = 48
   };
   const flatbuffers::String *name() const { return GetPointer<const flatbuffers::String *>(VT_NAME); }
   int32_t actionTag() const { return GetField<int32_t>(VT_ACTIONTAG, 0); }
@@ -387,6 +389,8 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   uint8_t flipY() const { return GetField<uint8_t>(VT_FLIPY, 0); }
   uint8_t ignoreSize() const { return GetField<uint8_t>(VT_IGNORESIZE, 0); }
   uint8_t touchEnabled() const { return GetField<uint8_t>(VT_TOUCHENABLED, 0); }
+  uint8_t cascadeColorEnabled() const { return GetField<uint8_t>(VT_CASCADECOLORENABLED, 0); }
+  uint8_t cascadeOpacityEnabled() const { return GetField<uint8_t>(VT_CASCADEOPACITYENABLED, 0); }
   const flatbuffers::String *frameEvent() const { return GetPointer<const flatbuffers::String *>(VT_FRAMEEVENT); }
   const flatbuffers::String *customProperty() const { return GetPointer<const flatbuffers::String *>(VT_CUSTOMPROPERTY); }
   const flatbuffers::String *callBackType() const { return GetPointer<const flatbuffers::String *>(VT_CALLBACKTYPE); }
@@ -411,6 +415,8 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<uint8_t>(verifier, VT_FLIPY) &&
            VerifyField<uint8_t>(verifier, VT_IGNORESIZE) &&
            VerifyField<uint8_t>(verifier, VT_TOUCHENABLED) &&
+           VerifyField<uint8_t>(verifier, VT_CASCADECOLORENABLED) &&
+           VerifyField<uint8_t>(verifier, VT_CASCADEOPACITYENABLED) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_FRAMEEVENT) &&
            verifier.Verify(frameEvent()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_CUSTOMPROPERTY) &&
@@ -444,6 +450,8 @@ struct WidgetOptionsBuilder {
   void add_flipY(uint8_t flipY) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_FLIPY, flipY, 0); }
   void add_ignoreSize(uint8_t ignoreSize) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_IGNORESIZE, ignoreSize, 0); }
   void add_touchEnabled(uint8_t touchEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_TOUCHENABLED, touchEnabled, 0); }
+  void add_cascadeColorEnabled(uint8_t cascadeColorEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADECOLORENABLED, cascadeColorEnabled, 0); }
+  void add_cascadeOpacityEnabled(uint8_t cascadeOpacityEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADEOPACITYENABLED, cascadeOpacityEnabled, 0); }
   void add_frameEvent(flatbuffers::Offset<flatbuffers::String> frameEvent) { fbb_.AddOffset(WidgetOptions::VT_FRAMEEVENT, frameEvent); }
   void add_customProperty(flatbuffers::Offset<flatbuffers::String> customProperty) { fbb_.AddOffset(WidgetOptions::VT_CUSTOMPROPERTY, customProperty); }
   void add_callBackType(flatbuffers::Offset<flatbuffers::String> callBackType) { fbb_.AddOffset(WidgetOptions::VT_CALLBACKTYPE, callBackType); }
@@ -452,7 +460,7 @@ struct WidgetOptionsBuilder {
   WidgetOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   WidgetOptionsBuilder &operator=(const WidgetOptionsBuilder &);
   flatbuffers::Offset<WidgetOptions> Finish() {
-    auto o = flatbuffers::Offset<WidgetOptions>(fbb_.EndTable(start_, 21));
+    auto o = flatbuffers::Offset<WidgetOptions>(fbb_.EndTable(start_, 23));
     return o;
   }
 };
@@ -474,6 +482,8 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptions(flatbuffers::FlatB
    uint8_t flipY = 0,
    uint8_t ignoreSize = 0,
    uint8_t touchEnabled = 0,
+   uint8_t cascadeColorEnabled = 0,
+   uint8_t cascadeOpacityEnabled = 0,
    flatbuffers::Offset<flatbuffers::String> frameEvent = 0,
    flatbuffers::Offset<flatbuffers::String> customProperty = 0,
    flatbuffers::Offset<flatbuffers::String> callBackType = 0,
@@ -495,6 +505,8 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptions(flatbuffers::FlatB
   builder_.add_rotationSkew(rotationSkew);
   builder_.add_actionTag(actionTag);
   builder_.add_name(name);
+  builder_.add_cascadeOpacityEnabled(cascadeOpacityEnabled);
+  builder_.add_cascadeColorEnabled(cascadeColorEnabled);
   builder_.add_touchEnabled(touchEnabled);
   builder_.add_ignoreSize(ignoreSize);
   builder_.add_flipY(flipY);
@@ -3033,11 +3045,11 @@ inline flatbuffers::Offset<BlendFrame> CreateBlendFrame(flatbuffers::FlatBufferB
   return builder_.Finish();
 }
 
-inline const CSParseBinary *GetCSParseBinary(const void *buf) { return flatbuffers::GetRoot<CSParseBinary>(buf); }
+inline const flatbuffers::CSParseBinary *GetCSParseBinary(const void *buf) { return flatbuffers::GetRoot<flatbuffers::CSParseBinary>(buf); }
 
-inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<CSParseBinary>(); }
+inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<flatbuffers::CSParseBinary>(); }
 
-inline void FinishCSParseBinaryBuffer(flatbuffers::FlatBufferBuilder &fbb, flatbuffers::Offset<CSParseBinary> root) { fbb.Finish(root); }
+inline void FinishCSParseBinaryBuffer(flatbuffers::FlatBufferBuilder &fbb, flatbuffers::Offset<flatbuffers::CSParseBinary> root) { fbb.Finish(root); }
 
 }  // namespace flatbuffers
 

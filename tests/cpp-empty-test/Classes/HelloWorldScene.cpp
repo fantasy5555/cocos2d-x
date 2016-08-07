@@ -2,6 +2,7 @@
 #include "AppMacros.h"
 
 #include "cocostudio/CocoStudio.h"
+#include "ui/CocosGUI.h"
 
 USING_NS_CC;
 
@@ -79,6 +80,9 @@ bool HelloWorld::init()
     // 3. add your codes below...
 	auto ui = CSLoader::createNode("scene1.csb");
 	this->addChild(ui);
+
+	auto button = utils::findChild<ui::Button*>(ui, "Button_1");
+	auto titleColor = button->getTitleColor();
 	// centerNode(ui); #recompile 1
 #if 0
     // add a label shows "Hello World"
