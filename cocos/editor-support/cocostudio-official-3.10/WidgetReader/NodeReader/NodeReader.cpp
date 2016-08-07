@@ -124,10 +124,6 @@ namespace cocostudio
         float topMargin = 0;
         float bottomMargin = 0;
 
-		// x-studio365 spec: read from .csb.
-		bool cascadeColorEnabled = false;
-		bool cascadeOpacityEnabled = false;
-        
         // attributes
         const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
         while (attribute)
@@ -187,14 +183,6 @@ namespace cocostudio
             {
                 touchEnabled = (value == "True") ? true : false;
             }
-			else if (attriname == "CascadeColorEnabled")
-			{
-				cascadeColorEnabled = (value == "True") ? true : false;
-			}
-			else if (attriname == "CascadeOpacityEnabled")
-			{
-				cascadeOpacityEnabled = (value == "True") ? true : false;
-			}
             else if (attriname == "UserData")
             {
                 customProperty = value;
@@ -458,8 +446,6 @@ namespace cocostudio
                                            flipY,
                                            ignoreSize,
                                            touchEnabled,
-			                               cascadeColorEnabled,
-			                               cascadeOpacityEnabled,
                                            builder->CreateString(frameEvent),
                                            builder->CreateString(customProperty),
                                            0,
@@ -473,6 +459,9 @@ namespace cocostudio
                                              const flatbuffers::Table* nodeOptions)
     {
         auto options = (WidgetOptions*)(nodeOptions);
+
+        node->setCascadeColorEnabled(true);
+		node->setCascadeOpacityEnabled(true);
         
         std::string name = options->name()->c_str();
         float x             = options->position()->x();
@@ -492,11 +481,6 @@ namespace cocostudio
         float h             = options->size()->height();
         int alpha           = options->alpha();
         Color3B color(options->color()->r(), options->color()->g(), options->color()->b());
-
-		// x-studio365 10.0.593.0: read from .csb.
-		node->setCascadeColorEnabled(options->cascadeColorEnabled());
-		node->setCascadeOpacityEnabled(options->cascadeOpacityEnabled());
-
         std::string customProperty = options->customProperty()->c_str();
         
         node->setName(name);

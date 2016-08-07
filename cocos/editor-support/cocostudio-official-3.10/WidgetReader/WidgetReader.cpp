@@ -439,10 +439,6 @@ namespace cocostudio
         float topMargin = 0;
         float bottomMargin = 0;
 
-		// x-studio365 10.0.593.0: read from .csb.
-		bool cascadeColorEnabled = false;
-		bool cascadeOpacityEnabled = false;
-
         // attributes
         const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
         while (attribute)
@@ -502,14 +498,6 @@ namespace cocostudio
             {
                 touchEnabled = (value == "True") ? true : false;
             }
-			else if (attriname == "CascadeColorEnabled")
-			{
-				cascadeColorEnabled = (value == "True") ? true : false;
-			}
-			else if (attriname == "CascadeOpacityEnabled")
-			{
-				cascadeOpacityEnabled = (value == "True") ? true : false;
-			}
             else if (attriname == "UserData")
             {
                 customProperty = value;
@@ -782,8 +770,6 @@ namespace cocostudio
                                            flipY,
                                            ignoreSize,
                                            touchEnabled,
-			                               cascadeColorEnabled,
-			                               cascadeOpacityEnabled,
                                            builder->CreateString(frameEvent),
                                            builder->CreateString(customProperty),
                                            builder->CreateString(callbackType),
@@ -799,9 +785,8 @@ namespace cocostudio
         
         auto options = (WidgetOptions*)widgetOptions;
         
-		// x-studio365 10.0.593.0: read from .csb
-		node->setCascadeColorEnabled(options->cascadeColorEnabled());
-		node->setCascadeOpacityEnabled(options->cascadeOpacityEnabled());
+		node->setCascadeColorEnabled(true);
+		node->setCascadeOpacityEnabled(true);
 
         widget->setAnchorPoint(Vec2::ZERO);
         

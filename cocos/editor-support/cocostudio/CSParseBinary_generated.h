@@ -389,8 +389,8 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   uint8_t flipY() const { return GetField<uint8_t>(VT_FLIPY, 0); }
   uint8_t ignoreSize() const { return GetField<uint8_t>(VT_IGNORESIZE, 0); }
   uint8_t touchEnabled() const { return GetField<uint8_t>(VT_TOUCHENABLED, 0); }
-  uint8_t cascadeColorEnabled() const { return GetField<uint8_t>(VT_CASCADECOLORENABLED, 0); }
-  uint8_t cascadeOpacityEnabled() const { return GetField<uint8_t>(VT_CASCADEOPACITYENABLED, 0); }
+  bool cascadeColorEnabled() const { return GetField<uint8_t>(VT_CASCADECOLORENABLED, 0) != 0; }
+  bool cascadeOpacityEnabled() const { return GetField<uint8_t>(VT_CASCADEOPACITYENABLED, 0) != 0; }
   const flatbuffers::String *frameEvent() const { return GetPointer<const flatbuffers::String *>(VT_FRAMEEVENT); }
   const flatbuffers::String *customProperty() const { return GetPointer<const flatbuffers::String *>(VT_CUSTOMPROPERTY); }
   const flatbuffers::String *callBackType() const { return GetPointer<const flatbuffers::String *>(VT_CALLBACKTYPE); }
@@ -450,8 +450,8 @@ struct WidgetOptionsBuilder {
   void add_flipY(uint8_t flipY) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_FLIPY, flipY, 0); }
   void add_ignoreSize(uint8_t ignoreSize) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_IGNORESIZE, ignoreSize, 0); }
   void add_touchEnabled(uint8_t touchEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_TOUCHENABLED, touchEnabled, 0); }
-  void add_cascadeColorEnabled(uint8_t cascadeColorEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADECOLORENABLED, cascadeColorEnabled, 0); }
-  void add_cascadeOpacityEnabled(uint8_t cascadeOpacityEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADEOPACITYENABLED, cascadeOpacityEnabled, 0); }
+  void add_cascadeColorEnabled(bool cascadeColorEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADECOLORENABLED, static_cast<uint8_t>(cascadeColorEnabled), 0); }
+  void add_cascadeOpacityEnabled(bool cascadeOpacityEnabled) { fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADEOPACITYENABLED, static_cast<uint8_t>(cascadeOpacityEnabled), 0); }
   void add_frameEvent(flatbuffers::Offset<flatbuffers::String> frameEvent) { fbb_.AddOffset(WidgetOptions::VT_FRAMEEVENT, frameEvent); }
   void add_customProperty(flatbuffers::Offset<flatbuffers::String> customProperty) { fbb_.AddOffset(WidgetOptions::VT_CUSTOMPROPERTY, customProperty); }
   void add_callBackType(flatbuffers::Offset<flatbuffers::String> callBackType) { fbb_.AddOffset(WidgetOptions::VT_CALLBACKTYPE, callBackType); }
@@ -482,8 +482,8 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptions(flatbuffers::FlatB
    uint8_t flipY = 0,
    uint8_t ignoreSize = 0,
    uint8_t touchEnabled = 0,
-   uint8_t cascadeColorEnabled = 0,
-   uint8_t cascadeOpacityEnabled = 0,
+   bool cascadeColorEnabled = false,
+   bool cascadeOpacityEnabled = false,
    flatbuffers::Offset<flatbuffers::String> frameEvent = 0,
    flatbuffers::Offset<flatbuffers::String> customProperty = 0,
    flatbuffers::Offset<flatbuffers::String> callBackType = 0,
@@ -848,7 +848,7 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   float shadowOffsetX() const { return GetField<float>(VT_SHADOWOFFSETX, 2); }
   float shadowOffsetY() const { return GetField<float>(VT_SHADOWOFFSETY, -2); }
   int32_t shadowBlurRadius() const { return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0); }
-  uint8_t glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0); }
+  bool glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0; }
   const Color *glowColor() const { return GetStruct<const Color *>(VT_GLOWCOLOR); }
   uint8_t isLocalized() const { return GetField<uint8_t>(VT_ISLOCALIZED, 0); }
   bool Verify(flatbuffers::Verifier &verifier) const {
@@ -912,7 +912,7 @@ struct ButtonOptionsBuilder {
   void add_shadowOffsetX(float shadowOffsetX) { fbb_.AddElement<float>(ButtonOptions::VT_SHADOWOFFSETX, shadowOffsetX, 2); }
   void add_shadowOffsetY(float shadowOffsetY) { fbb_.AddElement<float>(ButtonOptions::VT_SHADOWOFFSETY, shadowOffsetY, -2); }
   void add_shadowBlurRadius(int32_t shadowBlurRadius) { fbb_.AddElement<int32_t>(ButtonOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0); }
-  void add_glowEnabled(uint8_t glowEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_GLOWENABLED, glowEnabled, 0); }
+  void add_glowEnabled(bool glowEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0); }
   void add_glowColor(const Color *glowColor) { fbb_.AddStruct(ButtonOptions::VT_GLOWCOLOR, glowColor); }
   void add_isLocalized(uint8_t isLocalized) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_ISLOCALIZED, isLocalized, 0); }
   ButtonOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
@@ -945,7 +945,7 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(flatbuffers::FlatB
    float shadowOffsetX = 2,
    float shadowOffsetY = -2,
    int32_t shadowBlurRadius = 0,
-   uint8_t glowEnabled = 0,
+   bool glowEnabled = false,
    const Color *glowColor = 0,
    uint8_t isLocalized = 0) {
   ButtonOptionsBuilder builder_(_fbb);
@@ -1273,7 +1273,7 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   float shadowOffsetX() const { return GetField<float>(VT_SHADOWOFFSETX, 2); }
   float shadowOffsetY() const { return GetField<float>(VT_SHADOWOFFSETY, -2); }
   int32_t shadowBlurRadius() const { return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0); }
-  uint8_t glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0); }
+  bool glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0; }
   const Color *glowColor() const { return GetStruct<const Color *>(VT_GLOWCOLOR); }
   uint8_t isLocalized() const { return GetField<uint8_t>(VT_ISLOCALIZED, 0); }
   bool Verify(flatbuffers::Verifier &verifier) const {
@@ -1330,7 +1330,7 @@ struct TextOptionsBuilder {
   void add_shadowOffsetX(float shadowOffsetX) { fbb_.AddElement<float>(TextOptions::VT_SHADOWOFFSETX, shadowOffsetX, 2); }
   void add_shadowOffsetY(float shadowOffsetY) { fbb_.AddElement<float>(TextOptions::VT_SHADOWOFFSETY, shadowOffsetY, -2); }
   void add_shadowBlurRadius(int32_t shadowBlurRadius) { fbb_.AddElement<int32_t>(TextOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0); }
-  void add_glowEnabled(uint8_t glowEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_GLOWENABLED, glowEnabled, 0); }
+  void add_glowEnabled(bool glowEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0); }
   void add_glowColor(const Color *glowColor) { fbb_.AddStruct(TextOptions::VT_GLOWCOLOR, glowColor); }
   void add_isLocalized(uint8_t isLocalized) { fbb_.AddElement<uint8_t>(TextOptions::VT_ISLOCALIZED, isLocalized, 0); }
   TextOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
@@ -1361,7 +1361,7 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(flatbuffers::FlatBuffe
    float shadowOffsetX = 2,
    float shadowOffsetY = -2,
    int32_t shadowBlurRadius = 0,
-   uint8_t glowEnabled = 0,
+   bool glowEnabled = false,
    const Color *glowColor = 0,
    uint8_t isLocalized = 0) {
   TextOptionsBuilder builder_(_fbb);
