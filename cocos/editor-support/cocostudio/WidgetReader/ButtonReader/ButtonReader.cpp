@@ -904,9 +904,9 @@ namespace cocostudio
             button->setTitleText(titleText);
         }
         
-        auto textColor = options->textColor();
+        /*auto textColor = options->textColor();
         Color3B titleColor(textColor->r(), textColor->g(), textColor->b());
-        button->setTitleColor(titleColor);
+        button->setTitleColor(titleColor);*/
         
         int titleFontSize = options->fontSize();
         button->setTitleFontSize(titleFontSize);
@@ -994,6 +994,10 @@ namespace cocostudio
             Size contentSize(options->widgetOptions()->size()->width(), options->widgetOptions()->size()->height());
             button->setContentSize(contentSize);
         }
+
+		auto textColor = options->textColor();
+		Color3B titleColor(textColor->r(), textColor->g(), textColor->b());
+		button->setTitleColor(titleColor);
 
         button->setBright(displaystate);
     }
