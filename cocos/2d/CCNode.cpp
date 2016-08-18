@@ -93,6 +93,7 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
+
 , _localZOrder(0)
 #if !CC_64BITS && defined(_WIN32)
 , _orderOfArrival(0)
