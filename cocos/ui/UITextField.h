@@ -684,7 +684,7 @@ protected:
     ccTextFieldCallback _eventCallback;
     
     bool _textFieldRendererAdaptDirty;
-private:
+
     enum class FontType
     {
         SYSTEM,

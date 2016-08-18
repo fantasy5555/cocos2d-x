@@ -599,7 +599,7 @@ protected:
      */
     bool checkFocusEnabledChild()const;
     
-protected:
+public:
     
     //background
     bool _backGroundScale9Enabled;

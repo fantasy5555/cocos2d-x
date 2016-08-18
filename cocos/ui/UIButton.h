@@ -374,7 +374,7 @@ protected:
     TextureResType _pressedTexType;
     TextureResType _disabledTexType;
 
-private:
+public:
     enum class FontType
     {
         SYSTEM,

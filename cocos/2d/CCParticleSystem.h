@@ -813,7 +813,7 @@ CC_CONSTRUCTOR_ACCESS:
     /* UnPause the emissions*/
     virtual void resumeEmissions();
 
-protected:
+public:
     virtual void updateBlendFunc();
 
     /** whether or not the particles are using blend additive.
