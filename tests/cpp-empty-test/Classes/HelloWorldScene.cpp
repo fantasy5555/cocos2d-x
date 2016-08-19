@@ -55,7 +55,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World", "fonts/arial.ttf", TITLE_FONT_SIZE);
+    auto label = Label::createWithTTF("/99999", "fonts/arial.ttf", 24);
     
     // position the label on the center of the screen
     label->setPosition(origin.x + visibleSize.width/2,
