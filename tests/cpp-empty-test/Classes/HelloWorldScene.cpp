@@ -63,7 +63,23 @@ bool HelloWorld::init()
 
     // add the label as a child to this layer
     this->addChild(label, 1);
-
+    
+    // Draw the label border
+    auto& labelContentSize = label->getContentSize();
+    auto borderDraw = DrawNode::create();
+    label->addChild(borderDraw);
+    borderDraw->clear();
+    borderDraw->setLineWidth(1);
+    Vec2 vertices[4] =
+    {
+        Vec2::ZERO,
+        Vec2(labelContentSize.width, 0),
+        Vec2(labelContentSize.width, labelContentSize.height),
+        Vec2(0, labelContentSize.height)
+    };
+    borderDraw->drawPoly(vertices, 4, true, Color4F::RED);
+    
+#if 0
     // add "HelloWorld" splash screen"
     auto sprite = Sprite::create("HelloWorld.png");
 
@@ -72,7 +88,7 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite);
-    
+#endif
     return true;
 }
 
