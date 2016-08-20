@@ -1,8 +1,6 @@
-#ifndef _RICHTEXTXMLVISITOR_IPP_
-#define _RICHTEXTXMLVISITOR_IPP_
+#ifndef _RICHTEXTXMLVISITOR_INL_
+#define _RICHTEXTXMLVISITOR_INL_
 #include "rapidxml/rapidxml_sax3.hpp"
-
-USING_NS_CC;
 
 /** @brief parse a XML. */
 class RichTextXmlVisitor : public rapidxml::xml_sax2_handler
