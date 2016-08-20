@@ -1,11 +1,11 @@
 #ifndef _RICHTEXTXMLVISITOR_IPP_
 #define _RICHTEXTXMLVISITOR_IPP_
-#include "platform/CCSAXParser.h"
+#include "rapidxml/rapidxml_sax3.hpp"
 
 USING_NS_CC;
 
 /** @brief parse a XML. */
-class RichTextXmlVisitor : public SAXDelegator
+class RichTextXmlVisitor : public rapidxml::xml_sax2_handler
 {
 public:
     /** @brief underline or strikethrough */
@@ -98,13 +98,13 @@ public:
     std::tuple<bool, Color3B> getGlow() const;
 
     /// Visit an element.
-    virtual void startElement(void *ctx, const char *name, const char **atts) override;
+    virtual void xmlSAX2StartElement(const char *name, size_t, const char **atts, size_t)  override;
 
     /// Visit an element.
-    virtual void endElement(void *ctx, const char *name) override;
+    virtual void xmlSAX2EndElement(const char *name, size_t) override;
 
     /// Visit a text node.
-    virtual void textHandler(void *ctx, const char *s, int len) override;
+    virtual void xmlSAX2Text(const char *s, size_t) override;
 
     void pushBackFontElement(const Attributes& attribs);
 
@@ -388,8 +388,9 @@ std::tuple<bool, Color3B> RichTextXmlVisitor::getGlow() const
     return std::make_tuple(false, Color3B::WHITE);
 }
 
-void RichTextXmlVisitor::startElement(void *ctx, const char *elementName, const char **atts)
+void RichTextXmlVisitor::xmlSAX2StartElement(const char *name, size_t size, const char **atts, size_t)
 {
+    std::string elementName(name, size);
     auto it = _tagTables.find(elementName);
     if (it != _tagTables.end()) {
         auto tagBehavior = it->second;
@@ -512,7 +513,7 @@ void RichTextXmlVisitor::startElement(void *ctx, const char *elementName, const 
     }
 }
 
-void RichTextXmlVisitor::endElement(void *ctx, const char *name)
+void RichTextXmlVisitor::xmlSAX2EndElement(const char *name, size_t)
 {
     auto elementName = name;
     auto it = _tagTables.find(elementName);
@@ -524,7 +525,7 @@ void RichTextXmlVisitor::endElement(void *ctx, const char *name)
     }
 }
 
-void RichTextXmlVisitor::textHandler(void *ctx, const char *str, int len)
+void RichTextXmlVisitor::xmlSAX2Text(const char *str, size_t len)
 {
     std::string text(str, len);
     auto color = getColor();
