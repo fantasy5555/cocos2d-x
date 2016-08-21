@@ -279,6 +279,7 @@ const std::string RichText::KEY_ANCHOR_TEXT_GLOW_COLOR("KEY_ANCHOR_TEXT_GLOW_COL
 RichText::RichText()
     : _formatTextDirty(true)
     , _leftSpaceWidth(0.0f)
+    , _lines(0)
 {
     _defaults[KEY_VERTICAL_SPACE] = 0.0f;
     _defaults[KEY_WRAP_MODE] = static_cast<int>(WrapMode::WRAP_PER_WORD);
@@ -1132,6 +1133,7 @@ void RichText::handleCustomRenderer(cocos2d::Node *renderer)
     
 void RichText::addNewLine()
 {
+    ++this->_lines;
     _leftSpaceWidth = _customSize.width;
     _elementRenders.push_back(new Vector<Node*>());
 }

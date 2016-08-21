@@ -538,6 +538,8 @@ public:
      */
     void setOpenUrlHandler(const OpenUrlHandler& handleOpenUrl);
 
+    int getLines() const { return _lines; }
+
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;
 
@@ -567,6 +569,8 @@ protected:
 
     ValueMap _defaults;             /*!< default values */
     OpenUrlHandler _handleOpenUrl;  /*!< the callback for open URL */
+
+    int       _lines;
 };
     
 }
