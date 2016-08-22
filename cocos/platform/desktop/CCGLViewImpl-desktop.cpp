@@ -283,7 +283,21 @@ static FARPROC s_onGLFWError = nullptr;
 static Point s_intriUpdatingPos;
 static bool s_intriUpdatePosRequired = false;
 
+static bool s_vsyncEnabled = false;
+
+static int s_textureSamples = -1;
+
 namespace wext {
+
+    void CC_DLL setTextureSamples(int samples)
+    {
+        s_textureSamples = samples;
+    }
+
+    void CC_DLL setVsyncEnabled(bool enabled)
+    {
+        s_vsyncEnabled = enabled;
+    }
 
     void CC_DLL setGLErrorCallback(FARPROC callback)
     {
@@ -456,6 +470,8 @@ bool GLViewImpl::initWithRect(const std::string& viewName, Rect rect, float fram
 	// x-studio365 spec hints
     glfwWindowHint(GLFW_DECORATED, !s_intriWindowNoB);
     glfwWindowHint(GLFW_VISIBLE, s_intriWindowVisible);
+    if (s_textureSamples >= 0)
+        glfwWindowHint(GLFW_SAMPLES, s_textureSamples);
 #if IRREGULARGL_SUPPORT
 	glfwWindowHint(GLFW_ALPHA_MASK, s_intriWindowAlphaEnabled);
 #endif
@@ -1075,8 +1091,10 @@ bool GLViewImpl::initGlew()
         ccMessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
         return false;
     }
-    // x-studio365 close _vsync_ default, for nvidia display card
-    ::glfwSwapInterval(0);
+    if (!s_vsyncEnabled) {
+        // x-studio365 close _vsync_ default, for nvidia display card
+        ::glfwSwapInterval(0);
+    }
 #endif
 
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)

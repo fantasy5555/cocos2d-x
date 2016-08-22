@@ -79,6 +79,7 @@ public:
      * @lua NA
      */
     bool init(const char *encoding);
+
     /**
      * @js NA
      * @lua NA
@@ -89,6 +90,12 @@ public:
      * @lua NA
      */
     bool parse(const std::string& filename);
+
+    /**
+    * New API for performance.
+    */
+    bool parseIntrusive(char* xmlData, size_t dataLength);
+
     /**
      * @js NA
      * @lua NA

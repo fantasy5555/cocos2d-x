@@ -345,10 +345,6 @@ bool RichText::initWithXML(const std::string& origxml, const ValueMap& defaults,
     {
         setDefaults(defaults);
         setOpenUrlHandler(handleOpenUrl);
-        
-        
-        RichTextXmlVisitor visitor(this);
-        rapidxml::xml_sax3_parser<> parser(&visitor);
 
         // solves to issues:
         //  - creates defaults values
@@ -357,13 +353,10 @@ bool RichText::initWithXML(const std::string& origxml, const ValueMap& defaults,
         xml += origxml;
         xml += "</font>";
 
-        try {
-            parser.parse<>(&xml.front(), xml.length());
-            return true;
-        }
-        catch(rapidxml::parse_error& e) {
-            CCLOG("cocos2d: UI::RichText: Error parsing xml: %s at %s", e.what(), e.where<char>()/*, document.GetErrorStr1(), document.GetErrorStr2()*/);
-        }
+        RichTextXmlVisitor visitor(this);
+        SAXParser parser;
+        parser.setDelegator(&visitor);
+        return parser.parseIntrusive(&xml.front(), xml.length());
     }
     return false;
 }
