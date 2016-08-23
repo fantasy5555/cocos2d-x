@@ -7,7 +7,7 @@
 //! \file rapidxml_sax3.hpp This file contains rapidxml SAX parser implementation
 #include <vector>
 #include <utility>
-#include "rapidxml.hpp"
+#include "platform/rapidxml.hpp"
 
 // On MSVC, disable "conditional expression is constant" warning (level 4). 
 // This warning is almost impossible to avoid with certain types of templated code
