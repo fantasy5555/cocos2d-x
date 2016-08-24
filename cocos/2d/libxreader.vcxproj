@@ -254,6 +254,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\BoneNodeReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\SkeletonNodeReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SliderReader\SliderReader.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpriteReader\SpriteReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\TabControlReader\TabControlReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\TextAtlasReader\TextAtlasReader.cpp" />
@@ -359,6 +360,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\CSBoneBinary_generated.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\SkeletonNodeReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SliderReader\SliderReader.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpriteReader\SpriteReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\TabControlReader\CSTabControl_generated.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\TabControlReader\TabControlReader.h" />

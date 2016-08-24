@@ -186,9 +186,11 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

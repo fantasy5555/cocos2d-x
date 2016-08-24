@@ -75,6 +75,7 @@
 
 #include "editor-support/cocostudio/WidgetReader/SkeletonReader/BoneNodeReader.h"
 #include "editor-support/cocostudio/WidgetReader/SkeletonReader/SkeletonNodeReader.h"
+#include "editor-support/cocostudio/WidgetReader/SpineSkeletonReader/SpineSkeletonReader.h"
 #include "flatbuffers/flatbuffers.h"
 #include "flatbuffers/util.h"
 
@@ -229,6 +230,9 @@ CSLoader::CSLoader()
 
     CREATE_CLASS_NODE_READER_INFO(BoneNodeReader);
     CREATE_CLASS_NODE_READER_INFO(SkeletonNodeReader);
+
+    /// Added by x-studio365
+    CREATE_CLASS_NODE_READER_INFO(SpineSkeletonReader);
 }
 
 void CSLoader::purge()

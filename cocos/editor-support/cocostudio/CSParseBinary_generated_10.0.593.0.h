@@ -25,16 +25,13 @@ struct LayoutComponentTable;
 struct SingleNodeOptions;
 struct SpriteOptions;
 struct ParticleSystemOptions;
-struct SpineSkeletonOptions;
 struct GameMapOptions;
 struct ButtonOptions;
 struct CheckBoxOptions;
-struct RadioButtonOptions;
 struct ImageViewOptions;
 struct TextAtlasOptions;
 struct TextBMFontOptions;
 struct TextOptions;
-struct RichTextOptions;
 struct TextFieldOptions;
 struct LoadingBarOptions;
 struct SliderOptions;
@@ -764,78 +761,6 @@ inline flatbuffers::Offset<ParticleSystemOptions> CreateParticleSystemOptions(fl
   return builder_.Finish();
 }
 
-struct SpineSkeletonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  enum {
-    VT_NODEOPTIONS = 4,
-    VT_DATAFILE = 6,
-    VT_ATLASFILE = 8,
-    VT_ANIMATION = 10,
-    VT_SKIN = 12,
-    VT_LOOP = 14,
-    VT_TIMESCALE = 16
-  };
-  const WidgetOptions *nodeOptions() const { return GetPointer<const WidgetOptions *>(VT_NODEOPTIONS); }
-  const flatbuffers::String *dataFile() const { return GetPointer<const flatbuffers::String *>(VT_DATAFILE); }
-  const flatbuffers::String *atlasFile() const { return GetPointer<const flatbuffers::String *>(VT_ATLASFILE); }
-  const flatbuffers::String *animation() const { return GetPointer<const flatbuffers::String *>(VT_ANIMATION); }
-  const flatbuffers::String *skin() const { return GetPointer<const flatbuffers::String *>(VT_SKIN); }
-  bool loop() const { return GetField<uint8_t>(VT_LOOP, 0) != 0; }
-  float timeScale() const { return GetField<float>(VT_TIMESCALE, 0); }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_NODEOPTIONS) &&
-           verifier.VerifyTable(nodeOptions()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_DATAFILE) &&
-           verifier.Verify(dataFile()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_ATLASFILE) &&
-           verifier.Verify(atlasFile()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_ANIMATION) &&
-           verifier.Verify(animation()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_SKIN) &&
-           verifier.Verify(skin()) &&
-           VerifyField<uint8_t>(verifier, VT_LOOP) &&
-           VerifyField<float>(verifier, VT_TIMESCALE) &&
-           verifier.EndTable();
-  }
-};
-
-struct SpineSkeletonOptionsBuilder {
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_nodeOptions(flatbuffers::Offset<WidgetOptions> nodeOptions) { fbb_.AddOffset(SpineSkeletonOptions::VT_NODEOPTIONS, nodeOptions); }
-  void add_dataFile(flatbuffers::Offset<flatbuffers::String> dataFile) { fbb_.AddOffset(SpineSkeletonOptions::VT_DATAFILE, dataFile); }
-  void add_atlasFile(flatbuffers::Offset<flatbuffers::String> atlasFile) { fbb_.AddOffset(SpineSkeletonOptions::VT_ATLASFILE, atlasFile); }
-  void add_animation(flatbuffers::Offset<flatbuffers::String> animation) { fbb_.AddOffset(SpineSkeletonOptions::VT_ANIMATION, animation); }
-  void add_skin(flatbuffers::Offset<flatbuffers::String> skin) { fbb_.AddOffset(SpineSkeletonOptions::VT_SKIN, skin); }
-  void add_loop(bool loop) { fbb_.AddElement<uint8_t>(SpineSkeletonOptions::VT_LOOP, static_cast<uint8_t>(loop), 0); }
-  void add_timeScale(float timeScale) { fbb_.AddElement<float>(SpineSkeletonOptions::VT_TIMESCALE, timeScale, 0); }
-  SpineSkeletonOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  SpineSkeletonOptionsBuilder &operator=(const SpineSkeletonOptionsBuilder &);
-  flatbuffers::Offset<SpineSkeletonOptions> Finish() {
-    auto o = flatbuffers::Offset<SpineSkeletonOptions>(fbb_.EndTable(start_, 7));
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<SpineSkeletonOptions> CreateSpineSkeletonOptions(flatbuffers::FlatBufferBuilder &_fbb,
-   flatbuffers::Offset<WidgetOptions> nodeOptions = 0,
-   flatbuffers::Offset<flatbuffers::String> dataFile = 0,
-   flatbuffers::Offset<flatbuffers::String> atlasFile = 0,
-   flatbuffers::Offset<flatbuffers::String> animation = 0,
-   flatbuffers::Offset<flatbuffers::String> skin = 0,
-   bool loop = false,
-   float timeScale = 0) {
-  SpineSkeletonOptionsBuilder builder_(_fbb);
-  builder_.add_timeScale(timeScale);
-  builder_.add_skin(skin);
-  builder_.add_animation(animation);
-  builder_.add_atlasFile(atlasFile);
-  builder_.add_dataFile(dataFile);
-  builder_.add_nodeOptions(nodeOptions);
-  builder_.add_loop(loop);
-  return builder_.Finish();
-}
-
 struct GameMapOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
     VT_NODEOPTIONS = 4,
@@ -900,11 +825,7 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_SHADOWBLURRADIUS = 44,
     VT_GLOWENABLED = 46,
     VT_GLOWCOLOR = 48,
-    VT_BOLDENABLED = 50,
-    VT_UNDERLINEENABLED = 52,
-    VT_ITALICSENABLED = 54,
-    VT_STRIKETHROUGHENABLED = 56,
-    VT_ISLOCALIZED = 58
+    VT_ISLOCALIZED = 50
   };
   const WidgetOptions *widgetOptions() const { return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS); }
   const ResourceData *normalData() const { return GetPointer<const ResourceData *>(VT_NORMALDATA); }
@@ -929,10 +850,6 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t shadowBlurRadius() const { return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0); }
   bool glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0; }
   const Color *glowColor() const { return GetStruct<const Color *>(VT_GLOWCOLOR); }
-  bool boldEnabled() const { return GetField<uint8_t>(VT_BOLDENABLED, 0) != 0; }
-  bool underlineEnabled() const { return GetField<uint8_t>(VT_UNDERLINEENABLED, 0) != 0; }
-  bool italicsEnabled() const { return GetField<uint8_t>(VT_ITALICSENABLED, 0) != 0; }
-  bool strikethroughEnabled() const { return GetField<uint8_t>(VT_STRIKETHROUGHENABLED, 0) != 0; }
   uint8_t isLocalized() const { return GetField<uint8_t>(VT_ISLOCALIZED, 0); }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -966,10 +883,6 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_SHADOWBLURRADIUS) &&
            VerifyField<uint8_t>(verifier, VT_GLOWENABLED) &&
            VerifyField<Color>(verifier, VT_GLOWCOLOR) &&
-           VerifyField<uint8_t>(verifier, VT_BOLDENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_UNDERLINEENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_ITALICSENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_STRIKETHROUGHENABLED) &&
            VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            verifier.EndTable();
   }
@@ -1001,15 +914,11 @@ struct ButtonOptionsBuilder {
   void add_shadowBlurRadius(int32_t shadowBlurRadius) { fbb_.AddElement<int32_t>(ButtonOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0); }
   void add_glowEnabled(bool glowEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0); }
   void add_glowColor(const Color *glowColor) { fbb_.AddStruct(ButtonOptions::VT_GLOWCOLOR, glowColor); }
-  void add_boldEnabled(bool boldEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_BOLDENABLED, static_cast<uint8_t>(boldEnabled), 0); }
-  void add_underlineEnabled(bool underlineEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_UNDERLINEENABLED, static_cast<uint8_t>(underlineEnabled), 0); }
-  void add_italicsEnabled(bool italicsEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_ITALICSENABLED, static_cast<uint8_t>(italicsEnabled), 0); }
-  void add_strikethroughEnabled(bool strikethroughEnabled) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_STRIKETHROUGHENABLED, static_cast<uint8_t>(strikethroughEnabled), 0); }
   void add_isLocalized(uint8_t isLocalized) { fbb_.AddElement<uint8_t>(ButtonOptions::VT_ISLOCALIZED, isLocalized, 0); }
   ButtonOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   ButtonOptionsBuilder &operator=(const ButtonOptionsBuilder &);
   flatbuffers::Offset<ButtonOptions> Finish() {
-    auto o = flatbuffers::Offset<ButtonOptions>(fbb_.EndTable(start_, 28));
+    auto o = flatbuffers::Offset<ButtonOptions>(fbb_.EndTable(start_, 24));
     return o;
   }
 };
@@ -1038,10 +947,6 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(flatbuffers::FlatB
    int32_t shadowBlurRadius = 0,
    bool glowEnabled = false,
    const Color *glowColor = 0,
-   bool boldEnabled = false,
-   bool underlineEnabled = false,
-   bool italicsEnabled = false,
-   bool strikethroughEnabled = false,
    uint8_t isLocalized = 0) {
   ButtonOptionsBuilder builder_(_fbb);
   builder_.add_glowColor(glowColor);
@@ -1063,10 +968,6 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(flatbuffers::FlatB
   builder_.add_normalData(normalData);
   builder_.add_widgetOptions(widgetOptions);
   builder_.add_isLocalized(isLocalized);
-  builder_.add_strikethroughEnabled(strikethroughEnabled);
-  builder_.add_italicsEnabled(italicsEnabled);
-  builder_.add_underlineEnabled(underlineEnabled);
-  builder_.add_boldEnabled(boldEnabled);
   builder_.add_glowEnabled(glowEnabled);
   builder_.add_shadowEnabled(shadowEnabled);
   builder_.add_outlineEnabled(outlineEnabled);
@@ -1143,85 +1044,6 @@ inline flatbuffers::Offset<CheckBoxOptions> CreateCheckBoxOptions(flatbuffers::F
    uint8_t selectedState = 0,
    uint8_t displaystate = 0) {
   CheckBoxOptionsBuilder builder_(_fbb);
-  builder_.add_frontCrossDisabledData(frontCrossDisabledData);
-  builder_.add_backGroundBoxDisabledData(backGroundBoxDisabledData);
-  builder_.add_frontCrossData(frontCrossData);
-  builder_.add_backGroundBoxSelectedData(backGroundBoxSelectedData);
-  builder_.add_backGroundBoxData(backGroundBoxData);
-  builder_.add_widgetOptions(widgetOptions);
-  builder_.add_displaystate(displaystate);
-  builder_.add_selectedState(selectedState);
-  return builder_.Finish();
-}
-
-struct RadioButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  enum {
-    VT_WIDGETOPTIONS = 4,
-    VT_BACKGROUNDBOXDATA = 6,
-    VT_BACKGROUNDBOXSELECTEDDATA = 8,
-    VT_FRONTCROSSDATA = 10,
-    VT_BACKGROUNDBOXDISABLEDDATA = 12,
-    VT_FRONTCROSSDISABLEDDATA = 14,
-    VT_SELECTEDSTATE = 16,
-    VT_DISPLAYSTATE = 18
-  };
-  const WidgetOptions *widgetOptions() const { return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS); }
-  const ResourceData *backGroundBoxData() const { return GetPointer<const ResourceData *>(VT_BACKGROUNDBOXDATA); }
-  const ResourceData *backGroundBoxSelectedData() const { return GetPointer<const ResourceData *>(VT_BACKGROUNDBOXSELECTEDDATA); }
-  const ResourceData *frontCrossData() const { return GetPointer<const ResourceData *>(VT_FRONTCROSSDATA); }
-  const ResourceData *backGroundBoxDisabledData() const { return GetPointer<const ResourceData *>(VT_BACKGROUNDBOXDISABLEDDATA); }
-  const ResourceData *frontCrossDisabledData() const { return GetPointer<const ResourceData *>(VT_FRONTCROSSDISABLEDDATA); }
-  uint8_t selectedState() const { return GetField<uint8_t>(VT_SELECTEDSTATE, 0); }
-  uint8_t displaystate() const { return GetField<uint8_t>(VT_DISPLAYSTATE, 0); }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_WIDGETOPTIONS) &&
-           verifier.VerifyTable(widgetOptions()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_BACKGROUNDBOXDATA) &&
-           verifier.VerifyTable(backGroundBoxData()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_BACKGROUNDBOXSELECTEDDATA) &&
-           verifier.VerifyTable(backGroundBoxSelectedData()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_FRONTCROSSDATA) &&
-           verifier.VerifyTable(frontCrossData()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_BACKGROUNDBOXDISABLEDDATA) &&
-           verifier.VerifyTable(backGroundBoxDisabledData()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_FRONTCROSSDISABLEDDATA) &&
-           verifier.VerifyTable(frontCrossDisabledData()) &&
-           VerifyField<uint8_t>(verifier, VT_SELECTEDSTATE) &&
-           VerifyField<uint8_t>(verifier, VT_DISPLAYSTATE) &&
-           verifier.EndTable();
-  }
-};
-
-struct RadioButtonOptionsBuilder {
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_widgetOptions(flatbuffers::Offset<WidgetOptions> widgetOptions) { fbb_.AddOffset(RadioButtonOptions::VT_WIDGETOPTIONS, widgetOptions); }
-  void add_backGroundBoxData(flatbuffers::Offset<ResourceData> backGroundBoxData) { fbb_.AddOffset(RadioButtonOptions::VT_BACKGROUNDBOXDATA, backGroundBoxData); }
-  void add_backGroundBoxSelectedData(flatbuffers::Offset<ResourceData> backGroundBoxSelectedData) { fbb_.AddOffset(RadioButtonOptions::VT_BACKGROUNDBOXSELECTEDDATA, backGroundBoxSelectedData); }
-  void add_frontCrossData(flatbuffers::Offset<ResourceData> frontCrossData) { fbb_.AddOffset(RadioButtonOptions::VT_FRONTCROSSDATA, frontCrossData); }
-  void add_backGroundBoxDisabledData(flatbuffers::Offset<ResourceData> backGroundBoxDisabledData) { fbb_.AddOffset(RadioButtonOptions::VT_BACKGROUNDBOXDISABLEDDATA, backGroundBoxDisabledData); }
-  void add_frontCrossDisabledData(flatbuffers::Offset<ResourceData> frontCrossDisabledData) { fbb_.AddOffset(RadioButtonOptions::VT_FRONTCROSSDISABLEDDATA, frontCrossDisabledData); }
-  void add_selectedState(uint8_t selectedState) { fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_SELECTEDSTATE, selectedState, 0); }
-  void add_displaystate(uint8_t displaystate) { fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_DISPLAYSTATE, displaystate, 0); }
-  RadioButtonOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  RadioButtonOptionsBuilder &operator=(const RadioButtonOptionsBuilder &);
-  flatbuffers::Offset<RadioButtonOptions> Finish() {
-    auto o = flatbuffers::Offset<RadioButtonOptions>(fbb_.EndTable(start_, 8));
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<RadioButtonOptions> CreateRadioButtonOptions(flatbuffers::FlatBufferBuilder &_fbb,
-   flatbuffers::Offset<WidgetOptions> widgetOptions = 0,
-   flatbuffers::Offset<ResourceData> backGroundBoxData = 0,
-   flatbuffers::Offset<ResourceData> backGroundBoxSelectedData = 0,
-   flatbuffers::Offset<ResourceData> frontCrossData = 0,
-   flatbuffers::Offset<ResourceData> backGroundBoxDisabledData = 0,
-   flatbuffers::Offset<ResourceData> frontCrossDisabledData = 0,
-   uint8_t selectedState = 0,
-   uint8_t displaystate = 0) {
-  RadioButtonOptionsBuilder builder_(_fbb);
   builder_.add_frontCrossDisabledData(frontCrossDisabledData);
   builder_.add_backGroundBoxDisabledData(backGroundBoxDisabledData);
   builder_.add_frontCrossData(frontCrossData);
@@ -1430,11 +1252,7 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_SHADOWBLURRADIUS = 40,
     VT_GLOWENABLED = 42,
     VT_GLOWCOLOR = 44,
-    VT_BOLDENABLED = 46,
-    VT_UNDERLINEENABLED = 48,
-    VT_ITALICSENABLED = 50,
-    VT_STRIKETHROUGHENABLED = 52,
-    VT_ISLOCALIZED = 54
+    VT_ISLOCALIZED = 46
   };
   const WidgetOptions *widgetOptions() const { return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS); }
   const ResourceData *fontResource() const { return GetPointer<const ResourceData *>(VT_FONTRESOURCE); }
@@ -1457,10 +1275,6 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t shadowBlurRadius() const { return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0); }
   bool glowEnabled() const { return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0; }
   const Color *glowColor() const { return GetStruct<const Color *>(VT_GLOWCOLOR); }
-  bool boldEnabled() const { return GetField<uint8_t>(VT_BOLDENABLED, 0) != 0; }
-  bool underlineEnabled() const { return GetField<uint8_t>(VT_UNDERLINEENABLED, 0) != 0; }
-  bool italicsEnabled() const { return GetField<uint8_t>(VT_ITALICSENABLED, 0) != 0; }
-  bool strikethroughEnabled() const { return GetField<uint8_t>(VT_STRIKETHROUGHENABLED, 0) != 0; }
   uint8_t isLocalized() const { return GetField<uint8_t>(VT_ISLOCALIZED, 0); }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1489,10 +1303,6 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_SHADOWBLURRADIUS) &&
            VerifyField<uint8_t>(verifier, VT_GLOWENABLED) &&
            VerifyField<Color>(verifier, VT_GLOWCOLOR) &&
-           VerifyField<uint8_t>(verifier, VT_BOLDENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_UNDERLINEENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_ITALICSENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_STRIKETHROUGHENABLED) &&
            VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            verifier.EndTable();
   }
@@ -1522,15 +1332,11 @@ struct TextOptionsBuilder {
   void add_shadowBlurRadius(int32_t shadowBlurRadius) { fbb_.AddElement<int32_t>(TextOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0); }
   void add_glowEnabled(bool glowEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0); }
   void add_glowColor(const Color *glowColor) { fbb_.AddStruct(TextOptions::VT_GLOWCOLOR, glowColor); }
-  void add_boldEnabled(bool boldEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_BOLDENABLED, static_cast<uint8_t>(boldEnabled), 0); }
-  void add_underlineEnabled(bool underlineEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_UNDERLINEENABLED, static_cast<uint8_t>(underlineEnabled), 0); }
-  void add_italicsEnabled(bool italicsEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_ITALICSENABLED, static_cast<uint8_t>(italicsEnabled), 0); }
-  void add_strikethroughEnabled(bool strikethroughEnabled) { fbb_.AddElement<uint8_t>(TextOptions::VT_STRIKETHROUGHENABLED, static_cast<uint8_t>(strikethroughEnabled), 0); }
   void add_isLocalized(uint8_t isLocalized) { fbb_.AddElement<uint8_t>(TextOptions::VT_ISLOCALIZED, isLocalized, 0); }
   TextOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
   TextOptionsBuilder &operator=(const TextOptionsBuilder &);
   flatbuffers::Offset<TextOptions> Finish() {
-    auto o = flatbuffers::Offset<TextOptions>(fbb_.EndTable(start_, 26));
+    auto o = flatbuffers::Offset<TextOptions>(fbb_.EndTable(start_, 22));
     return o;
   }
 };
@@ -1557,10 +1363,6 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(flatbuffers::FlatBuffe
    int32_t shadowBlurRadius = 0,
    bool glowEnabled = false,
    const Color *glowColor = 0,
-   bool boldEnabled = false,
-   bool underlineEnabled = false,
-   bool italicsEnabled = false,
-   bool strikethroughEnabled = false,
    uint8_t isLocalized = 0) {
   TextOptionsBuilder builder_(_fbb);
   builder_.add_glowColor(glowColor);
@@ -1580,54 +1382,11 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(flatbuffers::FlatBuffe
   builder_.add_fontResource(fontResource);
   builder_.add_widgetOptions(widgetOptions);
   builder_.add_isLocalized(isLocalized);
-  builder_.add_strikethroughEnabled(strikethroughEnabled);
-  builder_.add_italicsEnabled(italicsEnabled);
-  builder_.add_underlineEnabled(underlineEnabled);
-  builder_.add_boldEnabled(boldEnabled);
   builder_.add_glowEnabled(glowEnabled);
   builder_.add_shadowEnabled(shadowEnabled);
   builder_.add_outlineEnabled(outlineEnabled);
   builder_.add_isCustomSize(isCustomSize);
   builder_.add_touchScaleEnable(touchScaleEnable);
-  return builder_.Finish();
-}
-
-struct RichTextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  enum {
-    VT_WIDGETOPTIONS = 4,
-    VT_XMLDEFINITION = 6
-  };
-  const WidgetOptions *widgetOptions() const { return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS); }
-  const flatbuffers::String *xmlDefinition() const { return GetPointer<const flatbuffers::String *>(VT_XMLDEFINITION); }
-  bool Verify(flatbuffers::Verifier &verifier) const {
-    return VerifyTableStart(verifier) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_WIDGETOPTIONS) &&
-           verifier.VerifyTable(widgetOptions()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_XMLDEFINITION) &&
-           verifier.Verify(xmlDefinition()) &&
-           verifier.EndTable();
-  }
-};
-
-struct RichTextOptionsBuilder {
-  flatbuffers::FlatBufferBuilder &fbb_;
-  flatbuffers::uoffset_t start_;
-  void add_widgetOptions(flatbuffers::Offset<WidgetOptions> widgetOptions) { fbb_.AddOffset(RichTextOptions::VT_WIDGETOPTIONS, widgetOptions); }
-  void add_xmlDefinition(flatbuffers::Offset<flatbuffers::String> xmlDefinition) { fbb_.AddOffset(RichTextOptions::VT_XMLDEFINITION, xmlDefinition); }
-  RichTextOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
-  RichTextOptionsBuilder &operator=(const RichTextOptionsBuilder &);
-  flatbuffers::Offset<RichTextOptions> Finish() {
-    auto o = flatbuffers::Offset<RichTextOptions>(fbb_.EndTable(start_, 2));
-    return o;
-  }
-};
-
-inline flatbuffers::Offset<RichTextOptions> CreateRichTextOptions(flatbuffers::FlatBufferBuilder &_fbb,
-   flatbuffers::Offset<WidgetOptions> widgetOptions = 0,
-   flatbuffers::Offset<flatbuffers::String> xmlDefinition = 0) {
-  RichTextOptionsBuilder builder_(_fbb);
-  builder_.add_xmlDefinition(xmlDefinition);
-  builder_.add_widgetOptions(widgetOptions);
   return builder_.Finish();
 }
 

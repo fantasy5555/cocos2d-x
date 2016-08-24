@@ -136,6 +136,9 @@
     <Filter Include="cocostudio\reader\WidgetReader\TabControlReader">
       <UniqueIdentifier>{8686c220-18af-4bea-abce-f4797afd01f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocostudio\reader\WidgetReader\SpineSkeletonReader">
+      <UniqueIdentifier>{dbb55d33-af7a-4757-a88c-d63c886cfcbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\editor-support\cocostudio\TriggerBase.cpp">
@@ -377,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp">
       <Filter>cocostudio\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\SpineSkeletonReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +702,9 @@
       <Filter>cocostudio\reader\WidgetReader</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.h">
+      <Filter>cocostudio\reader\WidgetReader\SpineSkeletonReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="libxreader.rc" />
