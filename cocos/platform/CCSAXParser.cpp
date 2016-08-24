@@ -28,7 +28,7 @@
 
 #include "platform/CCFileUtils.h"
 #include "tinyxml2.h"
-#include "platform/rapidxml_sax3.hpp"
+#include "rapidxml/rapidxml_sax3.hpp"
 
 NS_CC_BEGIN
 
@@ -150,7 +150,7 @@ bool SAXParser::parse(const std::string& filename)
     Data data = FileUtils::getInstance()->getDataFromFile(filename);
     if (!data.isNull())
     {
-        ret = parse((const char*)data.getBytes(), data.getSize());
+        ret = parseIntrusive((char*)data.getBytes(), data.getSize());
     }
 
     return ret;
