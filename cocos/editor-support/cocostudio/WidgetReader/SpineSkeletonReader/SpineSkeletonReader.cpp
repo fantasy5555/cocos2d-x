@@ -215,14 +215,14 @@ namespace cocostudio
         auto options = (SpineSkeletonOptions*)spriteOptions;
 
         auto sharedData = SpineSkeletonCache::getInstance()->addData(options->dataFile()->c_str(), options->atlasFile()->c_str(), 1.0f/*TODO:*/);
-        auto skeletonAnimation = spine::SkeletonAnimation::createWithData(sharedData->data);
-        skeletonAnimation->setAnimation(0, options->animation()->c_str(), options->loop());
-        skeletonAnimation->setSkin(options->animation()->c_str());
+        auto implNode = spine::SkeletonAnimation::createWithData(sharedData->data);
+        implNode->setAnimation(0, options->animation()->c_str(), options->loop());
+        implNode->setSkin(options->animation()->c_str());
         
-        *ppResult = skeletonAnimation;
+        *ppResult = implNode;
 
         auto nodeReader = NodeReader::getInstance();
-        nodeReader->setPropsWithFlatBuffers(skeletonAnimation, (Table*)(options->nodeOptions()));
+        nodeReader->setPropsWithFlatBuffers(implNode, (Table*)(options->nodeOptions()));
 
         // set Node Options
         auto nodeOptions = options->nodeOptions();
@@ -232,11 +232,11 @@ namespace cocostudio
         GLubyte green = (GLubyte)nodeOptions->color()->g();
         GLubyte blue = (GLubyte)nodeOptions->color()->b();
 
-        skeletonAnimation->setScaleX(nodeOptions->scale()->scaleX());
-        skeletonAnimation->setScaleY(nodeOptions->scale()->scaleY());
+        implNode->setScaleX(nodeOptions->scale()->scaleX());
+        implNode->setScaleY(nodeOptions->scale()->scaleY());
 
-        skeletonAnimation->setColor(Color3B(red, green, blue));
-        skeletonAnimation->setOpacity(alpha);
+        implNode->setColor(Color3B(red, green, blue));
+        implNode->setOpacity(alpha);
 
         /*bool flipX = nodeOptions->flipX() != 0;
         bool flipY = nodeOptions->flipY() != 0;
@@ -249,12 +249,12 @@ namespace cocostudio
 
     Node* SpineSkeletonReader::createNodeWithFlatBuffers(const flatbuffers::Table *spriteOptions)
     {
-        Node* spineAnimation = nullptr;
+        Node* node = nullptr;
         // Sprite* sprite = wext::aSprite(); // Sprite::create();
         // #Hack
-        setPropsWithFlatBuffers((Node*)(&spineAnimation), (Table*)spriteOptions);
+        setPropsWithFlatBuffers((Node*)(&node), (Table*)spriteOptions);
 
-        return spineAnimation;
+        return node;
     }
 
     int SpineSkeletonReader::getResourceType(std::string key)

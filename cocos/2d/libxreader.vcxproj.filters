@@ -139,6 +139,15 @@
     <Filter Include="cocostudio\reader\WidgetReader\SpineSkeletonReader">
       <UniqueIdentifier>{dbb55d33-af7a-4757-a88c-d63c886cfcbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocostudio\reader\WidgetReader\RichTextReader">
+      <UniqueIdentifier>{6e57ea9a-7ef7-4c16-836e-4a787f473a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocostudio\reader\WidgetReader\ControlSwitchReader">
+      <UniqueIdentifier>{4116869d-9ea6-4970-82ce-facc795b2783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocostudio\reader\WidgetReader\RadioButtonReader">
+      <UniqueIdentifier>{a00b9c93-675a-4da5-a076-da2f6e4ec802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\editor-support\cocostudio\TriggerBase.cpp">
@@ -383,6 +392,15 @@
     </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\SpineSkeletonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RichTextReader\RichTextReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\RichTextReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\ControlSwitchReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -704,6 +722,15 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonReader\SpineSkeletonReader.h">
       <Filter>cocostudio\reader\WidgetReader\SpineSkeletonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RichTextReader\RichTextReader.h">
+      <Filter>cocostudio\reader\WidgetReader\RichTextReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonReader.h">
+      <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.h">
+      <Filter>cocostudio\reader\WidgetReader\ControlSwitchReader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
