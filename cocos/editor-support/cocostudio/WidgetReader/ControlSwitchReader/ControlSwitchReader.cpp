@@ -95,13 +95,13 @@ namespace cocostudio
         std::string maskImage = "";
         std::string maskImagePlistFile = "";
 
-        int offImageResourceType = 0;
-        std::string offImage = "";
-        std::string offImagePlistFile = "";
-
         int onImageResourceType = 0;
         std::string onImage = "";
         std::string onImagePlistFile = "";
+
+        int offImageResourceType = 0;
+        std::string offImage = "";
+        std::string offImagePlistFile = "";
 
         int thumbImageResourceType = 0;
         std::string thumbImage = "";
@@ -166,41 +166,6 @@ namespace cocostudio
                     fbs->_textures.push_back(builder->CreateString(texture));
                 }
             }
-            else if (name == "OffImageData")
-            {
-                std::string texture = "";
-                std::string texturePng = "";
-
-                attribute = child->FirstAttribute();
-
-                while (attribute)
-                {
-                    name = attribute->Name();
-                    std::string value = attribute->Value();
-
-                    if (name == "Path")
-                    {
-                        offImage = value;
-                    }
-                    else if (name == "Type")
-                    {
-                        offImageResourceType = getResourceType(value);
-                    }
-                    else if (name == "Plist")
-                    {
-                        offImagePlistFile = value;
-                        texture = value;
-                    }
-
-                    attribute = attribute->Next();
-                }
-
-                if (offImageResourceType == 1)
-                {
-                    FlatBuffersSerialize* fbs = FlatBuffersSerialize::getInstance();
-                    fbs->_textures.push_back(builder->CreateString(texture));
-                }
-            }
             else if (name == "OnImageData")
             {
                 std::string texture = "";
@@ -231,6 +196,41 @@ namespace cocostudio
                 }
 
                 if (onImageResourceType == 1)
+                {
+                    FlatBuffersSerialize* fbs = FlatBuffersSerialize::getInstance();
+                    fbs->_textures.push_back(builder->CreateString(texture));
+                }
+            }
+            else if (name == "OffImageData")
+            {
+                std::string texture = "";
+                std::string texturePng = "";
+
+                attribute = child->FirstAttribute();
+
+                while (attribute)
+                {
+                    name = attribute->Name();
+                    std::string value = attribute->Value();
+
+                    if (name == "Path")
+                    {
+                        offImage = value;
+                    }
+                    else if (name == "Type")
+                    {
+                        offImageResourceType = getResourceType(value);
+                    }
+                    else if (name == "Plist")
+                    {
+                        offImagePlistFile = value;
+                        texture = value;
+                    }
+
+                    attribute = attribute->Next();
+                }
+
+                if (offImageResourceType == 1)
                 {
                     FlatBuffersSerialize* fbs = FlatBuffersSerialize::getInstance();
                     fbs->_textures.push_back(builder->CreateString(texture));
@@ -282,13 +282,13 @@ namespace cocostudio
                 builder->CreateString(maskImagePlistFile),
                 maskImageResourceType),
             CreateResourceData(*builder,
-                builder->CreateString(offImage),
-                builder->CreateString(offImagePlistFile),
-                offImageResourceType),
-            CreateResourceData(*builder,
                 builder->CreateString(onImage),
                 builder->CreateString(onImagePlistFile),
                 onImageResourceType),
+            CreateResourceData(*builder,
+                builder->CreateString(offImage),
+                builder->CreateString(offImagePlistFile),
+                offImageResourceType),
             CreateResourceData(*builder,
                 builder->CreateString(thumbImage),
                 builder->CreateString(thumbImagePlistFile),
@@ -369,7 +369,7 @@ namespace cocostudio
         //load background selected image
         bool backGroundSelectedfileExist = false;
         std::string backGroundSelectedErrorFilePath = "";
-        auto backGroundSelectedDic = cocos2d::wext::makeResourceData(options->offImage());
+        auto backGroundSelectedDic = cocos2d::wext::makeResourceData(options->onImage());
         int backGroundSelectedType = backGroundSelectedDic.type;
         std::string& backGroundSelectedTexturePath = backGroundSelectedDic.file;
         // cocos2d::wext::onBeforeLoadObjectAsset(checkBox, backGroundSelectedDic, 1);
@@ -429,7 +429,7 @@ namespace cocostudio
         //load frontCross image
         bool frontCrossFileExist = false;
         std::string frontCrossErrorFilePath = "";
-        auto frontCrossDic = cocos2d::wext::makeResourceData(options->onImage());
+        auto frontCrossDic = cocos2d::wext::makeResourceData(options->offImage());
         int frontCrossType = frontCrossDic.type;
         std::string& frontCrossFileName = frontCrossDic.file;
         //cocos2d::wext::onBeforeLoadObjectAsset(checkBox, frontCrossDic, 2);
@@ -546,13 +546,13 @@ namespace cocostudio
             checkBox->loadTextureBackGroundDisabled(backGroundDisabledFileName, (Widget::TextureResType)backGroundDisabledType);
         }*/
 
-        
-
-        
         auto implNode = extension::ControlSwitch::create(createSprite(backGroundDic),
             createSprite(backGroundSelectedDic),
             createSprite(frontCrossDic),
             createSprite(backGroundDisabledDic));
+
+        implNode->setOn(options->on());
+        implNode->setTouchEnabled(options->enabled());
         // skeletonAnimation->setAnimation(0, options->animation()->c_str(), options->loop());
         // skeletonAnimation->setSkin(options->animation()->c_str());
         

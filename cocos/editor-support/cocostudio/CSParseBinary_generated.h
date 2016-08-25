@@ -841,16 +841,16 @@ struct ControlSwitchOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
   enum {
     VT_NODEOPTIONS = 4,
     VT_MASKIMAGE = 6,
-    VT_OFFIMAGE = 8,
-    VT_ONIMAGE = 10,
+    VT_ONIMAGE = 8,
+    VT_OFFIMAGE = 10,
     VT_THUMBIMAGE = 12,
     VT_ON = 14,
     VT_ENABLED = 16
   };
   const WidgetOptions *nodeOptions() const { return GetPointer<const WidgetOptions *>(VT_NODEOPTIONS); }
   const ResourceData *maskImage() const { return GetPointer<const ResourceData *>(VT_MASKIMAGE); }
-  const ResourceData *offImage() const { return GetPointer<const ResourceData *>(VT_OFFIMAGE); }
   const ResourceData *onImage() const { return GetPointer<const ResourceData *>(VT_ONIMAGE); }
+  const ResourceData *offImage() const { return GetPointer<const ResourceData *>(VT_OFFIMAGE); }
   const ResourceData *thumbImage() const { return GetPointer<const ResourceData *>(VT_THUMBIMAGE); }
   bool on() const { return GetField<uint8_t>(VT_ON, 0) != 0; }
   bool enabled() const { return GetField<uint8_t>(VT_ENABLED, 0) != 0; }
@@ -860,10 +860,10 @@ struct ControlSwitchOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
            verifier.VerifyTable(nodeOptions()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_MASKIMAGE) &&
            verifier.VerifyTable(maskImage()) &&
-           VerifyField<flatbuffers::uoffset_t>(verifier, VT_OFFIMAGE) &&
-           verifier.VerifyTable(offImage()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_ONIMAGE) &&
            verifier.VerifyTable(onImage()) &&
+           VerifyField<flatbuffers::uoffset_t>(verifier, VT_OFFIMAGE) &&
+           verifier.VerifyTable(offImage()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_THUMBIMAGE) &&
            verifier.VerifyTable(thumbImage()) &&
            VerifyField<uint8_t>(verifier, VT_ON) &&
@@ -877,8 +877,8 @@ struct ControlSwitchOptionsBuilder {
   flatbuffers::uoffset_t start_;
   void add_nodeOptions(flatbuffers::Offset<WidgetOptions> nodeOptions) { fbb_.AddOffset(ControlSwitchOptions::VT_NODEOPTIONS, nodeOptions); }
   void add_maskImage(flatbuffers::Offset<ResourceData> maskImage) { fbb_.AddOffset(ControlSwitchOptions::VT_MASKIMAGE, maskImage); }
-  void add_offImage(flatbuffers::Offset<ResourceData> offImage) { fbb_.AddOffset(ControlSwitchOptions::VT_OFFIMAGE, offImage); }
   void add_onImage(flatbuffers::Offset<ResourceData> onImage) { fbb_.AddOffset(ControlSwitchOptions::VT_ONIMAGE, onImage); }
+  void add_offImage(flatbuffers::Offset<ResourceData> offImage) { fbb_.AddOffset(ControlSwitchOptions::VT_OFFIMAGE, offImage); }
   void add_thumbImage(flatbuffers::Offset<ResourceData> thumbImage) { fbb_.AddOffset(ControlSwitchOptions::VT_THUMBIMAGE, thumbImage); }
   void add_on(bool on) { fbb_.AddElement<uint8_t>(ControlSwitchOptions::VT_ON, static_cast<uint8_t>(on), 0); }
   void add_enabled(bool enabled) { fbb_.AddElement<uint8_t>(ControlSwitchOptions::VT_ENABLED, static_cast<uint8_t>(enabled), 0); }
@@ -893,15 +893,15 @@ struct ControlSwitchOptionsBuilder {
 inline flatbuffers::Offset<ControlSwitchOptions> CreateControlSwitchOptions(flatbuffers::FlatBufferBuilder &_fbb,
    flatbuffers::Offset<WidgetOptions> nodeOptions = 0,
    flatbuffers::Offset<ResourceData> maskImage = 0,
-   flatbuffers::Offset<ResourceData> offImage = 0,
    flatbuffers::Offset<ResourceData> onImage = 0,
+   flatbuffers::Offset<ResourceData> offImage = 0,
    flatbuffers::Offset<ResourceData> thumbImage = 0,
    bool on = false,
    bool enabled = false) {
   ControlSwitchOptionsBuilder builder_(_fbb);
   builder_.add_thumbImage(thumbImage);
-  builder_.add_onImage(onImage);
   builder_.add_offImage(offImage);
+  builder_.add_onImage(onImage);
   builder_.add_maskImage(maskImage);
   builder_.add_nodeOptions(nodeOptions);
   builder_.add_enabled(enabled);
@@ -3361,7 +3361,7 @@ inline flatbuffers::Offset<BlendFrame> CreateBlendFrame(flatbuffers::FlatBufferB
 
 inline const flatbuffers::CSParseBinary *GetCSParseBinary(const void *buf) { return flatbuffers::GetRoot<flatbuffers::CSParseBinary>(buf); }
 
-inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<flatbuffers::CSParseBinary>(nullptr); }
+inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<flatbuffers::CSParseBinary>(); }
 
 inline void FinishCSParseBinaryBuffer(flatbuffers::FlatBufferBuilder &fbb, flatbuffers::Offset<flatbuffers::CSParseBinary> root) { fbb.Finish(root); }
 

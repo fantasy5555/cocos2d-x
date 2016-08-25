@@ -307,6 +307,8 @@ namespace cocostudio
 
 		bool glowEnabled = false;
 		Color4B glowColor = Color4B::BLACK;
+
+        bool boldEnabled = false, underlineEnabled = false, italicsEnabled = false, strikethroughEnabled = false;
         
         // attributes
         const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
@@ -385,7 +387,20 @@ namespace cocostudio
 			else if (name == "GlowEnabled") {
 				glowEnabled = (value == "True") ? true : false;
 			}
-            
+            else if (name == "BoldEnabled")
+            {
+                boldEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "UnderlineEnabled") {
+                underlineEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "ItalicsEnabled") {
+                italicsEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "StrikethroughEnabled") {
+                strikethroughEnabled = (value == "True") ? true : false;
+            }
+
             attribute = attribute->Next();
         }
         
@@ -702,7 +717,7 @@ namespace cocostudio
                                            shadowOffset.height,
                                            shadowBlurRadius,
 			                               glowEnabled,
-		                                   &f_glowColor,
+		                                   &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled,
                                            isLocalized);
         
         return *(Offset<Table>*)(&options);
@@ -1000,6 +1015,18 @@ namespace cocostudio
 		button->setTitleColor(titleColor);
 
         button->setBright(displaystate);
+
+        auto labelRenderer = dynamic_cast<cocos2d::Label*>(button->getTitleRenderer());
+        if (labelRenderer != nullptr) {
+            if (options->boldEnabled())
+                labelRenderer->enableBold();
+            if (options->underlineEnabled())
+                labelRenderer->enableUnderline();
+            if (options->italicsEnabled())
+                labelRenderer->enableItalics();
+            if (options->strikethroughEnabled())
+                labelRenderer->enableStrikethrough();
+        }
     }
     
     Node* ButtonReader::createNodeWithFlatBuffers(const flatbuffers::Table *buttonOptions)

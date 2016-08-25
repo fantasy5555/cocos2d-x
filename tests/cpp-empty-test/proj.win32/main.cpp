@@ -15,3 +15,5 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     return Application::getInstance()->run();
 }
+
+// #recompile 4

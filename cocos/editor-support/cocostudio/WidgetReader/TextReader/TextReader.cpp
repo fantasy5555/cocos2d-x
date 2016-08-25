@@ -3,6 +3,7 @@
 #include "editor-support/cocostudio/WidgetReader/TextReader/TextReader.h"
 
 #include "ui/UIText.h"
+#include "2d/CCLabel.h"
 #include "platform/CCFileUtils.h"
 
 #include "editor-support/cocostudio/CocoLoader.h"
@@ -178,8 +179,11 @@ namespace cocostudio
         Size shadowOffset = Size(2, -2);
         int shadowBlurRadius = 0;
 
+        // since x-studio365 reader 10.0.593.0
 		bool glowEnabled = false;
 		Color4B glowColor = Color4B::BLACK;
+
+        bool boldEnabled = false, underlineEnabled = false, italicsEnabled = false, strikethroughEnabled = false;
         
         std::string path = "";
         std::string plistFile = "";
@@ -281,6 +285,19 @@ namespace cocostudio
 			else if (name == "GlowEnabled") {
 				glowEnabled = (value == "True") ? true : false;
 			}
+            else if (name == "BoldEnabled")
+            {
+                boldEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "UnderlineEnabled") {
+                underlineEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "ItalicsEnabled") {
+                italicsEnabled = (value == "True") ? true : false;
+            }
+            else if (name == "StrikethroughEnabled") {
+                strikethroughEnabled = (value == "True") ? true : false;
+            }
             
             attribute = attribute->Next();
         }
@@ -434,7 +451,7 @@ namespace cocostudio
                                          shadowOffset.height,
                                          shadowBlurRadius,
 			                             glowEnabled,
-			                             &f_glowColor,
+			                             &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled,
                                          isLocalized);
         
         return *(Offset<Table>*)(&options);
@@ -543,6 +560,16 @@ namespace cocostudio
             Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
             label->setContentSize(contentSize);
         }
+
+        auto labelRenderer = dynamic_cast<cocos2d::Label*>(label->getVirtualRenderer());
+        if (options->boldEnabled())
+            labelRenderer->enableBold();
+        if (options->underlineEnabled())
+            labelRenderer->enableUnderline();
+        if (options->italicsEnabled())
+            labelRenderer->enableItalics();
+        if (options->strikethroughEnabled())
+            labelRenderer->enableStrikethrough();
     }
     
     Node* TextReader::createNodeWithFlatBuffers(const flatbuffers::Table *textOptions)
