@@ -76,30 +76,6 @@
     <Filter Include="cocostudio\components">
       <UniqueIdentifier>{dc6e53e4-e518-403f-b2a9-97f6f7cd0961}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cocostudio\armature">
-      <UniqueIdentifier>{22a4587f-d4ca-44fa-a734-ded122cd79e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\armature\animation">
-      <UniqueIdentifier>{137efcbb-0d14-4f1c-a856-7b1669a6d2af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\armature\datas">
-      <UniqueIdentifier>{4825cd2d-ca8b-434c-8c79-2d3d3258086f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\armature\display">
-      <UniqueIdentifier>{57ba2fcb-04bd-4b2f-9ae6-375992ad363a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\armature\physics">
-      <UniqueIdentifier>{acdfaa6f-1374-4611-a5e7-9038dc6900c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\armature\utils">
-      <UniqueIdentifier>{f195e2f1-1030-4848-9498-f8142bf89009}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\action">
-      <UniqueIdentifier>{d48c8016-e933-48dd-a5c0-202b0a84b82a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cocostudio\TimelineAction\trigger">
-      <UniqueIdentifier>{0554a5b1-03a1-4d38-87a5-976dbe9a39d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="cocostudio\json\flatbuffers">
       <UniqueIdentifier>{db915acb-1838-413d-b290-dc280365eabc}</UniqueIdentifier>
     </Filter>
@@ -130,9 +106,6 @@
     <Filter Include="cocostudio\reader\WidgetReader\SkeletonReader">
       <UniqueIdentifier>{8405cf93-e86c-4ec1-8b16-01058f542b09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="cocostudio\TimelineAction\Skeleton">
-      <UniqueIdentifier>{ca5e1475-3bfd-4aae-ad54-2e19d5021b92}</UniqueIdentifier>
-    </Filter>
     <Filter Include="cocostudio\reader\WidgetReader\TabControlReader">
       <UniqueIdentifier>{8686c220-18af-4bea-abce-f4797afd01f1}</UniqueIdentifier>
     </Filter>
@@ -148,29 +121,14 @@
     <Filter Include="cocostudio\reader\WidgetReader\RadioButtonReader">
       <UniqueIdentifier>{a00b9c93-675a-4da5-a076-da2f6e4ec802}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cocostudio\TimelineAction\Skeleton">
+      <UniqueIdentifier>{c84e13bd-64f4-4e72-a5b1-7c16c37cc040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocostudio\TimelineAction\trigger">
+      <UniqueIdentifier>{a4af7b11-b475-460f-ab24-569f0beb0e43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\editor-support\cocostudio\TriggerBase.cpp">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\TriggerMng.cpp">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\TriggerObj.cpp">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimeline.cpp">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCFrame.cpp">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineCache.cpp">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.cpp">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\CCSGUIReader.cpp">
       <Filter>cocostudio\reader</Filter>
     </ClCompile>
@@ -231,96 +189,6 @@
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\Particle3DReader\Particle3DReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\Particle3DReader</Filter>
     </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CocoLoader.cpp">
-      <Filter>cocostudio\json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\DictionaryHelper.cpp">
-      <Filter>cocostudio\json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCComAttribute.cpp">
-      <Filter>cocostudio\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCComAudio.cpp">
-      <Filter>cocostudio\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCComController.cpp">
-      <Filter>cocostudio\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCComRender.cpp">
-      <Filter>cocostudio\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCInputDelegate.cpp">
-      <Filter>cocostudio\components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCArmature.cpp">
-      <Filter>cocostudio\armature</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCBone.cpp">
-      <Filter>cocostudio\armature</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCArmatureAnimation.cpp">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCProcessBase.cpp">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCTween.cpp">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCDatas.cpp">
-      <Filter>cocostudio\armature\datas</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCBatchNode.cpp">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCDecorativeDisplay.cpp">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCDisplayFactory.cpp">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCDisplayManager.cpp">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCSkin.cpp">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCColliderDetector.cpp">
-      <Filter>cocostudio\armature\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDataManager.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDefine.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCDataReaderHelper.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCTransformHelp.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCUtilMath.cpp">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCActionFrame.cpp">
-      <Filter>cocostudio\action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCActionFrameEasing.cpp">
-      <Filter>cocostudio\action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCActionManagerEx.cpp">
-      <Filter>cocostudio\action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCActionNode.cpp">
-      <Filter>cocostudio\action</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCActionObject.cpp">
-      <Filter>cocostudio\action</Filter>
-    </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CSLoader.cpp">
       <Filter>cocostudio\TimelineAction</Filter>
     </ClCompile>
@@ -351,9 +219,6 @@
     <ClCompile Include="..\editor-support\cocostudio\WidgetCallBackHandlerProtocol.cpp">
       <Filter>cocostudio\json</Filter>
     </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineNode.cpp">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\ArmatureNodeReader</Filter>
     </ClCompile>
@@ -365,18 +230,6 @@
     </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\SkeletonNodeReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\SkeletonReader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCBoneNode.cpp">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCSkeletonNode.cpp">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCSkinNode.cpp">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\CCComExtensionData.cpp">
-      <Filter>cocostudio\components</Filter>
     </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\TabControlReader\TabControlReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\TabControlReader</Filter>
@@ -402,31 +255,61 @@
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\ControlSwitchReader</Filter>
     </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCComAttribute.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCComAudio.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCComController.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCComExtensionData.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCComRender.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCInputDelegate.cpp">
+      <Filter>cocostudio\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCBoneNode.cpp">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCSkeletonNode.cpp">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCSkinNode.cpp">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\TriggerBase.cpp">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\TriggerMng.cpp">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\TriggerObj.cpp">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimeline.cpp">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineCache.cpp">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineNode.cpp">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCFrame.cpp">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.cpp">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\CocosStudioExport.h">
       <Filter>cocostudio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\TriggerBase.h">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\TriggerMng.h">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\TriggerObj.h">
-      <Filter>cocostudio\TimelineAction\trigger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimeline.h">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCFrame.h">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineCache.h">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.h">
-      <Filter>cocostudio\TimelineAction</Filter>
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCTimelineMacro.h">
       <Filter>cocostudio\TimelineAction</Filter>
@@ -494,13 +377,7 @@
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\Sprite3DReader\Sprite3DReader.h">
       <Filter>cocostudio\reader\WidgetReader\Sprite3DReader</Filter>
     </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CocoLoader.h">
-      <Filter>cocostudio\json</Filter>
-    </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\CocoStudio.h">
-      <Filter>cocostudio\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\DictionaryHelper.h">
       <Filter>cocostudio\json</Filter>
     </ClInclude>
     <ClInclude Include="..\..\external\json\document.h">
@@ -532,93 +409,6 @@
     </ClInclude>
     <ClInclude Include="..\..\external\json\internal\strfunc.h">
       <Filter>cocostudio\json\rapidjson\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComAttribute.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComAudio.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComBase.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComController.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComRender.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCInputDelegate.h">
-      <Filter>cocostudio\components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCArmature.h">
-      <Filter>cocostudio\armature</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCBone.h">
-      <Filter>cocostudio\armature</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCArmatureAnimation.h">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCProcessBase.h">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCTween.h">
-      <Filter>cocostudio\armature\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCDatas.h">
-      <Filter>cocostudio\armature\datas</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCBatchNode.h">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCDecorativeDisplay.h">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCDisplayFactory.h">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCDisplayManager.h">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCSkin.h">
-      <Filter>cocostudio\armature\display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCColliderDetector.h">
-      <Filter>cocostudio\armature\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDataManager.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDefine.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCDataReaderHelper.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCTransformHelp.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCUtilMath.h">
-      <Filter>cocostudio\armature\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCActionFrame.h">
-      <Filter>cocostudio\action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCActionFrameEasing.h">
-      <Filter>cocostudio\action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCActionManagerEx.h">
-      <Filter>cocostudio\action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCActionNode.h">
-      <Filter>cocostudio\action</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCActionObject.h">
-      <Filter>cocostudio\action</Filter>
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CSLoader.h">
       <Filter>cocostudio\TimelineAction</Filter>
@@ -671,9 +461,6 @@
     <ClInclude Include="..\editor-support\cocostudio\WidgetCallBackHandlerProtocol.h">
       <Filter>cocostudio\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineNode.h">
-      <Filter>cocostudio\TimelineAction</Filter>
-    </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.h">
       <Filter>cocostudio\reader\WidgetReader\ArmatureNodeReader</Filter>
     </ClInclude>
@@ -688,18 +475,6 @@
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SkeletonReader\SkeletonNodeReader.h">
       <Filter>cocostudio\reader\WidgetReader\SkeletonReader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCBoneNode.h">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCSkeletonNode.h">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCSkinNode.h">
-      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\CCComExtensionData.h">
-      <Filter>cocostudio\components</Filter>
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\CSLanguageDataBinary_generated.h">
       <Filter>cocostudio\json</Filter>
@@ -731,6 +506,60 @@
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.h">
       <Filter>cocostudio\reader\WidgetReader\ControlSwitchReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComAttribute.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComAudio.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComBase.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComController.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComExtensionData.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCComRender.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCInputDelegate.h">
+      <Filter>cocostudio\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCBoneNode.h">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCSkeletonNode.h">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCSkinNode.h">
+      <Filter>cocostudio\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\TriggerBase.h">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\TriggerMng.h">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\TriggerObj.h">
+      <Filter>cocostudio\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimeline.h">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineCache.h">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCActionTimelineNode.h">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCFrame.h">
+      <Filter>cocostudio\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.h">
+      <Filter>cocostudio\TimelineAction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

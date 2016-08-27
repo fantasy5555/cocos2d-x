@@ -185,10 +185,60 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionFrame.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCActionFrameEasing.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCActionManagerEx.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCActionNode.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCActionObject.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCArmature.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureAnimation.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDataManager.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDefine.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCBatchNode.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCBone.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCColliderDetector.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCDataReaderHelper.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCDatas.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCDecorativeDisplay.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCDisplayFactory.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCDisplayManager.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCProcessBase.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCSkin.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCTransformHelp.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCTween.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CCUtilMath.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\CocoLoader.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\DictionaryHelper.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionFrame.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCActionFrameEasing.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCActionManagerEx.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCActionNode.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCActionObject.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCArmature.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureAnimation.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDataManager.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDefine.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCBatchNode.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCBone.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCColliderDetector.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCDataReaderHelper.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCDatas.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCDecorativeDisplay.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCDisplayFactory.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCDisplayManager.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCProcessBase.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCSkin.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCTransformHelp.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCTween.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CCUtilMath.h" />
+    <ClInclude Include="..\editor-support\cocostudio\CocoLoader.h" />
+    <ClInclude Include="..\editor-support\cocostudio\DictionaryHelper.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.h" />
   </ItemGroup>

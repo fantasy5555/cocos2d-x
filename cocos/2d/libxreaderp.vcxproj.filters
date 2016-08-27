@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionFrame.cpp">
+      <Filter>cocosstudio\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionFrameEasing.cpp">
+      <Filter>cocosstudio\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionManagerEx.cpp">
+      <Filter>cocosstudio\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionNode.cpp">
+      <Filter>cocosstudio\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCActionObject.cpp">
+      <Filter>cocosstudio\action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureAnimation.cpp">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCProcessBase.cpp">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCTween.cpp">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCDatas.cpp">
+      <Filter>cocosstudio\armature\datas</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCBatchNode.cpp">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCDecorativeDisplay.cpp">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCDisplayFactory.cpp">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCDisplayManager.cpp">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCSkin.cpp">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCColliderDetector.cpp">
+      <Filter>cocosstudio\armature\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDataManager.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCArmatureDefine.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCDataReaderHelper.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCTransformHelp.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCUtilMath.cpp">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCArmature.cpp">
+      <Filter>cocosstudio\armature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CCBone.cpp">
+      <Filter>cocosstudio\armature</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\CocoLoader.cpp">
+      <Filter>cocosstudio\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\DictionaryHelper.cpp">
+      <Filter>cocosstudio\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.cpp">
+      <Filter>cocosstudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionFrame.h">
+      <Filter>cocosstudio\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionFrameEasing.h">
+      <Filter>cocosstudio\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionManagerEx.h">
+      <Filter>cocosstudio\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionNode.h">
+      <Filter>cocosstudio\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCActionObject.h">
+      <Filter>cocosstudio\action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureAnimation.h">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCProcessBase.h">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCTween.h">
+      <Filter>cocosstudio\armature\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCDatas.h">
+      <Filter>cocosstudio\armature\datas</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCBatchNode.h">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCDecorativeDisplay.h">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCDisplayFactory.h">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCDisplayManager.h">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCSkin.h">
+      <Filter>cocosstudio\armature\display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCColliderDetector.h">
+      <Filter>cocosstudio\armature\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDataManager.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCArmatureDefine.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCDataReaderHelper.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCSpriteFrameCacheHelper.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCTransformHelp.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCUtilMath.h">
+      <Filter>cocosstudio\armature\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCArmature.h">
+      <Filter>cocosstudio\armature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CCBone.h">
+      <Filter>cocosstudio\armature</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\CocoLoader.h">
+      <Filter>cocosstudio\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\DictionaryHelper.h">
+      <Filter>cocosstudio\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.h">
+      <Filter>cocosstudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cocosstudio">
+      <UniqueIdentifier>{546e7bde-a017-4af5-98a8-faaae35e82c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\action">
+      <UniqueIdentifier>{bc428c01-d590-46f1-a9e2-68b4de3b8a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature">
+      <UniqueIdentifier>{59e99b3a-a0f6-4eec-8cdf-d921e0fcba0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature\animation">
+      <UniqueIdentifier>{be93880f-81a7-4078-b58a-635c01369bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature\datas">
+      <UniqueIdentifier>{c6ad62f4-0df9-4228-a5dd-9759f09c53e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature\display">
+      <UniqueIdentifier>{3bb373c3-c956-4eb0-ae28-9d3b74f78a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature\physics">
+      <UniqueIdentifier>{b2af5182-8355-4098-be11-306aebd5bd56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\armature\utils">
+      <UniqueIdentifier>{2fd91bc6-faab-486a-a257-a0374e8c98db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\json">
+      <UniqueIdentifier>{92137642-a5b2-4f19-9c80-8b411c9bb8c7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
