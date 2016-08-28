@@ -82,7 +82,7 @@ bool HelloWorld::init()
     auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
 	//auto button = utils::findChild<ui::Button*>(ui, "Button_1");
 	//auto titleColor = button->getTitleColor();
-	// centerNode(ui); #recompile 1
+	// centerNode(ui); #recompile 2
 #if 0
     // add a label shows "Hello World"
     // create and initialize a label
