@@ -22,33 +22,35 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __X365LIBS__RadioButtonReader__
-#define __X365LIBS__RadioButtonReader__
+#ifndef __X365LIBS__RadioButtonGroupReader__
+#define __X365LIBS__RadioButtonGroupReader__
 
 #include "editor-support/cocostudio/WidgetReader/WidgetReader.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
 
 namespace cocostudio
 {
-    class CC_STUDIO_DLL RadioButtonReader : public WidgetReader
+    class CC_STUDIO_DLL RadioButtonGroupReader : public WidgetReader
     {
         DECLARE_CLASS_NODE_READER_INFO
         
     public:
-        RadioButtonReader();
-        virtual ~RadioButtonReader();
+
+        RadioButtonGroupReader();
+        virtual ~RadioButtonGroupReader();
         
-        static RadioButtonReader* getInstance();
+        static RadioButtonGroupReader* getInstance();
         /** @deprecated Use method destroyInstance() instead */
         CC_DEPRECATED_ATTRIBUTE static void purge();
         static void destroyInstance();
-          
+        
         flatbuffers::Offset<flatbuffers::Table> createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData,
                                                                              flatbuffers::FlatBufferBuilder* builder);
-        void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* checkBoxOptions);
-        cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* checkBoxOptions);
-		virtual int getResourceType(std::string key);
+        void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* );
+        cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* );
+        
+        // int getResourceType(std::string key);
     };
 }
 
-#endif /* defined(__TestCpp__CheckBoxReader__) */
+#endif /* defined(__X365LIBS__RadioButtonGroupReader__) */

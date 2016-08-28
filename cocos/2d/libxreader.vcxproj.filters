@@ -306,6 +306,9 @@
     <ClCompile Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.cpp">
       <Filter>cocostudio\TimelineAction</Filter>
     </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\CocosStudioExport.h">
@@ -560,6 +563,9 @@
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\ActionTimeline\CCTimeLine.h">
       <Filter>cocostudio\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.h">
+      <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

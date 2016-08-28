@@ -225,6 +225,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\PageViewReader\PageViewReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ParticleReader\ParticleReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RichTextReader\RichTextReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.cpp" />
@@ -308,6 +309,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\PageViewReader\PageViewReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ParticleReader\ParticleReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ProjectNodeReader\ProjectNodeReader.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RichTextReader\RichTextReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ScrollViewReader\ScrollViewReader.h" />

@@ -27,10 +27,12 @@ struct SpriteOptions;
 struct ParticleSystemOptions;
 struct SpineSkeletonOptions;
 struct ControlSwitchOptions;
+struct LayerColorOptions;
 struct GameMapOptions;
 struct ButtonOptions;
 struct CheckBoxOptions;
 struct RadioButtonOptions;
+struct RadioButtonGroupOptions;
 struct ImageViewOptions;
 struct TextAtlasOptions;
 struct TextBMFontOptions;
@@ -909,6 +911,38 @@ inline flatbuffers::Offset<ControlSwitchOptions> CreateControlSwitchOptions(flat
   return builder_.Finish();
 }
 
+struct LayerColorOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  enum {
+    VT_NODEOPTIONS = 4
+  };
+  const WidgetOptions *nodeOptions() const { return GetPointer<const WidgetOptions *>(VT_NODEOPTIONS); }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<flatbuffers::uoffset_t>(verifier, VT_NODEOPTIONS) &&
+           verifier.VerifyTable(nodeOptions()) &&
+           verifier.EndTable();
+  }
+};
+
+struct LayerColorOptionsBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_nodeOptions(flatbuffers::Offset<WidgetOptions> nodeOptions) { fbb_.AddOffset(LayerColorOptions::VT_NODEOPTIONS, nodeOptions); }
+  LayerColorOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
+  LayerColorOptionsBuilder &operator=(const LayerColorOptionsBuilder &);
+  flatbuffers::Offset<LayerColorOptions> Finish() {
+    auto o = flatbuffers::Offset<LayerColorOptions>(fbb_.EndTable(start_, 1));
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<LayerColorOptions> CreateLayerColorOptions(flatbuffers::FlatBufferBuilder &_fbb,
+   flatbuffers::Offset<WidgetOptions> nodeOptions = 0) {
+  LayerColorOptionsBuilder builder_(_fbb);
+  builder_.add_nodeOptions(nodeOptions);
+  return builder_.Finish();
+}
+
 struct GameMapOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
     VT_NODEOPTIONS = 4,
@@ -1303,6 +1337,44 @@ inline flatbuffers::Offset<RadioButtonOptions> CreateRadioButtonOptions(flatbuff
   builder_.add_widgetOptions(widgetOptions);
   builder_.add_displaystate(displaystate);
   builder_.add_selectedState(selectedState);
+  return builder_.Finish();
+}
+
+struct RadioButtonGroupOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  enum {
+    VT_WIDGETOPTIONS = 4,
+    VT_ALLOWEDNOSELECTION = 6
+  };
+  const WidgetOptions *widgetOptions() const { return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS); }
+  bool allowedNoSelection() const { return GetField<uint8_t>(VT_ALLOWEDNOSELECTION, 0) != 0; }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<flatbuffers::uoffset_t>(verifier, VT_WIDGETOPTIONS) &&
+           verifier.VerifyTable(widgetOptions()) &&
+           VerifyField<uint8_t>(verifier, VT_ALLOWEDNOSELECTION) &&
+           verifier.EndTable();
+  }
+};
+
+struct RadioButtonGroupOptionsBuilder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_widgetOptions(flatbuffers::Offset<WidgetOptions> widgetOptions) { fbb_.AddOffset(RadioButtonGroupOptions::VT_WIDGETOPTIONS, widgetOptions); }
+  void add_allowedNoSelection(bool allowedNoSelection) { fbb_.AddElement<uint8_t>(RadioButtonGroupOptions::VT_ALLOWEDNOSELECTION, static_cast<uint8_t>(allowedNoSelection), 0); }
+  RadioButtonGroupOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
+  RadioButtonGroupOptionsBuilder &operator=(const RadioButtonGroupOptionsBuilder &);
+  flatbuffers::Offset<RadioButtonGroupOptions> Finish() {
+    auto o = flatbuffers::Offset<RadioButtonGroupOptions>(fbb_.EndTable(start_, 2));
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<RadioButtonGroupOptions> CreateRadioButtonGroupOptions(flatbuffers::FlatBufferBuilder &_fbb,
+   flatbuffers::Offset<WidgetOptions> widgetOptions = 0,
+   bool allowedNoSelection = false) {
+  RadioButtonGroupOptionsBuilder builder_(_fbb);
+  builder_.add_widgetOptions(widgetOptions);
+  builder_.add_allowedNoSelection(allowedNoSelection);
   return builder_.Finish();
 }
 

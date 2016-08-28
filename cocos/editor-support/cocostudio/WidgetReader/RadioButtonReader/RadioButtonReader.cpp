@@ -2,7 +2,7 @@
 
 #include "editor-support/cocostudio/WidgetReader/RadioButtonReader/RadioButtonReader.h"
 
-#include "ui/UICheckBox.h"
+#include "ui/UIRadioButton.h"
 #include "platform/CCFileUtils.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "editor-support/cocostudio/CocoLoader.h"
@@ -315,13 +315,11 @@ namespace cocostudio
         return *(Offset<Table>*)&options;
     }
     
-    void RadioButtonReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *checkBoxOptions)
+    void RadioButtonReader::setPropsWithFlatBuffers(cocos2d::Node *node, const flatbuffers::Table *radioButtonOptions)
     {
+        auto options = (RadioButtonOptions*)radioButtonOptions;
         
-        
-        auto options = (CheckBoxOptions*)checkBoxOptions;
-        
-        CheckBox* checkBox = static_cast<CheckBox*>(node);
+        auto checkBox = static_cast<ui::RadioButton*>(node);
         
         //load background image
         bool backGroundFileExist = false;
@@ -638,11 +636,11 @@ namespace cocostudio
     
     Node* RadioButtonReader::createNodeWithFlatBuffers(const flatbuffers::Table *checkBoxOptions)
     {
-        CheckBox* checkBox = wext::aCheckBox();// CheckBox::create();
+        auto radioButton = ui::RadioButton::create();// wext::aCheckBox();// CheckBox::create();
         
-        setPropsWithFlatBuffers(checkBox, (Table*)checkBoxOptions);
+        setPropsWithFlatBuffers(radioButton, (Table*)checkBoxOptions);
         
-        return checkBox;
+        return radioButton;
     }
 
     int RadioButtonReader::getResourceType(std::string key)

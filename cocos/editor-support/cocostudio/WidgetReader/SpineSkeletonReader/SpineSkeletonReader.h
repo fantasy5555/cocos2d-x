@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__SpineSkeletonReader__
-#define __cocos2d_libs__SpineSkeletonReader__
+#ifndef __X365LIBS__SpineSkeletonReader__
+#define __X365LIBS__SpineSkeletonReader__
 
 #include "editor-support/cocostudio/CocosStudioExport.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReaderProtocol.h"

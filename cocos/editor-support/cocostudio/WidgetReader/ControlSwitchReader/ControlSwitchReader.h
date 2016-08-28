@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__ControlSwitchReaderr__
-#define __cocos2d_libs__ControlSwitchReader__
+#ifndef __X365LIBS__ControlSwitchReaderr__
+#define __X365LIBS__ControlSwitchReader__
 
 #include "editor-support/cocostudio/CocosStudioExport.h"
 #include "editor-support/cocostudio/WidgetReader/NodeReaderProtocol.h"

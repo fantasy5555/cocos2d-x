@@ -62,7 +62,6 @@ bool HelloWorld::init()
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
-
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
                                         "CloseNormal.png",
@@ -80,7 +79,7 @@ bool HelloWorld::init()
     // 3. add your codes below...
 	auto ui = CSLoader::createNode("scene1.csb");
 	this->addChild(ui);
-
+    auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
 	//auto button = utils::findChild<ui::Button*>(ui, "Button_1");
 	//auto titleColor = button->getTitleColor();
 	// centerNode(ui); #recompile 1

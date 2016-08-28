@@ -139,7 +139,7 @@ void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
         std::string dirpath = fullpath.substr(0, fullpath.find_last_of("/"));
         FileUtils::getInstance()->addSearchPath(dirpath);
         
-        ArmatureDataManager::getInstance()->addArmatureFileInfo(fullpath);
+        ArmatureDataManager::getInstance()->addArmatureFileInfo(filepath);
         custom->init(getArmatureName(filepath));
         std::string currentname = options->currentAnimationName()->c_str();
         if (options->isAutoPlay())
