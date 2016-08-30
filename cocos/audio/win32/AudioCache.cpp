@@ -44,6 +44,7 @@
 
 using namespace cocos2d::experimental;
 
+#if 0
 //FIXME: Move _winLog, winLog to a separated file 
 static void _winLog(const char *format, va_list args)
 {
@@ -99,6 +100,8 @@ void audioLog(const char * format, ...)
     _winLog(format, args);
     va_end(args);
 }
+#endif
+
 
 AudioCache::AudioCache()
 : _pcmData(nullptr)

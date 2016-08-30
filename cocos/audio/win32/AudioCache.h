@@ -47,8 +47,8 @@
 // is needed. Define the following macros (ALOGV, ALOGD, ALOGI, ALOGW, ALOGE) for threadsafe log output.
 
 //FIXME:Move the definition of the following macros to a separated file.
-
-void audioLog(const char * format, ...);
+// void audioLog(const char * format, ...);
+#define audioLog cocos2d::log
 
 #define QUOTEME_(x) #x
 #define QUOTEME(x) QUOTEME_(x)
