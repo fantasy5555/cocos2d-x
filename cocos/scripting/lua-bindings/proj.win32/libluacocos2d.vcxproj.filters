@@ -76,6 +76,9 @@
     <Filter Include="manual\navmesh">
       <UniqueIdentifier>{fa8be49e-8b79-4dc5-8f28-febde1347eda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="manual\cocostudio">
+      <UniqueIdentifier>{3a26a025-dec9-4e9e-8875-450082898e07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\auto\lua_cocos2dx_auto.cpp">
@@ -281,6 +284,21 @@
     </ClCompile>
     <ClCompile Include="..\manual\lua_module_register.cpp">
       <Filter>manual</Filter>
+    </ClCompile>
+    <ClCompile Include="..\manual\cocostudio\lua_cocos2dx_coco_studio_manual.cpp">
+      <Filter>manual\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\manual\cocostudio\lua_cocos2dx_csloader_manual.cpp">
+      <Filter>manual\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\manual\cocostudio\lua-cocos-studio-conversions.cpp">
+      <Filter>manual\cocostudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\auto\lua_cocos2dx_csloader_auto.cpp">
+      <Filter>auto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\manual\cocostudio\CustomGUIReader.cpp">
+      <Filter>manual\cocostudio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +517,9 @@
     </ClInclude>
     <ClInclude Include="..\manual\Lua-BindingsExport.h">
       <Filter>manual</Filter>
+    </ClInclude>
+    <ClInclude Include="..\manual\cocostudio\lua_cocos2dx_coco_studio_manual.hpp">
+      <Filter>manual\cocostudio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

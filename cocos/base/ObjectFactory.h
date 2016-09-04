@@ -62,6 +62,9 @@ public:
     // x-studio365 spec, cocosstudio1.6 csb batch import support
     TInfo* getTypeInfo(const char* className);
 
+    // x-studio365 spec, dynamic switch reader support.
+    void removeAllReader();
+
 protected:
     ObjectFactory(void);
     virtual ~ObjectFactory(void);

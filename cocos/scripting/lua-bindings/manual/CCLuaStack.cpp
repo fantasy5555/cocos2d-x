@@ -181,6 +181,25 @@ bool LuaStack::initWithLuaState(lua_State *L)
     return true;
 }
 
+std::string LuaStack::getSearchPath() const
+{
+    lua_getglobal(_state, "package");                                  /* L: package */
+    lua_getfield(_state, -1, "path");                /* get package.path, L: package path */
+    
+    size_t n = 0;
+    const char* cur_path = lua_tolstring(_state, -1, &n);
+
+    return std::string(cur_path, n);
+}
+
+void LuaStack::setSearchPath(const std::string& searchPath)
+{
+    lua_getglobal(_state, "package");                                  /* L: package */
+    lua_pushlstring(_state, searchPath.c_str(), searchPath.size());            /* L: package path newpath */
+    lua_setfield(_state, -2, "path");          /* package.path = newpath, L: package path */
+    lua_pop(_state, 1);                                                /* L: - */
+}
+
 void LuaStack::addSearchPath(const char* path)
 {
     lua_getglobal(_state, "package");                                  /* L: package */

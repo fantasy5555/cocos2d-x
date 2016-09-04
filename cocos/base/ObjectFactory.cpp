@@ -132,4 +132,23 @@ ObjectFactory::TInfo* ObjectFactory::getTypeInfo(const char* className)
     return nullptr;
 }
 
+void ObjectFactory::removeAllReader()
+{
+    std::vector<const std::string*> readers;
+    for (auto& infoIt : _typeMap)
+    {
+        if (infoIt.first.rfind("Reader") != std::string::npos) {
+            readers.push_back(&infoIt.first);
+        }
+        else if (infoIt.first.find("Com") != std::string::npos)
+        {
+            readers.push_back(&infoIt.first);
+        }
+    }
+
+    for (auto& readerName : readers) {
+        _typeMap.erase(*readerName);
+    }
+}
+
 NS_CC_END

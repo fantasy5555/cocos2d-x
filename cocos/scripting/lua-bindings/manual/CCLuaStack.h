@@ -71,6 +71,9 @@ public:
     lua_State* getLuaState(void) {
         return _state;
     }
+
+    std::string getSearchPath() const;
+    void setSearchPath(const std::string& searchPath);
     
     /**
      * Add a path to find lua files in.
@@ -78,6 +81,7 @@ public:
      * @param path to be added to the Lua search path.
      */
     virtual void addSearchPath(const char* path);
+
     
     /**
      * Add lua loader.
