@@ -1,7 +1,7 @@
 #ifndef DRAGONBONES_CC_FACTORY_H
 #define DRAGONBONES_CC_FACTORY_H
 
-#include "dragonBones/DragonBonesHeaders.h"
+#include "editor-support/cocostudio/dragonBones/DragonBonesHeaders.h"
 #include "cocos2d.h"
 #include "CCArmatureDisplay.h"
 

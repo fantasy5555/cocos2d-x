@@ -2,7 +2,7 @@
 #define DRAGONBONES_JSON_DATA_PARSER_H
 
 #include "DataParser.h"
-#include "rapidjson/document.h"
+#include "external/json/document.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
 
@@ -68,7 +68,7 @@ protected:
     {
         if (rawData.HasMember(key) && rawData[key].IsNumber())
         {
-            return rawData[key].GetFloat();
+            return rawData[key].GetDouble();
         }
 
         return defaultValue;
@@ -98,7 +98,7 @@ protected:
     {
         if (rawData.Size() > index)
         {
-            return rawData[index].GetFloat();
+            return rawData[index].GetDouble();
         }
 
         return defaultValue;
