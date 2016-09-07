@@ -5,27 +5,32 @@
   <copyAssetDirectly>1</copyAssetDirectly>
   <sceneNumbers>1</sceneNumbers>
   <assets>
-    <item path="auto\default\sprite.png" dflag="131078"/>
-    <item path="auto\default\button.png" dflag="131078"/>
-    <item path="auto\default\progress_foreground.png" dflag="131078"/>
-    <item path="auto\default\bitmapFontChinese.fnt" dflag="131075"/>
     <item path="auto\default\switch-thumb.png" dflag="131078"/>
-    <item path="auto\default\switch-off.png" dflag="131078"/>
-    <item path="auto\default\switch-mask.png" dflag="131078"/>
-    <item path="auto\default\slider_track.png" dflag="131078"/>
-    <item path="auto\default\switch-on.png" dflag="131078"/>
-    <item path="auto\default\check_box_normal.png" dflag="131078"/>
-    <item path="auto\default\check_box_normal_press.png" dflag="131078"/>
-    <item path="auto\default\check_box_normal_disable.png" dflag="131078"/>
-    <item path="auto\default\slider_progress.png" dflag="131078"/>
-    <item path="auto\default\check_box_active_disable.png" dflag="131078"/>
-    <item path="auto\default\radio_button_off.png" dflag="131078"/>
+    <item path="auto\default\button.png" dflag="131078"/>
     <item path="auto\default\radio_button_on.png" dflag="131078"/>
-    <item path="auto\default\labelatlas.png" dflag="131078"/>
-    <item path="auto\default\American_Typewriter.ttf" dflag="131075"/>
+    <item path="auto\default\bitmapFontChinese.fnt" dflag="131075"/>
+    <item path="auto\default\radio_button_off.png" dflag="131078"/>
+    <item path="auto\default\check_box_normal.png" dflag="131078"/>
     <item path="auto\default\orthogonal-test2.tmx" dflag="131073"/>
-    <item path="auto\default\bear.ExportJson" dflag="131073"/>
+    <item path="auto\default\sprite.png" dflag="131078"/>
+    <item path="auto\default\switch-off.png" dflag="131078"/>
+    <item path="auto\default\check_box_active_disable.png" dflag="131078"/>
+    <item path="auto\default\check_box_normal_disable.png" dflag="131078"/>
+    <item path="auto\default\switch-mask.png" dflag="131078"/>
+    <item path="auto\default\progress_foreground.png" dflag="131078"/>
+    <item path="auto\default\check_box_normal_press.png" dflag="131078"/>
+    <item path="auto\default\American_Typewriter.ttf" dflag="131075"/>
+    <item path="auto\default\switch-on.png" dflag="131078"/>
+    <item path="auto\default\slider_track.png" dflag="131078"/>
     <item path="auto\default\spine_900000" dflag="131082"/>
+    <item path="auto\default\labelatlas.png" dflag="131078"/>
+    <item path="auto\default\slider_progress.png" dflag="131078"/>
+    <item path="auto\default\bear.ExportJson" dflag="131073">
+      <dependencies>
+        <depencency>auto/default/bear0.plist</depencency>
+        <depencency>auto/default/bear0.png</depencency>
+      </dependencies>
+    </item>
   </assets>
   <objectCounters>0,0,0,1,0,0,0,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,1,0,1,1,1,3,0,0,0,1,1,</objectCounters>
   <publishDirectory>D:\develop\gamedev\engines\cocos2d-x\tests\cpp-empty-test\Resources</publishDirectory>
