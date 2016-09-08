@@ -19,7 +19,7 @@ enum class AnimationFadeOutMode {
 class Armature;
 class AnimationState;
 
-class CC_STUDIO_DLL Animation final : public BaseObject
+class CC_STUDIOP_DLL Animation final : public BaseObject
 {
     BIND_CLASS_TYPE(Animation);
 

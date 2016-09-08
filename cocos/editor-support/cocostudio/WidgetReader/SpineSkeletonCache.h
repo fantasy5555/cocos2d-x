@@ -6,7 +6,7 @@
 
 using namespace spine;
 
-class CC_STUDIOP_DLL SpineSkeletonCache
+class CC_STUDIO_DLL SpineSkeletonCache
 {
 public:
     class SkeletonData : public cocos2d::Ref

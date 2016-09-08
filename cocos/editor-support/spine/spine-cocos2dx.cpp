@@ -93,5 +93,8 @@ char* _spUtil_readFile (const char* path, int* length) {
 	Data data = FileUtils::getInstance()->getDataFromFile(
 			FileUtils::getInstance()->fullPathForFilename(path));
     if (data.isNull()) return 0;
-    return (char*)data.takeBuffer((ssize_t*)length);
+    ssize_t tmpLen;
+	char *ret = (char*)data.takeBuffer(&tmpLen);
+	*length = static_cast<int>(tmpLen);
+	return ret;
 }

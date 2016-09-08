@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
-class CC_STUDIO_DLL CCTextureData final : public TextureData
+class CC_STUDIOP_DLL CCTextureData final : public TextureData
 {
     BIND_CLASS_TYPE(CCTextureData);
 

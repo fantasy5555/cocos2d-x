@@ -80,6 +80,72 @@
       <Filter>cocosstudio</Filter>
     </ClCompile>
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\animation\Animation.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\model\AnimationData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\animation\AnimationState.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\armature\Armature.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\model\ArmatureData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\factories\BaseFactory.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\core\BaseObject.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\armature\Bone.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\CCArmatureDisplay.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\CCFactory.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\CCSlot.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\CCTextureData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\parsers\DataParser.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\model\DragonBonesData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\events\EventObject.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\model\FrameData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\parsers\JSONDataParser.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\armature\Slot.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\textures\TextureData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\model\TimelineData.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\animation\TimelineState.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\dragonBones\animation\WorldClock.cpp">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\CCActionFrame.h">
@@ -161,6 +227,108 @@
       <Filter>cocosstudio</Filter>
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.h" />
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\Animation.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\model\AnimationData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\AnimationState.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\armature\Armature.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\model\ArmatureData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\factories\BaseFactory.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\core\BaseObject.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\BaseTimelineState.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\armature\Bone.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\CCArmatureDisplay.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\CCDragonBonesHeaders.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\CCFactory.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\CCSlot.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\CCTextureData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\geom\ColorTransform.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\parsers\DataParser.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\core\DragonBones.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\model\DragonBonesData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\DragonBonesHeaders.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\events\EventObject.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\model\FrameData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\IAnimateble.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\armature\IArmatureDisplay.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\parsers\JSONDataParser.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\geom\Matrix.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\geom\Point.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\geom\Rectangle.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\armature\Slot.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\textures\TextureData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\model\TimelineData.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\TimelineState.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\geom\Transform.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\armature\TransformObject.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\dragonBones\animation\WorldClock.h">
+      <Filter>cocosstudio\dragonBones</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cocosstudio">
@@ -189,6 +357,9 @@
     </Filter>
     <Filter Include="cocosstudio\json">
       <UniqueIdentifier>{92137642-a5b2-4f19-9c80-8b411c9bb8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cocosstudio\dragonBones">
+      <UniqueIdentifier>{d683d4fc-ffb9-49b9-bca0-b70f01471841}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 
 DRAGONBONES_NAMESPACE_BEGIN
 
-class CC_STUDIO_DLL CCArmatureDisplay : public cocos2d::Node, public IArmatureDisplay
+class CC_STUDIOP_DLL CCArmatureDisplay : public cocos2d::Node, public IArmatureDisplay
 {
 public:
     /** @private */
@@ -56,7 +56,7 @@ public:
 };
 
 /** @private */
-class CC_STUDIO_DLL DBCCSprite : public cocos2d::Sprite
+class CC_STUDIOP_DLL DBCCSprite : public cocos2d::Sprite
 {
 public:
     /** @private */

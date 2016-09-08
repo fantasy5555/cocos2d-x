@@ -494,7 +494,7 @@ static spAnimation* _spSkeletonJson_readAnimation (spSkeletonJson* self, Json* r
 	return animation;
 }
 
-static void _readVertices(spSkeletonJson* self, Json* attachmentMap, spVertexAttachment* attachment, int verticesLength) {
+static void _readVertices (spSkeletonJson* self, Json* attachmentMap, spVertexAttachment* attachment, int verticesLength) {
 	Json* entry;
 	float* vertices;
 	int i, b, w, nn, entrySize;
@@ -569,7 +569,8 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 	CONST_CAST(char*, self->error) = 0;
 	internal->linkedMeshCount = 0;
 
-	oldLocale = setlocale(LC_NUMERIC, "C");
+	oldLocale = setlocale(LC_NUMERIC, NULL);
+	setlocale(LC_NUMERIC, "C");
 	root = Json_create(json);
 	setlocale(LC_NUMERIC, oldLocale);
 	if (!root) {
@@ -943,7 +944,9 @@ spSkeletonData* spSkeletonJson_readSkeletonData (spSkeletonJson* self, const cha
 					}
 					case SP_ATTACHMENT_BOUNDING_BOX: {
 						spBoundingBoxAttachment* box = SUB_CAST(spBoundingBoxAttachment, attachment);
-						_readVertices(self, attachmentMap, SUPER(box), Json_getInt(attachmentMap, "vertexCount", 0) << 1);
+						int vertexCount = Json_getInt(attachmentMap, "vertexCount", 0) << 1;
+						_readVertices(self, attachmentMap, SUPER(box), vertexCount);
+						box->super.verticesCount = vertexCount;
 						spAttachmentLoader_configureAttachment(self->attachmentLoader, attachment);
 						break;
 					}

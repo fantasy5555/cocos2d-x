@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
-class CC_STUDIO_DLL CCSlot : public Slot
+class CC_STUDIOP_DLL CCSlot : public Slot
 {
     BIND_CLASS_TYPE(CCSlot);
 
