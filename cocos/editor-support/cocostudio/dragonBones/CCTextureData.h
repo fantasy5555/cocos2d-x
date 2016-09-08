@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
-class CCTextureData final : public TextureData
+class CC_STUDIO_DLL CCTextureData final : public TextureData
 {
     BIND_CLASS_TYPE(CCTextureData);
 
@@ -22,7 +22,7 @@ protected:
     virtual void _onClear() override;
 };
 
-class CCTextureAtlasData final : public TextureAtlasData
+class CC_STUDIO_DLL CCTextureAtlasData final : public TextureAtlasData
 {
     BIND_CLASS_TYPE(CCTextureAtlasData);
 

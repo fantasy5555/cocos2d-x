@@ -2,7 +2,7 @@
 #define DRAGONBONES_JSON_DATA_PARSER_H
 
 #include "DataParser.h"
-#include "external/json/document.h"
+#include "json/document.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
 

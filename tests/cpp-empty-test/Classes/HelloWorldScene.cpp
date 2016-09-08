@@ -109,7 +109,22 @@ bool HelloWorld::init()
     sp2->setPosition(Vec2(visibleSize / 2) + origin);
     this->addChild(sp2);
 #endif
+    const auto dragonBonesData = _factory.loadDragonBonesData("AnimationBaseTest/AnimationBaseTest.json");
+    _factory.loadTextureAtlasData("AnimationBaseTest/texture.json");
 
+    if (dragonBonesData)
+    {
+        const auto& armatureNames = dragonBonesData->getArmatureNames();
+        const auto& armatureName = armatureNames[0];
+
+        _armatureDisplay = _factory.buildArmatureDisplay(armatureName);
+
+        _armatureDisplay->setPosition(480.f, 320.f);
+        _armatureDisplay->setScale(1.0f);
+        this->addChild(_armatureDisplay);
+
+        _armatureDisplay->getAnimation().play("idle");
+    }
     return true;
 }
 

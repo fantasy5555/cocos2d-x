@@ -7,7 +7,7 @@
 
 DRAGONBONES_NAMESPACE_BEGIN
 
-class CCFactory : public BaseFactory
+class CC_STUDIO_DLL CCFactory : public BaseFactory
 {
 public:
     static CCFactory factory;
