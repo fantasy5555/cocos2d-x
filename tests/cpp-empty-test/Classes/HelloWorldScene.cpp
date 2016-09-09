@@ -1,3 +1,6 @@
+/*
+ DragonBones latest support: http://www.cnblogs.com/relvin/p/5392591.html
+*/
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
 
@@ -109,8 +112,8 @@ bool HelloWorld::init()
     sp2->setPosition(Vec2(visibleSize / 2) + origin);
     this->addChild(sp2);
 #endif
-    const auto dragonBonesData = _factory.loadDragonBonesData("AnimationBaseTest/AnimationBaseTest.json");
-    _factory.loadTextureAtlasData("AnimationBaseTest/texture.json");
+    const auto dragonBonesData = _factory.loadDragonBonesData("SwordsMan/SwordsMan.json");
+    _factory.loadTextureAtlasData("SwordsMan/texture.json");
 
     if (dragonBonesData)
     {
@@ -123,7 +126,7 @@ bool HelloWorld::init()
         _armatureDisplay->setScale(1.0f);
         this->addChild(_armatureDisplay);
 
-        _armatureDisplay->getAnimation().play("idle");
+        _armatureDisplay->getAnimation().play("attack1");
     }
     return true;
 }
