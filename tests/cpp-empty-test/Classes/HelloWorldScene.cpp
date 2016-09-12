@@ -80,9 +80,10 @@ bool HelloWorld::init()
     
     /////////////////////////////
     // 3. add your codes below...
-	auto ui = CSLoader::createNode("scene1.csb");
+	this->addChild(CSLoader::createNode("scene1.csb"));
+	auto ui = CSLoader::createNode("scene2.csb");
 	this->addChild(ui);
-    auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
+    // auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
 	//auto button = utils::findChild<ui::Button*>(ui, "Button_1");
 	//auto titleColor = button->getTitleColor();
 	// centerNode(ui); #recompile 2 
@@ -112,11 +113,6 @@ bool HelloWorld::init()
     sp2->setPosition(Vec2(visibleSize / 2) + origin);
     this->addChild(sp2);
 #endif
-
-    auto ptc = ParticleSystemQuad::create("effect_pugongying.plist");
-    ptc->setPosition(480.f, 320.f);
-
-    this->addChild(ptc);
 
 #if 0
     const auto dragonBonesData = _factory.loadDragonBonesData("SwordsMan/SwordsMan.json");
