@@ -24,7 +24,7 @@
 #define HASH_FILE_BUFF_SIZE 1024
 
 #ifdef _ZLIB_SUPPORT
-#include <zlib.h>
+#include "win32-specific/zlib/include/zlib.h"
 #endif
 
 using namespace purelib;

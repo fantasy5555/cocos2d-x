@@ -7,6 +7,9 @@
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
 
+#include "EncryptManager.h"
+#include "crypto-support/crypto_wrapper.h"
+
 USING_NS_CC;
 
 #define center_coord(__SZ__,__sz__,__achor__) ( ( (__SZ__) - (__sz__) + 2 * (__sz__) * (__achor__) ) * 0.5f )
@@ -62,6 +65,7 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
+#if 0
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
@@ -77,12 +81,14 @@ bool HelloWorld::init()
     auto menu = Menu::create(closeItem, nullptr);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-    
+#endif
+	EncryptManager::getInstance()->setEncryptEnabled(true, "262381263");
+
     /////////////////////////////
     // 3. add your codes below...
 	this->addChild(CSLoader::createNode("scene1.csb"));
-	auto ui = CSLoader::createNode("scene2.csb");
-	this->addChild(ui);
+	//auto ui = CSLoader::createNode("scene2.csb");
+	//this->addChild(ui);
     // auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
 	//auto button = utils::findChild<ui::Button*>(ui, "Button_1");
 	//auto titleColor = button->getTitleColor();

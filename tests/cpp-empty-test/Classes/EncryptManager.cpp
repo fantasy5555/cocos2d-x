@@ -52,12 +52,14 @@ public:
         size_t size = 0;
         crypto::aes::privacy::mode_spec<>::decrypt(data.getBytes(), data.getSize(), data.getBytes(), size, encryptManager._encryptKey.c_str());
        
+		// auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
+
         auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
         size = uncomprData.size();
 
         data.clear();
 
-        data.fastSet((unsigned char*)uncomprData.data(), size);
+        data.fastSet((unsigned char*)uncomprData.deatch(), size);
 
         return data;
     }
@@ -91,25 +93,35 @@ public:
 
 EncryptManager* EncryptManager::getInstance()
 {
-    EncryptManager s_EncryptManager;
+    static EncryptManager s_EncryptManager;
     return &s_EncryptManager;
 }
 
 void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key)
 {
 	if (bVal && !key.empty()) {
-        _encryptKey = key;
+
+		_encryptKey.resize(32);
+		int keysize = key.size();
+		if (keysize > 32)
+			keysize = 32;
+
+		::memcpy(&_encryptKey.front(), key.c_str(), key.size());
+
 		setupHookFuncs();
         _encryptEnabled = bVal;
 	}
 	else {
+		FileUtils::destroyInstance();
         _encryptEnabled = false;
 	}
 }
 
 void EncryptManager::setupHookFuncs()
 {
-    FileUtils::setDelegate(new FileUtilsEncrypt(*this));
+	auto fileUtilsEncrypt = new FileUtilsEncrypt(*this);
+	fileUtilsEncrypt->init();
+    FileUtils::setDelegate(fileUtilsEncrypt);
 
 	auto fileUtils = FileUtils::getInstance();
 
