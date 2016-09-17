@@ -4,8 +4,6 @@
 #include "../core/BaseObject.h"
 #include "../model/AnimationData.h"
 
-#include "editor-support/cocostudio/CocosStudioExport.h"
-
 DRAGONBONES_NAMESPACE_BEGIN
 
 enum class AnimationFadeOutMode { 
@@ -19,7 +17,7 @@ enum class AnimationFadeOutMode {
 class Armature;
 class AnimationState;
 
-class CC_STUDIOP_DLL Animation final : public BaseObject
+class Animation final : public BaseObject
 {
     BIND_CLASS_TYPE(Animation);
 

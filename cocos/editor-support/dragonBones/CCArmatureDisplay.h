@@ -1,12 +1,12 @@
 #ifndef DRAGONBONES_CC_ARMATURE_DISPLAY_CONTAINER_H
 #define DRAGONBONES_CC_ARMATURE_DISPLAY_CONTAINER_H
 
-#include "editor-support/cocostudio/dragonBones/DragonBonesHeaders.h"
+#include "editor-support/dragonBones/DragonBonesHeaders.h"
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
 
-class CC_STUDIOP_DLL CCArmatureDisplay : public cocos2d::Node, public IArmatureDisplay
+class CCArmatureDisplay : public cocos2d::Node, public IArmatureDisplay
 {
 public:
     /** @private */
@@ -56,7 +56,7 @@ public:
 };
 
 /** @private */
-class CC_STUDIOP_DLL DBCCSprite : public cocos2d::Sprite
+class DBCCSprite : public cocos2d::Sprite
 {
 public:
     /** @private */

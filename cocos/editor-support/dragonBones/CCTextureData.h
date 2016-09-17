@@ -1,11 +1,11 @@
 #ifndef DRAGONBONES_CC_TEXTURE_DATA_H
 #define DRAGONBONES_CC_TEXTURE_DATA_H
 
-#include "editor-support/cocostudio/dragonBones/DragonBonesHeaders.h"
+#include "editor-support/dragonBones/DragonBonesHeaders.h"
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
-class CC_STUDIOP_DLL CCTextureData final : public TextureData
+class CCTextureData final : public TextureData
 {
     BIND_CLASS_TYPE(CCTextureData);
 
@@ -22,7 +22,7 @@ protected:
     virtual void _onClear() override;
 };
 
-class CC_STUDIO_DLL CCTextureAtlasData final : public TextureAtlasData
+class CCTextureAtlasData final : public TextureAtlasData
 {
     BIND_CLASS_TYPE(CCTextureAtlasData);
 

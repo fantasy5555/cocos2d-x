@@ -1,11 +1,11 @@
 #ifndef DRAGONBONES_CC_SLOT_H
 #define DRAGONBONES_CC_SLOT_H
 
-#include "editor-support/cocostudio/dragonBones/DragonBonesHeaders.h"
+#include "editor-support/dragonBones/DragonBonesHeaders.h"
 #include "cocos2d.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
-class CC_STUDIOP_DLL CCSlot : public Slot
+class CCSlot : public Slot
 {
     BIND_CLASS_TYPE(CCSlot);
 

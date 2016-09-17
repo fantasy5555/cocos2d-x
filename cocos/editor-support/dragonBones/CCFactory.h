@@ -1,13 +1,13 @@
 #ifndef DRAGONBONES_CC_FACTORY_H
 #define DRAGONBONES_CC_FACTORY_H
 
-#include "editor-support/cocostudio/dragonBones/DragonBonesHeaders.h"
+#include "editor-support/dragonBones/DragonBonesHeaders.h"
 #include "cocos2d.h"
 #include "CCArmatureDisplay.h"
 
 DRAGONBONES_NAMESPACE_BEGIN
 
-class CC_STUDIOP_DLL CCFactory : public BaseFactory
+class CCFactory : public BaseFactory
 {
 public:
     static CCFactory factory;

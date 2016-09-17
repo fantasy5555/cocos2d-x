@@ -47,6 +47,4 @@
 // events
 #include "events/EventObject.h"
 
-#include "editor-support/cocostudio/CocosStudioExport.h"
-
 #endif // DRAGONBONES_HEADERS_H
