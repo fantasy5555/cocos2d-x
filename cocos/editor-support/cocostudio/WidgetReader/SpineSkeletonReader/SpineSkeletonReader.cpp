@@ -214,7 +214,7 @@ namespace cocostudio
 
         auto options = (SpineSkeletonOptions*)spriteOptions;
 
-        auto sharedData = SpineSkeletonCache::getInstance()->addData(options->dataFile()->c_str(), options->atlasFile()->c_str(), 1.0f/*TODO:*/);
+        auto sharedData = spine::SpineSkeletonCache::getInstance()->addData(options->dataFile()->c_str(), options->atlasFile()->c_str(), 1.0f/*TODO:*/);
         auto implNode = spine::SkeletonAnimation::createWithData(sharedData->data);
         implNode->setAnimation(0, options->animation()->c_str(), options->loop());
         implNode->setSkin(options->animation()->c_str());
