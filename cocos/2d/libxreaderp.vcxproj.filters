@@ -79,7 +79,6 @@
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.cpp">
       <Filter>cocosstudio</Filter>
     </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\CCActionFrame.h">
@@ -160,7 +159,6 @@
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.h">
       <Filter>cocosstudio</Filter>
     </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\SpineSkeletonCache.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cocosstudio">

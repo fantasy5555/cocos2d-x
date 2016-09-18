@@ -26,7 +26,7 @@ CCArmatureDisplay::CCArmatureDisplay() :
     _dispatcher->retain();
     this->setEventDispatcher(_dispatcher);
 }
-CCArmatureDisplay::~CCArmatureDisplay() {}
+CCArmatureDisplay::~CCArmatureDisplay() { dispose(); }
 
 void CCArmatureDisplay::_onClear()
 {

@@ -7,6 +7,7 @@
 #include "editor-support/cocostudio/CSParseBinary_generated.h"
 #include "editor-support/cocostudio/WidgetReader/ArmatureNodeReader/CSArmatureNode_generated.h"
 #include "editor-support/cocostudio/CCArmature.h"
+#include "editor-support/dragonBones/CCDragonBonesHeaders.h"
 
 
 USING_NS_CC;
@@ -38,7 +39,7 @@ ArmatureNodeReader* ArmatureNodeReader::getInstance()
 
 void ArmatureNodeReader::destroyInstance()
 {
-    CC_SAFE_DELETE(_instanceArmatureNodeReader);
+	CC_SAFE_DELETE(_instanceArmatureNodeReader);
 }
 
 Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::XMLElement *objectData,
@@ -68,10 +69,10 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 		else if (attriname == "IsAutoPlay")
 		{
 			isAutoPlay = (value == "True") ? true : false;
-		}		
+		}
 		else if (attriname == "CurrentAnimationName")
 		{
-			currentAnimationName = value;			
+			currentAnimationName = value;
 		}
 
 		attribute = attribute->Next();
@@ -80,7 +81,7 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 	const tinyxml2::XMLElement* child = objectData->FirstChildElement();
 	while (child)
 	{
-		std::string attriname = child->Name();		
+		std::string attriname = child->Name();
 		if (attriname == "FileData")
 		{
 			attribute = child->FirstAttribute();
@@ -92,16 +93,16 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 
 				if (attriname == "Type")
 				{
-					type = 0;					
+					type = 0;
 				}
 				else if (attriname == "Path")
 				{
-					path = value;					
+					path = value;
 				}
 
 				attribute = attribute->Next();
 			}
-		}		
+		}
 
 		child = child->NextSiblingElement();
 	}
@@ -109,8 +110,8 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 	auto options = CreateCSArmatureNodeOption(*builder,
 		nodeOptions,
 		CreateResourceItemData(*builder,
-		type,
-		builder->CreateString(path)),
+			type,
+			builder->CreateString(path)),
 		isloop,
 		isAutoPlay,
 		builder->CreateString(currentAnimationName));
@@ -121,49 +122,82 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
 	const flatbuffers::Table *nodeOptions)
 {
-
-	auto* custom = static_cast<Armature*>(node);
+	Node** ppResult = (Node**)(node);
 	auto options = (flatbuffers::CSArmatureNodeOption*)nodeOptions;
-    
-    bool fileExist = false;
-    std::string errorFilePath = "";
 
-	std::string filepath(options->fileData()->path()->c_str());    
-    
-    if (FileUtils::getInstance()->isFileExist(filepath))
-    {
-        fileExist = true;
-        
-        std::string fullpath = FileUtils::getInstance()->fullPathForFilename(filepath);
-        
-        std::string dirpath = fullpath.substr(0, fullpath.find_last_of("/"));
-        FileUtils::getInstance()->addSearchPath(dirpath);
-        
-        ArmatureDataManager::getInstance()->addArmatureFileInfo(filepath);
-        custom->init(getArmatureName(filepath));
-        std::string currentname = options->currentAnimationName()->c_str();
-        if (options->isAutoPlay())
-            custom->getAnimation()->play(currentname, -1, options->isLoop());
-        else
-        {
-            custom->getAnimation()->play(currentname);
-            custom->getAnimation()->gotoAndPause(0);
-        }
-    }
-    else
-    {
-        errorFilePath = filepath;
-        fileExist = false;
-    }
+	bool fileExist = false;
+	std::string errorFilePath = "";
+
+	std::string filepath(options->fileData()->path()->c_str());
+
+	if (FileUtils::getInstance()->isFileExist(filepath))
+	{
+		fileExist = true;
+
+		auto filep = filepath.rfind('.');
+		if (filep != std::string::npos && strcmp(&filepath[filep], ".json") == 0)
+		{ // Currently, adjust by file ext, regard as DragonBones 4.5
+			auto sharedFactory = dragonBones::CCFactory::getInstance();
+			const auto dragonBonesData = sharedFactory->loadDragonBonesData(filepath, filepath);
+
+			if (dragonBonesData != nullptr) {
+				auto slash = filepath.rfind("/");
+				if (slash == std::string::npos)
+					slash = filepath.rfind("\\");
+				if (slash != std::string::npos) {
+					auto folder = filepath.substr(0, slash + 1);
+					if (sharedFactory->loadTextureAtlasData(folder + "texture.json", filepath) != nullptr)
+					{
+						const auto& armatureNames = dragonBonesData->getArmatureNames();
+						const auto& armatureName = armatureNames[0];
+
+						auto armatureNode = sharedFactory->buildArmatureDisplay(armatureName);
+						armatureNode->setScale(1.0);
+
+						std::string currentname = options->currentAnimationName()->c_str();
+						armatureNode->getAnimation().play(currentname, options->isLoop() ? -1 : 1);
+
+						*ppResult = armatureNode;
+					}
+				}
+			}
+		}
+		else {
+			std::string fullpath = FileUtils::getInstance()->fullPathForFilename(filepath);
+
+			std::string dirpath = fullpath.substr(0, fullpath.find_last_of("/"));
+			FileUtils::getInstance()->addSearchPath(dirpath);
+
+			ArmatureDataManager::getInstance()->addArmatureFileInfo(filepath);
+			auto custom = Armature::create(getArmatureName(filepath));
+			std::string currentname = options->currentAnimationName()->c_str();
+			if (options->isAutoPlay())
+				custom->getAnimation()->play(currentname, -1, options->isLoop());
+			else
+			{
+				custom->getAnimation()->play(currentname);
+				custom->getAnimation()->gotoAndPause(0);
+			}
+
+			*ppResult = node;
+		}
+	}
+	else
+	{
+		*ppResult = Node::create();
+
+		errorFilePath = filepath;
+		fileExist = false;
+	}
 }
 
 cocos2d::Node*  ArmatureNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table *nodeOptions)
 {
-	auto node = Armature::create();
+	Node* node = nullptr;// auto node = Armature::create();
 
 	// self
 	auto options = (flatbuffers::CSArmatureNodeOption*)nodeOptions;
-	setPropsWithFlatBuffers(node, (Table*)options);
+	setPropsWithFlatBuffers((Node*)(&node), (Table*)options);
 
 	// super node
 	auto NodeReader = NodeReader::getInstance();
@@ -171,8 +205,6 @@ cocos2d::Node*  ArmatureNodeReader::createNodeWithFlatBuffers(const flatbuffers:
 
 	return node;
 }
-
-
 
 std::string ArmatureNodeReader::getArmatureName(const std::string& exporJsonPath)
 {

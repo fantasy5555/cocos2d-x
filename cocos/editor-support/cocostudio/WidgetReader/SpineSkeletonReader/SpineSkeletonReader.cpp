@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "editor-support/cocostudio/WidgetReader/SpineSkeletonReader/SpineSkeletonReader.h"
-#include "editor-support/cocostudio/WidgetReader/SpineSkeletonCache.h"
+#include "editor-support/spine/SpineSkeletonCache.h"
 
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"

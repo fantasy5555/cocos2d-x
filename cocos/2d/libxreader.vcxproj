@@ -338,6 +338,12 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ResourceCompile Include="libxreader.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\editor-support\dragonBones\proj.win32\libDragonBones.vcxproj">
+      <Project>{b7c2a162-dec9-4418-972e-240ab3cbfcac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\editor-support\spine\proj.win32\libSpine.vcxproj">
+      <Project>{b7c2a162-dec9-4418-972e-240ab3cbfcae}</Project>
+    </ProjectReference>
     <ProjectReference Include="libxreaderp.vcxproj">
       <Project>{98a51bb0-fc3a-415b-ac8f-8c7bd464e93e}</Project>
     </ProjectReference>

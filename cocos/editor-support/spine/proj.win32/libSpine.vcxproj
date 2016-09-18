@@ -45,6 +45,7 @@
     <ClCompile Include="..\Slot.c" />
     <ClCompile Include="..\SlotData.c" />
     <ClCompile Include="..\spine-cocos2dx.cpp" />
+    <ClCompile Include="..\SpineSkeletonCache.cpp" />
     <ClCompile Include="..\TransformConstraint.c" />
     <ClCompile Include="..\TransformConstraintData.c" />
     <ClCompile Include="..\VertexAttachment.c" />
@@ -85,6 +86,7 @@
     <ClInclude Include="..\SlotData.h" />
     <ClInclude Include="..\spine-cocos2dx.h" />
     <ClInclude Include="..\spine.h" />
+    <ClInclude Include="..\SpineSkeletonCache.h" />
     <ClInclude Include="..\TransformConstraint.h" />
     <ClInclude Include="..\TransformConstraintData.h" />
     <ClInclude Include="..\VertexAttachment.h" />
