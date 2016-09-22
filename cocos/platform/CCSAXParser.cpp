@@ -106,9 +106,9 @@ bool SAXParser::parseIntrusive(char* xmlData, size_t dataLength)
         parser.parse<>(xmlData, dataLength);
         return true;
     }
-    catch (rapidxml::parse_error& e)
+    catch (const rapidxml::parse_error& e)
     {
-        CCLOG("cocos2d: SAXParser: Error parsing xml: %s at %s", e.what(), e.where<char>());
+        cocos2d::log("cocos2d: SAXParser: Error parsing xml: %s at %s", e.what(), e.where<char>());
         return false;
     }
 
