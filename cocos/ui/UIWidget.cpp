@@ -1191,6 +1191,8 @@ namespace ui {
         spRoot->setAnchorPoint(sp->getAnchorPoint());
         spRoot->setScaleX(sp->getScaleX());
         spRoot->setScaleY(sp->getScaleY());
+        spRoot->setName(sp->getName());
+        spRoot->setTag(sp->getTag());
         spRoot->setGLProgramState(GLProgramState::getOrCreateWithGLProgram(sp->getGLProgram()));
 
         for (auto subWidget : sp->getChildren()) {
