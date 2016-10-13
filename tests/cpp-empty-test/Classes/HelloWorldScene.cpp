@@ -87,37 +87,32 @@ bool HelloWorld::init()
     /////////////////////////////
     // 3. add your codes below...
 	this->addChild(CSLoader::createNode("scene1.csb"));
-	//auto ui = CSLoader::createNode("scene2.csb");
-	//this->addChild(ui);
-    // auto radioButtonGroup = utils::findChild<ui::RadioButtonGroup*>(ui, -0x7fffffff);
-	//auto button = utils::findChild<ui::Button*>(ui, "Button_1");
-	//auto titleColor = button->getTitleColor();
-	// centerNode(ui); #recompile 2 
+	
 #if 0
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/arial.ttf", TITLE_FONT_SIZE);
-    
+    // github.com/cocos2d/cocos2d-x issues: #16399 The latest Label calculate Size seems not correct with some .ttf font
+    auto label = Label::createWithTTF("99999/99999", "fonts/arial.ttf", 24);
+
     // position the label on the center of the screen
-    label->setPosition(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height);
+    label->setPosition(origin.x + visibleSize.width / 2,
+        origin.y + visibleSize.height - label->getContentSize().height);
 
     // add the label as a child to this layer
     this->addChild(label, 1);
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize / 2) + origin);
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite);
-
-    auto sp2 = Sprite::create("xp-run-view.bmp");
-    sp2->setPosition(Vec2(visibleSize / 2) + origin);
-    this->addChild(sp2);
+    // Draw the label border
+    auto& labelContentSize = label->getContentSize();
+    auto borderDraw = DrawNode::create();
+    label->addChild(borderDraw);
+    borderDraw->clear();
+    borderDraw->setLineWidth(1);
+    Vec2 vertices[4] =
+    {
+        Vec2::ZERO,
+        Vec2(labelContentSize.width, 0),
+        Vec2(labelContentSize.width, labelContentSize.height),
+        Vec2(0, labelContentSize.height)
+    };
+    borderDraw->drawPoly(vertices, 4, true, Color4F::RED);
 #endif
 
 #if 0
