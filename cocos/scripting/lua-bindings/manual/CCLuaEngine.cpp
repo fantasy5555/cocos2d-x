@@ -36,10 +36,13 @@
 #include "base/CCDirector.h"
 #include "base/CCEventCustom.h"
 
+ // #recompile 2
+#if 0
 #if _MSC_VER > 1800
 #pragma comment(lib,"lua51-2015.lib")
 #else
 #pragma comment(lib,"lua51.lib")
+#endif
 #endif
 
 NS_CC_BEGIN

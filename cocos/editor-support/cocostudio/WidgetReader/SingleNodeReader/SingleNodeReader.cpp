@@ -95,7 +95,7 @@ namespace cocostudio
     
     Node* SingleNodeReader::createNodeWithFlatBuffers(const flatbuffers::Table *singleNodeOptions)
     {
-        Node* node = Node::create();
+        Node* node = wext::aNode();
         
         setPropsWithFlatBuffers(node, singleNodeOptions);
         
