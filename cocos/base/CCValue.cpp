@@ -690,7 +690,7 @@ bool Value::asBool() const
     return false;
 }
 
-std::string Value::asString() const
+std::string Value::toString() const
 {
     CCASSERT(_type != Type::VECTOR && _type != Type::MAP && _type != Type::INT_KEY_MAP, "Only base type (bool, string, float, double, int) could be converted");
 
@@ -725,6 +725,18 @@ std::string Value::asString() const
             break;
     }
     return ret.str();
+}
+
+std::string& Value::asString()
+{
+    CCASSERT(_type == Type::STRING, "The value type isn't Type::STRING");
+    return *_field.strVal;
+}
+
+const std::string& Value::asString() const
+{
+    CCASSERT(_type == Type::STRING, "The value type isn't Type::STRING");
+    return *_field.strVal;
 }
 
 ValueVector& Value::asValueVector()
