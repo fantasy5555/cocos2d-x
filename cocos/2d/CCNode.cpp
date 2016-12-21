@@ -98,7 +98,7 @@ Node::Node()
 #if !CC_64BITS && defined(_WIN32)
 , _orderOfArrival(0)
 #endif
-, _globalZOrder(0)
+, _globalZOrder(1)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
 , _tag(Node::INVALID_TAG)

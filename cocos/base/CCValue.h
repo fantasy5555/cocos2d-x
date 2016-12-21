@@ -167,12 +167,12 @@ public:
     bool asBool() const;
 
     /** to as a string value. Will convert to string if possible, or will trigger assert error. */
-    std::string toString() const;
+    std::string asString() const;
 
     /** Gets as a string value. Will convert to string if possible, or will trigger assert error. */
-    std::string& asString();
+    std::string& castString();
     /** Gets as a string value. Will convert to string if possible, or will trigger assert error. */
-    const std::string& asString() const;
+    const std::string& castString() const;
 
     /** Gets as a ValueVector reference. Will convert to ValueVector if possible, or will trigger assert error. */
     ValueVector& asValueVector();
