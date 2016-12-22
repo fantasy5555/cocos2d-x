@@ -520,6 +520,12 @@ xcopy "$(OutDir)..\*.dll" "$(OutDir)" /D /Y</Command>
     <ProjectReference Include="..\..\..\cocos\2d\libxreader21.vcxproj">
       <Project>{5efaf027-cf79-4a52-9aab-877719c479df}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\cocos\2d\libxreaderp.vcxproj">
+      <Project>{98a51bb0-fc3a-415b-ac8f-8c7bd464e93e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\cocos\editor-support\dragonBones\proj.win32\libDragonBones.vcxproj">
+      <Project>{b7c2a162-dec9-4418-972e-240ab3cbfcac}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
