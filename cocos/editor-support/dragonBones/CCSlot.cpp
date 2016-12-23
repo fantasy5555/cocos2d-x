@@ -43,7 +43,7 @@ void CCSlot::_onUpdateDisplay()
     {
         if (this->_childArmature)
         {
-            _renderDisplay = static_cast<cocos2d::Node*>(static_cast<CCArmatureDisplay*>(static_cast<IArmatureDisplay*>(this->_display)));
+            _renderDisplay = dynamic_cast<cocos2d::Node*>(static_cast<IArmatureDisplay*>(this->_display));
         }
         else
         {
@@ -58,16 +58,14 @@ void CCSlot::_onUpdateDisplay()
 
 void CCSlot::_addDisplay()
 {
-    const auto container = static_cast<CCArmatureDisplay*>(static_cast<IArmatureDisplay*>(this->_armature->_display));
+    const auto container = dynamic_cast<CCArmatureDisplay*>(this->_armature->_display);
     container->addChild(_renderDisplay);
 }
 
 void CCSlot::_replaceDisplay(void* value, bool isArmatureDisplayContainer)
 {
-    const auto container = static_cast<CCArmatureDisplay*>(static_cast<IArmatureDisplay*>(this->_armature->_display));
-    const auto prevDisplay = isArmatureDisplayContainer ?
-        static_cast<cocos2d::Node*>(static_cast<CCArmatureDisplay*>(static_cast<IArmatureDisplay*>(value))) : 
-        static_cast<cocos2d::Node*>(value); // static_cast<cocos2d::Node*>(isArmatureDisplayContainer ? static_cast<CCArmatureDisplay*>(static_cast<IArmatureDisplay*>(value)) : value); // WTF
+    const auto container = dynamic_cast<CCArmatureDisplay*>(this->_armature->_display);
+    const auto prevDisplay = isArmatureDisplayContainer ? dynamic_cast<cocos2d::Node*>(static_cast<IArmatureDisplay*>(value)) : static_cast<cocos2d::Node*>(value); // static_cast<cocos2d::Node*>(isArmatureDisplayContainer ? static_cast<CCArmatureDisplay*>(value) : value); // WTF
     container->addChild(_renderDisplay, prevDisplay->getLocalZOrder());
     container->removeChild(prevDisplay);
 }
@@ -157,12 +155,6 @@ void CCSlot::_updateFrame()
                 cocos2d::Vec2 offset(0.f, 0.f);
                 cocos2d::Size originSize(currentTextureData->region.width, currentTextureData->region.height);
 
-                /*if (currentTextureData->frame) 
-                {
-                    offset.setPoint(-currentTextureData->frame->x, -currentTextureData->frame->y);
-                    originSize.setSize(currentTextureData->frame->width, currentTextureData->frame->height);
-                }*/
-
                 currentTextureData->texture = cocos2d::SpriteFrame::createWithTexture(textureAtlasTexture, rect, currentTextureData->rotated, offset, originSize); // TODO multiply textureAtlas
                 currentTextureData->texture->retain();
             }
@@ -246,42 +238,49 @@ void CCSlot::_updateFrame()
                 triangles.indices = vertexIndices;
                 triangles.vertCount = (unsigned)(this->_meshData->uvs.size() / 2);
                 triangles.indexCount = (unsigned)(this->_meshData->vertexIndices.size());
-                polygonInfo.setRect(boundsRect); // Copy
-                frameDisplay->setPolygonInfo(polygonInfo);
+#if COCOS2D_VERSION >= 0x00031400
+                polygonInfo.setRect(boundsRect);
+#else
+                polygonInfo.rect = boundsRect; // Copy
+#endif
                 frameDisplay->setContentSize(boundsRect.size);
+                frameDisplay->setPolygonInfo(polygonInfo);
+                frameDisplay->setColor(frameDisplay->getColor()); // Backup
 
                 if (this->_meshData->skinned)
                 {
-                    frameDisplay->setScale(1.f, 1.f);
+                    frameDisplay->setPosition(0.f, 0.f);
+                    frameDisplay->setRotation(0.f);
                     frameDisplay->setRotationSkewX(0.f);
                     frameDisplay->setRotationSkewY(0.f);
-                    frameDisplay->setPosition(0.f, 0.f);
+                    frameDisplay->setScale(1.f, 1.f);
                 }
             }
             else
             {
+                const auto scale = this->_armature->getArmatureData().scale;
                 this->_pivotX = currentDisplayData->pivot.x;
                 this->_pivotY = currentDisplayData->pivot.y;
 
-                const auto& rectData = currentTextureData->frame ? *currentTextureData->frame : currentTextureData->region;
-                auto width = rectData.width;
-                auto height = rectData.height;
-                if (!currentTextureData->frame && currentTextureData->rotated)
-                {
-                    width = rectData.height;
-                    height = rectData.width;
-                }
-
                 if (currentDisplayData->isRelativePivot)
                 {
+                    const auto& rectData = currentTextureData->frame ? *currentTextureData->frame : currentTextureData->region;
+                    auto width = rectData.width * scale;
+                    auto height = rectData.height * scale;
+                    if (!currentTextureData->frame && currentTextureData->rotated)
+                    {
+                        width = rectData.height;
+                        height = rectData.width;
+                    }
+
                     this->_pivotX *= width;
                     this->_pivotY *= height;
                 }
 
                 if (currentTextureData->frame)
                 {
-                    this->_pivotX += currentTextureData->frame->x;
-                    this->_pivotY += currentTextureData->frame->y;
+                    this->_pivotX += currentTextureData->frame->x * scale;
+                    this->_pivotY += currentTextureData->frame->y * scale;
                 }
 
                 if (rawDisplayData && rawDisplayData != currentDisplayData)
@@ -290,7 +289,7 @@ void CCSlot::_updateFrame()
                     this->_pivotY += rawDisplayData->transform.y - currentDisplayData->transform.y;
                 }
 
-                this->_pivotY -= currentTextureData->region.height;
+                this->_pivotY -= currentTextureData->region.height * this->_armature->getArmatureData().scale;
 
                 frameDisplay->setSpriteFrame(currentTextureData->texture); // polygonInfo will be override
 
@@ -298,6 +297,8 @@ void CCSlot::_updateFrame()
                 {
                     frameDisplay->setTexture(texture); // Relpace texture // polygonInfo will be override
                 }
+
+                this->_blendModeDirty = true; // Relpace texture // blendMode will be override
             }
 
             this->_updateVisible();
@@ -422,14 +423,19 @@ void CCSlot::_updateMesh()
 
     boundsRect.size.width -= boundsRect.origin.x;
     boundsRect.size.height -= boundsRect.origin.y;
-    
-    cocos2d::Rect* rect = (cocos2d::Rect*)&meshDisplay->getPolygonInfo().getRect();
-    rect->origin = boundsRect.origin; // copy
-    rect->size = boundsRect.size; // copy
-    meshDisplay->setContentSize(boundsRect.size);
 
-    // Update mesh will lost transform info!?
-    _updateTransform();
+
+    auto polygonInfo = meshDisplay->getPolygonInfo();
+#if COCOS2D_VERSION >= 0x00031400
+    polygonInfo.setRect(boundsRect);
+#else
+    polygonInfo.rect = boundsRect; // Copy
+#endif
+    const auto& transform = meshDisplay->getNodeToParentTransform();
+    meshDisplay->setContentSize(boundsRect.size);
+    meshDisplay->setPolygonInfo(polygonInfo);
+
+    _renderDisplay->setNodeToParentTransform(transform);
 }
 
 void CCSlot::_updateTransform()

@@ -78,7 +78,13 @@ protected:
     {
         if (rawData.HasMember(key))
         {
-            return rawData[key].GetString();
+            if (rawData[key].IsString())
+            {
+                return rawData[key].GetString();
+            }
+
+            //
+            return dragonBones::to_string(rawData[key].GetDouble());
         }
 
         return defaultValue;
@@ -88,7 +94,7 @@ protected:
     {
         if (rawData.Size() > index)
         {
-            return rawData[index].GetInt();
+            return rawData[(int) index].GetInt();
         }
 
         return defaultValue;
@@ -98,7 +104,7 @@ protected:
     {
         if (rawData.Size() > index)
         {
-            return rawData[index].GetDouble();
+            return rawData[(int) index].GetFloat();
         }
 
         return defaultValue;
@@ -108,7 +114,7 @@ protected:
     {
         if (rawData.Size() > index)
         {
-            return rawData[index].GetString();
+            return rawData[(int) index].GetString();
         }
 
         return defaultValue;
@@ -122,7 +128,7 @@ private:
     DRAGONBONES_DISALLOW_COPY_AND_ASSIGN(JSONDataParser);
 
 protected:
-    virtual ArmatureData* _parseArmature(const rapidjson::Value& rawData);
+    virtual ArmatureData* _parseArmature(const rapidjson::Value& rawData, float scale);
     virtual BoneData* _parseBone(const rapidjson::Value& rawData);
     virtual void _parseIK(const rapidjson::Value& rawData);
     virtual SlotData* _parseSlot(const rapidjson::Value& rawData, int zOrder);
@@ -157,6 +163,7 @@ protected:
                 frame.tweenEasing = this->_isAutoTween ? this->_animationTweenEasing : NO_TWEEN;
             }
             
+            // TODO
             /*if (this->_isOldData && this->_animation.scale == 1.f && (static_cast<TimelineData*>(this->_timeline))->scale == 1.f && frame.duration * this->_armature->frameRate < 2.f) 
             {
                 frame.tweenEasing = NO_TWEEN;
@@ -164,13 +171,13 @@ protected:
 
             if (rawData.HasMember(CURVE))
             {
-                const auto rawCurve = rawData[CURVE].GetArray();
-
+                auto& rawCurve = rawData[CURVE];
                 std::vector<float> curve;
                 curve.reserve(rawCurve.Size());
-                for (const auto& curveValue : rawCurve)
+
+                for (size_t i = 0, l = rawCurve.Size(); i < l; ++i)
                 {
-                    curve.push_back(curveValue.GetFloat());
+                    curve.push_back(rawCurve[i].GetDouble());
                 }
 
                 TweenFrameData<T>::samplingCurve(curve, frameCount, frame.curve);
@@ -203,7 +210,7 @@ protected:
 
         if (rawData.HasMember(FRAME))
         {
-            const auto& rawFrames = rawData[FRAME].GetArray();
+            const auto& rawFrames = rawData[FRAME];
             if (!rawFrames.Empty())
             {
                 if (rawFrames.Size() == 1)

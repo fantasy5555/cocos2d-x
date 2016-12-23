@@ -5,11 +5,13 @@ DRAGONBONES_NAMESPACE_BEGIN
 JSONDataParser::JSONDataParser() {}
 JSONDataParser::~JSONDataParser() {}
 
-ArmatureData * JSONDataParser::_parseArmature(const rapidjson::Value & rawData)
+ArmatureData * JSONDataParser::_parseArmature(const rapidjson::Value & rawData, float scale)
 {
     const auto armature = BaseObject::borrowObject<ArmatureData>();
     armature->name = _getString(rawData, NAME, "");
     armature->frameRate = _getNumber(rawData, FRAME_RATE, this->_data->frameRate);
+    armature->scale = scale;
+
     if (armature->frameRate == 0)
     {
         armature->frameRate = this->_data->frameRate;
@@ -38,44 +40,49 @@ ArmatureData * JSONDataParser::_parseArmature(const rapidjson::Value & rawData)
 
     if (rawData.HasMember(BONE))
     {
-        for (const auto& boneObject : rawData[BONE].GetArray())
+        const auto& bones = rawData[BONE];
+        for (size_t i = 0, l = bones.Size(); i < l; ++i)
         {
-            const auto bone = _parseBone(boneObject);
-            armature->addBone(bone, _getString(boneObject, PARENT, ""));
+            const auto bone = _parseBone(bones[i]);
+            armature->addBone(bone, _getString(bones[i], PARENT, ""));
             this->_rawBones.push_back(bone);
         }
     }
 
     if (rawData.HasMember(IK))
     {
-        for (const auto& ikObject : rawData[IK].GetArray())
+        const auto& iks = rawData[IK];
+        for (size_t i = 0, l = iks.Size(); i < l; ++i)
         {
-            _parseIK(ikObject);
+            _parseIK(iks[i]);
         }
     }
 
     if (rawData.HasMember(SLOT))
     {
-        auto zOrder = 0;
-        for (const auto& slotObject : rawData[SLOT].GetArray())
+        int zOrder = 0;
+        const auto& slots = rawData[SLOT];
+        for (size_t i = 0, l = slots.Size(); i < l; ++i)
         {
-            armature->addSlot(_parseSlot(slotObject, zOrder++));
+            armature->addSlot(_parseSlot(slots[i], zOrder++));
         }
     }
 
     if (rawData.HasMember(SKIN))
     {
-        for (const auto& skinObject : rawData[SKIN].GetArray())
+        const auto& skins = rawData[SKIN];
+        for (size_t i = 0, l = skins.Size(); i < l; ++i)
         {
-            armature->addSkin(_parseSkin(skinObject));
+            armature->addSkin(_parseSkin(skins[i]));
         }
     }
 
     if (rawData.HasMember(ANIMATION))
     {
-        for (const auto& animationObject : rawData[ANIMATION].GetArray())
+        const auto& animations = rawData[ANIMATION];
+        for (size_t i = 0, l = animations.Size(); i < l; ++i)
         {
-            armature->addAnimation(_parseAnimation(animationObject));
+            armature->addAnimation(_parseAnimation(animations[i]));
         }
     }
 
@@ -102,7 +109,7 @@ BoneData * JSONDataParser::_parseBone(const rapidjson::Value & rawData)
     bone->inheritTranslation = _getBoolean(rawData, INHERIT_TRANSLATION, true);
     bone->inheritRotation = _getBoolean(rawData, INHERIT_ROTATION, true);
     bone->inheritScale = _getBoolean(rawData, INHERIT_SCALE, true);
-    bone->length = _getNumber(rawData, LENGTH, 0.f) * _armatureScale;
+    bone->length = _getNumber(rawData, LENGTH, 0.f) * this->_armature->scale;
 
     if (rawData.HasMember(TRANSFORM))
     {
@@ -202,15 +209,17 @@ SkinData * JSONDataParser::_parseSkin(const rapidjson::Value & rawData)
     if (rawData.HasMember(SLOT))
     {
         this->_skin = skin;
-        auto zOrder = 0;
-        for (const auto& slotObject : rawData[SLOT].GetArray())
+
+        int zOrder = 0;
+        const auto& slots = rawData[SLOT];
+        for (size_t i = 0, l = slots.Size(); i < l; ++i)
         {
             if (this->_isOldData) 
             {
-                this->_armature->addSlot(_parseSlot(slotObject, zOrder++));
+                this->_armature->addSlot(_parseSlot(slots[i], zOrder++));
             }
 
-            skin->addSlot(_parseSlotDisplaySet(slotObject));
+            skin->addSlot(_parseSlotDisplaySet(slots[i]));
         }
 
         this->_skin = nullptr;
@@ -226,15 +235,14 @@ SlotDisplayDataSet * JSONDataParser::_parseSlotDisplaySet(const rapidjson::Value
 
     if (rawData.HasMember(DISPLAY))
     {
-        const auto& displayObjectSet = rawData[DISPLAY].GetArray();
-        auto& displayDataSet = slotDisplayDataSet->displays;
-        displayDataSet.reserve(displayObjectSet.Size());
-
         this->_slotDisplayDataSet = slotDisplayDataSet;
 
-        for (const auto& displayObject : displayObjectSet)
+        const auto& displayObjects = rawData[DISPLAY];
+        auto& displayDataSet = slotDisplayDataSet->displays;
+        displayDataSet.reserve(displayObjects.Size());
+        for (size_t i = 0, l = displayObjects.Size(); i < l; ++i)
         {
-            displayDataSet.push_back(_parseDisplay(displayObject));
+            displayDataSet.push_back(_parseDisplay(displayObjects[i]));
         }
 
         this->_slotDisplayDataSet = nullptr;
@@ -268,8 +276,8 @@ DisplayData * JSONDataParser::_parseDisplay(const rapidjson::Value & rawData)
     {
         const auto& transformObject = rawData[TRANSFORM];
         display->isRelativePivot = false;
-        display->pivot.x = _getNumber(transformObject, PIVOT_X, 0.f) * this->_armatureScale;
-        display->pivot.y = _getNumber(transformObject, PIVOT_Y, 0.f) * this->_armatureScale;
+        display->pivot.x = _getNumber(transformObject, PIVOT_X, 0.f) * this->_armature->scale;
+        display->pivot.y = _getNumber(transformObject, PIVOT_Y, 0.f) * this->_armature->scale;
     }
     else
     {
@@ -302,16 +310,16 @@ MeshData * JSONDataParser::_parseMesh(const rapidjson::Value & rawData)
 {
     const auto mesh = BaseObject::borrowObject<MeshData>();
 
-    const auto& rawVertices = rawData[VERTICES].GetArray();
-    const auto& rawUVs = rawData[UVS].GetArray();
-    const auto& rawTriangles = rawData[TRIANGLES].GetArray();
+    const auto& rawVertices = rawData[VERTICES];
+    const auto& rawUVs = rawData[UVS];
+    const auto& rawTriangles = rawData[TRIANGLES];
 
     const auto numVertices = (unsigned)(rawVertices.Size() / 2);
     const auto numTriangles = (unsigned)(rawTriangles.Size() / 3);
 
     std::vector<Matrix> inverseBindPose(this->_armature->getSortedBones().size(), Matrix());
 
-    mesh->skinned = rawData.HasMember(WEIGHTS) && !rawData[WEIGHTS].GetArray().Empty();
+    mesh->skinned = rawData.HasMember(WEIGHTS) && !rawData[WEIGHTS].Empty();
     mesh->uvs.resize(numVertices * 2);
     mesh->vertices.resize(numVertices * 2);
     mesh->vertexIndices.resize(numTriangles * 3);
@@ -324,28 +332,28 @@ MeshData * JSONDataParser::_parseMesh(const rapidjson::Value & rawData)
 
         if (rawData.HasMember(SLOT_POSE))
         {
-            const auto& rawSlotPose = rawData[SLOT_POSE].GetArray();
-            mesh->slotPose.a = rawSlotPose[0].GetFloat();
-            mesh->slotPose.b = rawSlotPose[1].GetFloat();
-            mesh->slotPose.c = rawSlotPose[2].GetFloat();
-            mesh->slotPose.d = rawSlotPose[3].GetFloat();
-            mesh->slotPose.tx = rawSlotPose[4].GetFloat();
-            mesh->slotPose.ty = rawSlotPose[5].GetFloat();
+            const auto& rawSlotPose = rawData[SLOT_POSE];
+            mesh->slotPose.a = rawSlotPose[0].GetDouble();
+            mesh->slotPose.b = rawSlotPose[1].GetDouble();
+            mesh->slotPose.c = rawSlotPose[2].GetDouble();
+            mesh->slotPose.d = rawSlotPose[3].GetDouble();
+            mesh->slotPose.tx = rawSlotPose[4].GetDouble() * this->_armature->scale;
+            mesh->slotPose.ty = rawSlotPose[5].GetDouble() * this->_armature->scale;
         }
 
         if (rawData.HasMember(BONE_POSE))
         {
-            const auto& rawBonePose = rawData[BONE_POSE].GetArray();
+            const auto& rawBonePose = rawData[BONE_POSE];
             for (std::size_t i = 0, l = rawBonePose.Size(); i < l; i += 7)
             {
                 const auto rawBoneIndex = rawBonePose[i].GetUint();
                 auto& boneMatrix = inverseBindPose[rawBoneIndex];
-                boneMatrix.a = rawBonePose[i + 1].GetFloat();
-                boneMatrix.b = rawBonePose[i + 2].GetFloat();
-                boneMatrix.c = rawBonePose[i + 3].GetFloat();
-                boneMatrix.d = rawBonePose[i + 4].GetFloat();
-                boneMatrix.tx = rawBonePose[i + 5].GetFloat();
-                boneMatrix.ty = rawBonePose[i + 6].GetFloat();
+                boneMatrix.a = rawBonePose[i + 1].GetDouble();
+                boneMatrix.b = rawBonePose[i + 2].GetDouble();
+                boneMatrix.c = rawBonePose[i + 3].GetDouble();
+                boneMatrix.d = rawBonePose[i + 4].GetDouble();
+                boneMatrix.tx = rawBonePose[i + 5].GetDouble() * this->_armature->scale;
+                boneMatrix.ty = rawBonePose[i + 6].GetDouble() * this->_armature->scale;
                 boneMatrix.invert();
             }
         }
@@ -356,14 +364,14 @@ MeshData * JSONDataParser::_parseMesh(const rapidjson::Value & rawData)
         const auto iN = i + 1;
         const auto vertexIndex = i / 2;
 
-        auto x = mesh->vertices[i] = rawVertices[i].GetFloat() * this->_armatureScale;
-        auto y = mesh->vertices[iN] = rawVertices[iN].GetFloat() * this->_armatureScale;
-        mesh->uvs[i] = rawUVs[i].GetFloat();
-        mesh->uvs[iN] = rawUVs[iN].GetFloat();
+        auto x = mesh->vertices[i] = rawVertices[i].GetDouble() * this->_armature->scale;
+        auto y = mesh->vertices[iN] = rawVertices[iN].GetDouble() * this->_armature->scale;
+        mesh->uvs[i] = rawUVs[i].GetDouble();
+        mesh->uvs[iN] = rawUVs[iN].GetDouble();
 
         if (mesh->skinned)
         {
-            const auto& rawWeights = rawData[WEIGHTS].GetArray();
+            const auto& rawWeights = rawData[WEIGHTS];
             const auto numBones = rawWeights[iW].GetUint();
             auto& indices = mesh->boneIndices[vertexIndex];
             auto& weights = mesh->weights[vertexIndex];
@@ -394,7 +402,7 @@ MeshData * JSONDataParser::_parseMesh(const rapidjson::Value & rawData)
                 mesh->inverseBindPose[boneIndex].transformPoint(x, y, _helpPoint);
 
                 indices.push_back(boneIndex);
-                weights.push_back(rawWeights[iI + 1].GetFloat());
+                weights.push_back(rawWeights[iI + 1].GetDouble());
                 boneVertices.push_back(_helpPoint.x);
                 boneVertices.push_back(_helpPoint.y);
             }
@@ -443,25 +451,28 @@ AnimationData * JSONDataParser::_parseAnimation(const rapidjson::Value & rawData
 
     if (rawData.HasMember(BONE))
     {
-        for (const auto& boneTimelineObject : rawData[BONE].GetArray())
+        const auto& boneTimelineObjects = rawData[BONE];
+        for (size_t i = 0, l = boneTimelineObjects.Size(); i < l; ++i)
         {
-            animation->addBoneTimeline(_parseBoneTimeline(boneTimelineObject));
+            animation->addBoneTimeline(_parseBoneTimeline(boneTimelineObjects[i]));
         }
     }
 
     if (rawData.HasMember(SLOT))
     {
-        for (const auto& slotTimelineObject : rawData[SLOT].GetArray())
+        const auto& slotTimelineObjects = rawData[SLOT];
+        for (size_t i = 0, l = slotTimelineObjects.Size(); i < l; ++i)
         {
-            animation->addSlotTimeline(_parseSlotTimeline(slotTimelineObject));
+            animation->addSlotTimeline(_parseSlotTimeline(slotTimelineObjects[i]));
         }
     }
 
     if (rawData.HasMember(FFD))
     {
-        for (const auto& ffdTimelineObject : rawData[FFD].GetArray())
+        const auto& ffdTimelineObjects = rawData[FFD];
+        for (size_t i = 0, l = ffdTimelineObjects.Size(); i < l; ++i)
         {
-            animation->addFFDTimeline(_parseFFDTimeline(ffdTimelineObject));
+            animation->addFFDTimeline(_parseFFDTimeline(ffdTimelineObjects[i]));
         }
     }
 
@@ -473,15 +484,12 @@ AnimationData * JSONDataParser::_parseAnimation(const rapidjson::Value & rawData
 
         if (rawData.HasMember(TIMELINE)) 
         {
-            const auto& timelines = rawData[TIMELINE].GetArray();
-            for (const auto& timeline : timelines) 
+            const auto& timelineObjects = rawData[TIMELINE];
+            for (size_t i = 0, l = timelineObjects.Size(); i < l; ++i)
             {
-                animation->addBoneTimeline(_parseBoneTimeline(timeline));
-            }
-
-            for (const auto& timeline : timelines)
-            {
-                animation->addSlotTimeline(_parseSlotTimeline(timeline));
+                const auto& timelineObject = timelineObjects[i];
+                animation->addBoneTimeline(_parseBoneTimeline(timelineObject));
+                animation->addSlotTimeline(_parseSlotTimeline(timelineObject));
             }
         }
     }
@@ -756,7 +764,7 @@ ExtensionFrameData * JSONDataParser::_parseFFDFrame(const rapidjson::Value & raw
     {
         if (hasVertices) 
         {
-            const auto rawVertices = rawData[VERTICES].GetArray();
+            const auto& rawVertices = rawData[VERTICES];
             if (i < offset || i - offset >= rawVertices.Size())
             {
                 x = 0.f;
@@ -764,8 +772,8 @@ ExtensionFrameData * JSONDataParser::_parseFFDFrame(const rapidjson::Value & raw
             }
             else
             {
-                x = rawVertices[i - offset].GetFloat() * this->_armatureScale;
-                y = rawVertices[i + 1 - offset].GetFloat() * this->_armatureScale;
+                x = rawVertices[i - offset].GetDouble() * this->_armature->scale;
+                y = rawVertices[i + 1 - offset].GetDouble() * this->_armature->scale;
             }
         }
         else
@@ -822,9 +830,9 @@ void JSONDataParser::_parseActionData(const rapidjson::Value& rawData, std::vect
     else if (actionsObject.IsArray())
     {
         const char* GOTO_AND_PLAY = "gotoAndPlay";
-
-        for (const auto& actionObject : actionsObject.GetArray())
+        for (size_t i = 0, l = actionsObject.Size(); i < l; ++i)
         {
+            const auto& actionObject = actionsObject[i];
             const auto isArray = actionObject.IsArray();
             const auto actionData = BaseObject::borrowObject<ActionData>();
             const auto animationName = isArray ? _getParameter(actionObject, 1, "") : _getString(actionObject, GOTO_AND_PLAY, "");
@@ -922,8 +930,8 @@ void JSONDataParser::_parseEventData(const rapidjson::Value& rawData, std::vecto
 
 void JSONDataParser::_parseTransform(const rapidjson::Value& rawData, Transform& transform) const
 {
-    transform.x = _getNumber(rawData, X, 0.f) * this->_armatureScale;
-    transform.y = _getNumber(rawData, Y, 0.f) * this->_armatureScale;
+    transform.x = _getNumber(rawData, X, 0.f) * this->_armature->scale;
+    transform.y = _getNumber(rawData, Y, 0.f) * this->_armature->scale;
     transform.skewX = _getNumber(rawData, SKEW_X, 0.f) * ANGLE_TO_RADIAN;
     transform.skewY = _getNumber(rawData, SKEW_Y, 0.f) * ANGLE_TO_RADIAN;
     transform.scaleX = _getNumber(rawData, SCALE_X, 1.f);
@@ -960,8 +968,6 @@ DragonBonesData * JSONDataParser::parseDragonBonesData(const char* rawData, floa
             this->_isGlobalTransform = false;
         }
 
-        this->_armatureScale = scale;
-
         if (version == DATA_VERSION || version == DATA_VERSION_4_0 || this->_isOldData)
         {
             const auto data = BaseObject::borrowObject<DragonBonesData>();
@@ -975,10 +981,10 @@ DragonBonesData * JSONDataParser::parseDragonBonesData(const char* rawData, floa
             if (document.HasMember(ARMATURE))
             {
                 this->_data = data;
-
-                for (const auto& armatureObject : document[ARMATURE].GetArray())
+                const auto& armatureObjects = document[ARMATURE];
+                for (size_t i = 0, l = armatureObjects.Size(); i < l; ++i)
                 {
-                    data->addArmature(_parseArmature(armatureObject));
+                    data->addArmature(_parseArmature(armatureObjects[i], scale));
                 }
 
                 this->_data = nullptr;
@@ -1023,8 +1029,10 @@ void JSONDataParser::parseTextureAtlasData(const char* rawData, TextureAtlasData
 
         if (document.HasMember(SUB_TEXTURE))
         {
-            for (const auto& textureObject : document[SUB_TEXTURE].GetArray())
+            const auto& textureObjects = document[SUB_TEXTURE];
+            for (size_t i = 0, l = textureObjects.Size(); i < l; ++i)
             {
+                const auto& textureObject = textureObjects[i];
                 const auto textureData = textureAtlasData.generateTexture();
                 textureData->name = _getString(textureObject, NAME, "");
                 textureData->rotated = _getBoolean(textureObject, ROTATED, false);

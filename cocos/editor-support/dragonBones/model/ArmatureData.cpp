@@ -216,17 +216,18 @@ void ArmatureData::_onClear()
     }
 
     frameRate = 0;
-    cacheFrameRate = 0;
     type = ArmatureType::Armature;
     name.clear();
     parent = nullptr;
     aabb.clear();
-
+    actions.clear();
     bones.clear();
     slots.clear();
     skins.clear();
     animations.clear();
-    actions.clear();
+
+    cacheFrameRate = 0;
+    scale = 1.f;
 
     _boneDirty = false;
     _slotDirty = false;

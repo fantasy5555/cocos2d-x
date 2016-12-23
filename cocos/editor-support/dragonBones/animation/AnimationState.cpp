@@ -179,7 +179,7 @@ void AnimationState::_fadeIn(
     _animationData = clip;
     _name = animationName;
 
-    this->actionEnabled = AnimationState::stateActionEnabled;
+    actionEnabled = AnimationState::stateActionEnabled;
     this->playTimes = playTimes;
     this->timeScale = timeScale;
     fadeTotalTime = fadeInTime;
@@ -188,7 +188,7 @@ void AnimationState::_fadeIn(
     _duration = duration;
     _time = time;
     _isPausePlayhead = pausePlayhead;
-    if (fadeTotalTime == 0.f)
+    if (fadeTotalTime <= 0.f)
     {
         _fadeProgress = 0.999999f;
     }
@@ -243,7 +243,7 @@ void AnimationState::_updateTimelineStates()
     {
         const auto boneTimelineState = pair.second;
         boneTimelineState->bone->invalidUpdate();
-        _boneTimelines.erase(std::find(_boneTimelines.cbegin(), _boneTimelines.cend(), boneTimelineState));
+        _boneTimelines.erase(std::find(_boneTimelines.begin(), _boneTimelines.end(), boneTimelineState));
         boneTimelineState->returnToPool();
     }
 
@@ -279,7 +279,7 @@ void AnimationState::_updateTimelineStates()
     for (const auto& pair : slotTimelineStates)
     {
         const auto timelineState = pair.second;
-        _slotTimelines.erase(std::find(_slotTimelines.cbegin(), _slotTimelines.cend(), timelineState));
+        _slotTimelines.erase(std::find(_slotTimelines.begin(), _slotTimelines.end(), timelineState));
         timelineState->returnToPool();
     }
 
@@ -344,7 +344,7 @@ void AnimationState::_updateFFDTimelineStates()
     {
         const auto ffdTimelineState = pair.second;
         //ffdTimelineState->slot->_ffdDirty = true;
-        _ffdTimelines.erase(std::find(_ffdTimelines.cbegin(), _ffdTimelines.cend(), ffdTimelineState));
+        _ffdTimelines.erase(std::find(_ffdTimelines.begin(), _ffdTimelines.end(), ffdTimelineState));
         ffdTimelineState->returnToPool();
     }
 }
@@ -392,14 +392,14 @@ void AnimationState::_advanceTime(float passedTime, float weightLeft, int index)
                 {
                     _armature->_animation->_animationStateDirty = false;
 
-                    for (const auto boneTimeline : _boneTimelines)
+                    for (const auto boneTimelineState : _boneTimelines)
                     {
-                        boneTimeline->bone->_cacheFrames = &(boneTimeline->_timeline->cachedFrames);
+                        boneTimelineState->bone->_cacheFrames = &(boneTimelineState->_timeline->cachedFrames);
                     }
 
-                    for (const auto slotTimeline : _slotTimelines)
+                    for (const auto slotTimelineState : _slotTimelines)
                     {
-                        slotTimeline->slot->_cacheFrames = &(slotTimeline->_timeline->cachedFrames);
+                        slotTimelineState->slot->_cacheFrames = &(slotTimelineState->_timeline->cachedFrames);
                     }
                 }
 
@@ -476,7 +476,7 @@ void AnimationState::fadeOut(float fadeOutTime, bool pausePlayhead)
     {
         _isFadeOut = true;
 
-        if (fadeOutTime == 0.f || _fadeProgress <= 0.f)
+        if (fadeOutTime <= 0.f || _fadeProgress <= 0.f)
         {
             _fadeProgress = 0.000001f;
         }
@@ -534,7 +534,7 @@ void AnimationState::addBoneMask(const std::string& name, bool recursive)
 
 void AnimationState::removeBoneMask(const std::string& name, bool recursive)
 {
-    const auto iterator = std::find(_boneMask.cbegin(), _boneMask.cend(), name);
+    auto iterator = std::find(_boneMask.begin(), _boneMask.end(), name);
     if (iterator != _boneMask.cend())
     {
         _boneMask.erase(iterator);
@@ -548,7 +548,7 @@ void AnimationState::removeBoneMask(const std::string& name, bool recursive)
             for (const auto bone : _armature->getBones())
             {
                 const auto boneName = bone->name;
-                const auto iterator = std::find(_boneMask.cbegin(), _boneMask.cend(), boneName);
+                auto iterator = std::find(_boneMask.begin(), _boneMask.end(), boneName);
                 if (
                     iterator != _boneMask.cend() &&
                     currentBone->contains(bone)
