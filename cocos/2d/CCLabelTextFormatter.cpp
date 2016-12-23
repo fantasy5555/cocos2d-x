@@ -72,7 +72,7 @@ void Label::computeAlignmentOffset()
     }
 }
 
-int Label::getFirstCharLen(const std::u16string& utf16Text, int startIndex, int textLen)
+int Label::getFirstCharLen(const std::u16string& /*utf16Text*/, int /*startIndex*/, int /*textLen*/)
 {
     return 1;
 }
@@ -165,7 +165,7 @@ bool Label::multilineTextWrap(const std::function<int(const std::u16string&, int
         }
 
         auto tokenLen = nextTokenLen(_utf16Text, index, textLen);
-        float tokenHighestY = highestY;;
+        float tokenHighestY = highestY;
         float tokenLowestY = lowestY;
         float tokenRight = letterRight;
         float nextLetterX = nextTokenX;

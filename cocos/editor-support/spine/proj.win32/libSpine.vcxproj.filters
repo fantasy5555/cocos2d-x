@@ -89,6 +89,9 @@
     <ClCompile Include="..\SkeletonBatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\SkeletonBinary.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\SkeletonBounds.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -204,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="..\SkeletonBatch.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SkeletonBinary.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SkeletonBounds.h">
       <Filter>Header Files</Filter>

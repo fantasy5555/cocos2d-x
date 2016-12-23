@@ -193,10 +193,12 @@ bool ControlSwitchSprite::initWithMaskSprite(
         
         clipper->addChild(onSprite);
         clipper->addChild(offSprite);
-        if(onLabel != nullptr)
-            clipper->addChild(onLabel);
-        if(offLabel != nullptr)
-            clipper->addChild(offLabel);
+        if (onLabel) {
+            clipper->addChild(onLabel); // might be null
+        }
+        if (offLabel) {
+            clipper->addChild(offLabel); // might be null
+        }
         clipper->addChild(thumbSprite);
         
         addChild(clipper);
@@ -212,7 +214,7 @@ bool ControlSwitchSprite::initWithMaskSprite(
     return false;
 }
 
-void ControlSwitchSprite::updateTweenAction(float value, const std::string& key)
+void ControlSwitchSprite::updateTweenAction(float value, const std::string& /*key*/)
 {
     CCLOGINFO("key = %s, value = %f", key.c_str(), value);
     setSliderXPosition(value);
@@ -398,7 +400,7 @@ Vec2 ControlSwitch::locationFromTouch(Touch* pTouch)
     return touchLocation;
 }
 
-bool ControlSwitch::onTouchBegan(Touch *pTouch, Event *pEvent)
+bool ControlSwitch::onTouchBegan(Touch *pTouch, Event* /*pEvent*/)
 {
     if (!isTouchInside(pTouch) || !isEnabled() || !isVisible())
     {
@@ -417,7 +419,7 @@ bool ControlSwitch::onTouchBegan(Touch *pTouch, Event *pEvent)
     return true;
 }
 
-void ControlSwitch::onTouchMoved(Touch *pTouch, Event *pEvent)
+void ControlSwitch::onTouchMoved(Touch *pTouch, Event* /*pEvent*/)
 {
     Vec2 location    = this->locationFromTouch(pTouch);
     location            = Vec2(location.x - _initialTouchXPosition, 0);
@@ -427,7 +429,7 @@ void ControlSwitch::onTouchMoved(Touch *pTouch, Event *pEvent)
     _switchSprite->setSliderXPosition(location.x);
 }
 
-void ControlSwitch::onTouchEnded(Touch *pTouch, Event *pEvent)
+void ControlSwitch::onTouchEnded(Touch *pTouch, Event* /*pEvent*/)
 {
     Vec2 location   = this->locationFromTouch(pTouch);
     
@@ -443,7 +445,7 @@ void ControlSwitch::onTouchEnded(Touch *pTouch, Event *pEvent)
     }
 }
 
-void ControlSwitch::onTouchCancelled(Touch *pTouch, Event *pEvent)
+void ControlSwitch::onTouchCancelled(Touch *pTouch, Event* /*pEvent*/)
 {
     Vec2 location   = this->locationFromTouch(pTouch);
     

@@ -231,7 +231,7 @@ void GridBase::beforeDraw(void)
     _grabber->beforeRender(_texture);
 }
 
-void GridBase::afterDraw(cocos2d::Node *target)
+void GridBase::afterDraw(cocos2d::Node * /*target*/)
 {
     _grabber->afterRender(_texture);
 
@@ -419,7 +419,7 @@ void Grid3D::blit(void)
 
     GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_TEX_COORD );
     _shaderProgram->use();
-    _shaderProgram->setUniformsForBuiltins();;
+    _shaderProgram->setUniformsForBuiltins();
 
     //
     // Attributes

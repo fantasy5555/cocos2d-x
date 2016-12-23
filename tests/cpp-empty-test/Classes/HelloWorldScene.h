@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "editor-support/dragonBones/CCDragonBonesHeaders.h"
 
-class HelloWorld : public cocos2d::Layer
+class HelloWorld : public cocos2d::Scene
 {
 public:
     virtual bool init() override;

@@ -108,6 +108,8 @@ GLView::GLView()
 , _scaleY(1.0f)
 , _resolutionPolicy(ResolutionPolicy::UNKNOWN)
 , _vrImpl(nullptr)
+, _designResolutionSize(0,0)
+, _screenSize(0,0)
 {
 }
 
@@ -202,6 +204,11 @@ const Size& GLView::getFrameSize() const
 void GLView::setFrameSize(float width, float height)
 {
     _screenSize = Size(width, height);
+
+    // Github issue #16003 and #16485
+    // only update the designResolution if it wasn't previously set
+    if (_designResolutionSize.equals(Size::ZERO))
+        _designResolutionSize = _screenSize;
 }
 
 Rect GLView::getVisibleRect() const
@@ -313,7 +320,7 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
             
             CCLOGINFO("x = %f y = %f", touch->getLocationInView().x, touch->getLocationInView().y);
             
-            g_touchIdReorderMap.insert(std::make_pair(id, unusedIndex));
+            g_touchIdReorderMap.emplace(id, unusedIndex);
             touchEvent._touches.push_back(touch);
         }
     }
