@@ -246,7 +246,7 @@ void CCSlot::_updateFrame()
                 triangles.indices = vertexIndices;
                 triangles.vertCount = (unsigned)(this->_meshData->uvs.size() / 2);
                 triangles.indexCount = (unsigned)(this->_meshData->vertexIndices.size());
-                polygonInfo.rect = boundsRect; // Copy
+                polygonInfo.setRect(boundsRect); // Copy
                 frameDisplay->setPolygonInfo(polygonInfo);
                 frameDisplay->setContentSize(boundsRect.size);
 
@@ -423,7 +423,7 @@ void CCSlot::_updateMesh()
     boundsRect.size.width -= boundsRect.origin.x;
     boundsRect.size.height -= boundsRect.origin.y;
     
-    cocos2d::Rect* rect = (cocos2d::Rect*)&meshDisplay->getPolygonInfo().rect;
+    cocos2d::Rect* rect = (cocos2d::Rect*)&meshDisplay->getPolygonInfo().getRect();
     rect->origin = boundsRect.origin; // copy
     rect->size = boundsRect.size; // copy
     meshDisplay->setContentSize(boundsRect.size);
