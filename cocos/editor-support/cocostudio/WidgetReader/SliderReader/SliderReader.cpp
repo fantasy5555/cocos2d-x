@@ -83,7 +83,7 @@ namespace cocostudio
                 percent = valueToInt(value);
             }else if(key == P_BarFileNameData){
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -96,7 +96,7 @@ namespace cocostudio
                 barLength = valueToFloat(value);
             }else if(key == P_BallNormalData){
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -107,7 +107,7 @@ namespace cocostudio
 
             }else if(key == P_BallPressedData){
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -118,7 +118,7 @@ namespace cocostudio
                 
             }else if(key == P_BallDisabledData){
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -129,7 +129,7 @@ namespace cocostudio
                 
             }else if(key == P_ProgressBarData){
                 stExpCocoNode *backGroundChildren = stChildArray[i].GetChildArray(cocoLoader);
-                std::string resType = backGroundChildren[2].GetValue(cocoLoader);;
+                std::string resType = backGroundChildren[2].GetValue(cocoLoader);
                 
                 Widget::TextureResType imageFileNameType = (Widget::TextureResType)valueToInt(resType);
                 
@@ -190,7 +190,7 @@ namespace cocostudio
         std::string pressedFileName = this->getResourcePath(pressedDic, P_Path, (Widget::TextureResType)pressedType);
         slider->loadSlidBallTexturePressed(pressedFileName, (Widget::TextureResType)pressedType);
         
-        //loading silder ball disable texture
+        //loading slider ball disable texture
         const rapidjson::Value& disabledDic = DICTOOL->getSubDictionary_json(options, P_BallDisabledData);
         int disabledType = DICTOOL->getIntValue_json(disabledDic, P_ResourceType);
         std::string disabledFileName = this->getResourcePath(disabledDic, P_Path, (Widget::TextureResType)disabledType);
@@ -674,7 +674,7 @@ namespace cocostudio
         //    slider->addChild(label);
         //}
         
-        //loading silder ball disable texture
+        //loading slider ball disable texture
         bool disabledFileExist = false;
         std::string disabledErrorFilePath = "";
         auto disabledDic = cocos2d::wext::makeResourceData(options->ballDisabledData());

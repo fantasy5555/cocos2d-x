@@ -57,43 +57,65 @@ typedef struct _TrackEntryListeners {
 } _TrackEntryListeners;
 
 static _TrackEntryListeners* getListeners (spTrackEntry* entry) {
-    if (!entry->rendererObject) {
-        entry->rendererObject = new spine::_TrackEntryListeners();
-        entry->listener = trackEntryCallback;
-    }
-    return (_TrackEntryListeners*)entry->rendererObject;
+	if (!entry->rendererObject) {
+		entry->rendererObject = new spine::_TrackEntryListeners();
+		entry->listener = trackEntryCallback;
+	}
+	return (_TrackEntryListeners*)entry->rendererObject;
 }
 
 void disposeTrackEntry (spTrackEntry* entry) {
-    if (entry->rendererObject) delete (spine::_TrackEntryListeners*)entry->rendererObject;
-    _spTrackEntry_dispose(entry);
+	if (entry->rendererObject) delete (spine::_TrackEntryListeners*)entry->rendererObject;
+	_spTrackEntry_dispose(entry);
 }
 
 //
 
 SkeletonAnimation* SkeletonAnimation::createWithData (spSkeletonData* skeletonData, bool ownsSkeletonData) {
-    SkeletonAnimation* node = new SkeletonAnimation(skeletonData, ownsSkeletonData);
-    node->autorelease();
-    return node;
+	SkeletonAnimation* node = new SkeletonAnimation();
+	node->initWithData(skeletonData, ownsSkeletonData);
+	node->autorelease();
+	return node;
 }
 
-SkeletonAnimation* SkeletonAnimation::createWithFile (const std::string& skeletonDataFile, spAtlas* atlas, float scale) {
-    SkeletonAnimation* node = new SkeletonAnimation(skeletonDataFile, atlas, scale);
-    node->autorelease();
-    return node;
+SkeletonAnimation* SkeletonAnimation::createWithJsonFile (const std::string& skeletonJsonFile, spAtlas* atlas, float scale) {
+	SkeletonAnimation* node = new SkeletonAnimation();
+	node->initWithJsonFile(skeletonJsonFile, atlas, scale);
+	node->autorelease();
+	return node;
 }
 
-SkeletonAnimation* SkeletonAnimation::createWithFile (const std::string& skeletonDataFile, const std::string& atlasFile, float scale) {
-    SkeletonAnimation* node = new SkeletonAnimation(skeletonDataFile, atlasFile, scale);
-    node->autorelease();
-    return node;
+SkeletonAnimation* SkeletonAnimation::createWithJsonFile (const std::string& skeletonJsonFile, const std::string& atlasFile, float scale) {
+	SkeletonAnimation* node = new SkeletonAnimation();
+	spAtlas* atlas = spAtlas_createFromFile(atlasFile.c_str(), 0);
+	node->initWithJsonFile(skeletonJsonFile, atlas, scale);
+	node->autorelease();
+	return node;
 }
+
+SkeletonAnimation* SkeletonAnimation::createWithBinaryFile (const std::string& skeletonBinaryFile, spAtlas* atlas, float scale) {
+	SkeletonAnimation* node = new SkeletonAnimation();
+	node->initWithBinaryFile(skeletonBinaryFile, atlas, scale);
+	node->autorelease();
+	return node;
+}
+
+SkeletonAnimation* SkeletonAnimation::createWithBinaryFile (const std::string& skeletonBinaryFile, const std::string& atlasFile, float scale) {
+	SkeletonAnimation* node = new SkeletonAnimation();
+	spAtlas* atlas = spAtlas_createFromFile(atlasFile.c_str(), 0);
+	node->initWithBinaryFile(skeletonBinaryFile, atlas, scale);
+	node->autorelease();
+	return node;
+}
+
 
 void SkeletonAnimation::initialize () {
-    _ownsAnimationStateData = true;
-    _state = spAnimationState_create(spAnimationStateData_create(_skeleton->data));
-    _state->rendererObject = this;
-    _state->listener = animationCallback;
+	super::initialize();
+
+	_ownsAnimationStateData = true;
+	_state = spAnimationState_create(spAnimationStateData_create(_skeleton->data));
+	_state->rendererObject = this;
+	_state->listener = animationCallback;
 
     _spAnimationState* stateInternal = (_spAnimationState*)_state;
     stateInternal->disposeTrackEntry = disposeTrackEntry;
@@ -103,132 +125,117 @@ SkeletonAnimation::SkeletonAnimation ()
         : SkeletonRenderer() {
 }
 
-SkeletonAnimation::SkeletonAnimation (spSkeletonData *skeletonData, bool ownsSkeletonData)
-        : SkeletonRenderer(skeletonData, ownsSkeletonData) {
-    initialize();
-}
-
-SkeletonAnimation::SkeletonAnimation (const std::string& skeletonDataFile, spAtlas* atlas, float scale)
-        : SkeletonRenderer(skeletonDataFile, atlas, scale) {
-    initialize();
-}
-
-SkeletonAnimation::SkeletonAnimation (const std::string& skeletonDataFile, const std::string& atlasFile, float scale)
-        : SkeletonRenderer(skeletonDataFile, atlasFile, scale) {
-    initialize();
-}
-
 SkeletonAnimation::~SkeletonAnimation () {
-    if (_ownsAnimationStateData) spAnimationStateData_dispose(_state->data);
-    spAnimationState_dispose(_state);
+	if (_ownsAnimationStateData) spAnimationStateData_dispose(_state->data);
+	spAnimationState_dispose(_state);
 }
 
 void SkeletonAnimation::update (float deltaTime) {
-    super::update(deltaTime);
+	super::update(deltaTime);
 
-    deltaTime *= _timeScale;
-    spAnimationState_update(_state, deltaTime);
-    spAnimationState_apply(_state, _skeleton);
-    spSkeleton_updateWorldTransform(_skeleton);
+	deltaTime *= _timeScale;
+	spAnimationState_update(_state, deltaTime);
+	spAnimationState_apply(_state, _skeleton);
+	spSkeleton_updateWorldTransform(_skeleton);
 }
 
 void SkeletonAnimation::setAnimationStateData (spAnimationStateData* stateData) {
-    CCASSERT(stateData, "stateData cannot be null.");
+	CCASSERT(stateData, "stateData cannot be null.");
 
     if (_ownsAnimationStateData) spAnimationStateData_dispose(_state->data);
     spAnimationState_dispose(_state);
 
-    _ownsAnimationStateData = false;
-    _state = spAnimationState_create(stateData);
-    _state->rendererObject = this;
-    _state->listener = animationCallback;
+	_ownsAnimationStateData = false;
+	_state = spAnimationState_create(stateData);
+	_state->rendererObject = this;
+	_state->listener = animationCallback;
 }
 
 void SkeletonAnimation::setMix (const std::string& fromAnimation, const std::string& toAnimation, float duration) {
-    spAnimationStateData_setMixByName(_state->data, fromAnimation.c_str(), toAnimation.c_str(), duration);
+	spAnimationStateData_setMixByName(_state->data, fromAnimation.c_str(), toAnimation.c_str(), duration);
 }
 
 spTrackEntry* SkeletonAnimation::setAnimation (int trackIndex, const std::string& name, bool loop) {
-    spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
-    if (!animation) {
-        log("Spine: Animation not found: %s", name.c_str());
-        return 0;
-    }
-    return spAnimationState_setAnimation(_state, trackIndex, animation, loop);
+	spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
+	if (!animation) {
+		log("Spine: Animation not found: %s", name.c_str());
+		return 0;
+	}
+	return spAnimationState_setAnimation(_state, trackIndex, animation, loop);
 }
 
 spTrackEntry* SkeletonAnimation::addAnimation (int trackIndex, const std::string& name, bool loop, float delay) {
-    spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
-    if (!animation) {
-        log("Spine: Animation not found: %s", name.c_str());
-        return 0;
-    }
-    return spAnimationState_addAnimation(_state, trackIndex, animation, loop, delay);
+	spAnimation* animation = spSkeletonData_findAnimation(_skeleton->data, name.c_str());
+	if (!animation) {
+		log("Spine: Animation not found: %s", name.c_str());
+		return 0;
+	}
+	return spAnimationState_addAnimation(_state, trackIndex, animation, loop, delay);
 }
-    
+	
 spAnimation* SkeletonAnimation::findAnimation(const std::string& name) const {
-    return spSkeletonData_findAnimation(_skeleton->data, name.c_str());
+	return spSkeletonData_findAnimation(_skeleton->data, name.c_str());
 }
 
 spTrackEntry* SkeletonAnimation::getCurrent (int trackIndex) { 
-    return spAnimationState_getCurrent(_state, trackIndex);
+	return spAnimationState_getCurrent(_state, trackIndex);
 }
 
 void SkeletonAnimation::clearTracks () {
-    spAnimationState_clearTracks(_state);
+	spAnimationState_clearTracks(_state);
 }
 
 void SkeletonAnimation::clearTrack (int trackIndex) {
-    spAnimationState_clearTrack(_state, trackIndex);
+	spAnimationState_clearTrack(_state, trackIndex);
 }
 
 void SkeletonAnimation::onAnimationStateEvent (int trackIndex, spEventType type, spEvent* event, int loopCount) {
-    switch (type) {
-    case SP_ANIMATION_START:
-        if (_startListener) _startListener(trackIndex);
-        break;
-    case SP_ANIMATION_END:
-        if (_endListener) _endListener(trackIndex);
-        break;
-    case SP_ANIMATION_COMPLETE:
-        if (_completeListener) _completeListener(trackIndex, loopCount);
-        break;
-    case SP_ANIMATION_EVENT:
-        if (_eventListener) _eventListener(trackIndex, event);
-        break;
-    }
+	switch (type) {
+	case SP_ANIMATION_START:
+		if (_startListener) _startListener(trackIndex);
+		break;
+	case SP_ANIMATION_END:
+		if (_endListener) _endListener(trackIndex);
+		break;
+	case SP_ANIMATION_COMPLETE:
+		if (_completeListener) _completeListener(trackIndex, loopCount);
+		break;
+	case SP_ANIMATION_EVENT:
+		if (_eventListener) _eventListener(trackIndex, event);
+		break;
+	}
 }
 
 void SkeletonAnimation::onTrackEntryEvent (int trackIndex, spEventType type, spEvent* event, int loopCount) {
-    spTrackEntry* entry = spAnimationState_getCurrent(_state, trackIndex);
-    if (!entry->rendererObject) return;
-    _TrackEntryListeners* listeners = (_TrackEntryListeners*)entry->rendererObject;
-    switch (type) {
-    case SP_ANIMATION_START:
-        if (listeners->startListener) listeners->startListener(trackIndex);
-        break;
-    case SP_ANIMATION_END:
-        if (listeners->endListener) listeners->endListener(trackIndex);
-        break;
-    case SP_ANIMATION_COMPLETE:
-        if (listeners->completeListener) listeners->completeListener(trackIndex, loopCount);
-        break;
-    case SP_ANIMATION_EVENT:
-        if (listeners->eventListener) listeners->eventListener(trackIndex, event);
-        break;
-    }
+	spTrackEntry* entry = spAnimationState_getCurrent(_state, trackIndex);
+	if (!entry->rendererObject) return;
+	_TrackEntryListeners* listeners = (_TrackEntryListeners*)entry->rendererObject;
+	switch (type) {
+	case SP_ANIMATION_START:
+		if (listeners->startListener) listeners->startListener(trackIndex);
+		break;
+	case SP_ANIMATION_END:
+		if (listeners->endListener) listeners->endListener(trackIndex);
+		break;
+	case SP_ANIMATION_COMPLETE:
+		if (listeners->completeListener) listeners->completeListener(trackIndex, loopCount);
+		break;
+	case SP_ANIMATION_EVENT:
+		if (listeners->eventListener) listeners->eventListener(trackIndex, event);
+		break;
+	}
 }
 
 void SkeletonAnimation::setStartListener (const StartListener& listener) {
-    _startListener = listener;
+	_startListener = listener;
 }
 
 void SkeletonAnimation::setEndListener (const EndListener& listener) {
-    _endListener = listener;
+	_endListener = listener;
 }
 
 void SkeletonAnimation::setCompleteListener (const CompleteListener& listener) {
-    _completeListener = listener;
+	_completeListener = listener;
 }
 
 void SkeletonAnimation::setEventListener (const EventListener& listener) {
@@ -236,23 +243,23 @@ void SkeletonAnimation::setEventListener (const EventListener& listener) {
 }
 
 void SkeletonAnimation::setTrackStartListener (spTrackEntry* entry, const StartListener& listener) {
-    getListeners(entry)->startListener = listener;
+	getListeners(entry)->startListener = listener;
 }
 
 void SkeletonAnimation::setTrackEndListener (spTrackEntry* entry, const EndListener& listener) {
-    getListeners(entry)->endListener = listener;
+	getListeners(entry)->endListener = listener;
 }
 
 void SkeletonAnimation::setTrackCompleteListener (spTrackEntry* entry, const CompleteListener& listener) {
-    getListeners(entry)->completeListener = listener;
+	getListeners(entry)->completeListener = listener;
 }
 
 void SkeletonAnimation::setTrackEventListener (spTrackEntry* entry, const EventListener& listener) {
-    getListeners(entry)->eventListener = listener;
+	getListeners(entry)->eventListener = listener;
 }
 
 spAnimationState* SkeletonAnimation::getState() const {
-    return _state;
+	return _state;
 }
 
 }

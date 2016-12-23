@@ -44,7 +44,7 @@ static long getCurrentMillSecond() {
     struct timeval stCurrentTime;
 
     gettimeofday(&stCurrentTime,NULL);
-    lLastTime = stCurrentTime.tv_sec*1000+stCurrentTime.tv_usec*0.001; //millseconds
+    lLastTime = stCurrentTime.tv_sec*1000+stCurrentTime.tv_usec*0.001; // milliseconds
     return lLastTime;
 }
 
@@ -144,7 +144,7 @@ std::string Application::getVersion()
 bool Application::openURL(const std::string &url)
 {
     std::string op = std::string("xdg-open ").append(url);
-    return system(op.c_str())!=-1;
+    return system(op.c_str()) == 0;
 }
 
 //////////////////////////////////////////////////////////////////////////

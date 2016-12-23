@@ -136,9 +136,12 @@ public class Cocos2dxHelper {
                 parameters = new Object[]{Cocos2dxReflectionHelper.<String>getConstantValue(audioManagerClass, "PROPERTY_OUTPUT_FRAMES_PER_BUFFER")};
                 final String strBufferSizeInFrames = Cocos2dxReflectionHelper.<String>invokeInstanceMethod(am, "getProperty", new Class[]{String.class}, parameters);
 
-                sampleRate = Integer.parseInt(strSampleRate);
-                bufferSizeInFrames = Integer.parseInt(strBufferSizeInFrames);
-
+                try {
+                    sampleRate = Integer.parseInt(strSampleRate);
+                    bufferSizeInFrames = Integer.parseInt(strBufferSizeInFrames);
+                } catch (NumberFormatException e) {
+                    Log.e(TAG, "parseInt failed", e);
+                }
                 Log.d(TAG, "sampleRate: " + sampleRate + ", framesPerBuffer: " + bufferSizeInFrames);
             } else {
                 Log.d(TAG, "android version is lower than 17");
@@ -620,21 +623,21 @@ public class Cocos2dxHelper {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
     
     public static void setIntegerForKey(String key, int value) {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
     
     public static void setFloatForKey(String key, float value) {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat(key, value);
-        editor.commit();
+        editor.apply();
     }
     
     public static void setDoubleForKey(String key, double value) {
@@ -642,21 +645,21 @@ public class Cocos2dxHelper {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putFloat(key, (float)value);
-        editor.commit();
+        editor.apply();
     }
     
     public static void setStringForKey(String key, String value) {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
     
     public static void deleteValueForKey(String key) {
         SharedPreferences settings = sActivity.getSharedPreferences(Cocos2dxHelper.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(key);
-        editor.commit();
+        editor.apply();
     }
 
     public static byte[] conversionEncoding(byte[] text, String fromCharset,String newCharset)
@@ -749,5 +752,9 @@ public class Cocos2dxHelper {
 
     public static float[] getCompassValue() {
         return Cocos2dxHelper.sCocos2dxAccelerometer.compassFieldValues;
+    }
+
+    public static int getSDKVersion() {
+        return Build.VERSION.SDK_INT;
     }
 }

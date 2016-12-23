@@ -154,7 +154,7 @@ void FontAtlas::purgeTexturesAtlas()
     }
 }
 
-void FontAtlas::listenRendererRecreated(EventCustom *event)
+void FontAtlas::listenRendererRecreated(EventCustom * /*event*/)
 {
     purgeTexturesAtlas();
 }
@@ -209,7 +209,7 @@ void FontAtlas::conversionU16TOGB2312(const std::u16string& u16Text, std::unorde
 #else
         if (_iconv == nullptr)
         {
-            _iconv = iconv_open("gb2312", "utf-16le");
+            _iconv = iconv_open("GBK//TRANSLIT", "UTF-16LE");
         }
 
         if (_iconv == (iconv_t)-1)
@@ -270,13 +270,13 @@ void FontAtlas::findNewCharacters(const std::u16string& u16Text, std::unordered_
         // will affect the memory validity, it means after `newChars` is destroyed, the memory of `u16Text` holds
         // will be a dead region. `u16text` represents the variable in `Label::_utf16Text`, when somewhere
         // allocates memory by `malloc, realloc, new, new[]`, the generated memory address may be the same
-        // as `Label::_utf16Text` holds. If doing a `memset` or other memory operations, the orignal `Label::_utf16Text`
+        // as `Label::_utf16Text` holds. If doing a `memset` or other memory operations, the original `Label::_utf16Text`
         // will be in an unknown state. Meanwhile, a bunch lots of logic which depends on `Label::_utf16Text`
         // will be broken.
         
         // newChars = u16Text;
         
-        // Using `append` method is a workaround for this issue. So please be carefuly while using the assignment operator
+        // Using `append` method is a workaround for this issue. So please be carefully while using the assignment operator
         // of `std::u16string`.
         newChars.append(u16Text);
     }

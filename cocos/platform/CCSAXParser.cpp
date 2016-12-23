@@ -71,9 +71,8 @@ SAXParser::~SAXParser(void)
 {
 }
 
-bool SAXParser::init(const char *encoding)
+bool SAXParser::init(const char* /*encoding*/)
 {
-    CC_UNUSED_PARAM(encoding);
     // nothing to do
     return true;
 }
@@ -103,12 +102,12 @@ bool SAXParser::parseIntrusive(char* xmlData, size_t dataLength)
 
     rapidxml::xml_sax3_parser<> parser(&printer);
     try {
-        parser.parse<>(xmlData, dataLength);
+        parser.parse<>(xmlData, static_cast<int>(dataLength));
         return true;
     }
-    catch (const rapidxml::parse_error& e)
+    catch (rapidxml::parse_error& e)
     {
-        cocos2d::log("cocos2d: SAXParser: Error parsing xml: %s at %s", e.what(), e.where<char>());
+        CCLOG("cocos2d: SAXParser: Error parsing xml: %s at %s", e.what(), e.where<char>());
         return false;
     }
 
@@ -124,7 +123,7 @@ void SAXParser::endElement(void *ctx, const CC_XML_CHAR *name)
 {
     ((SAXParser*)(ctx))->_delegator->endElement(ctx, (char*)name);
 }
-void SAXParser::textHandler(void *ctx, const CC_XML_CHAR *name, int len)
+void SAXParser::textHandler(void *ctx, const CC_XML_CHAR *name, size_t len)
 {
     ((SAXParser*)(ctx))->_delegator->textHandler(ctx, (char*)name, len);
 }

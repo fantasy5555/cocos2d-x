@@ -39,6 +39,7 @@
 
 #include <assert.h>
 #include <memory>
+#include <chrono>
 
 #define ENGINE_VERSION "Cocos2d-JS v3.13"
 
@@ -86,9 +87,12 @@ private:
     SimpleRunLoop* _runLoop;
     bool _jsInited;
     bool _needCleanup;
-
     bool _callFromScript;
+    JSObject *_finalizing;
+
     ScriptingCore();
+
+	std::chrono::steady_clock::time_point _engineStartTime;
 public:
     ~ScriptingCore();
 
@@ -349,6 +353,11 @@ public:
      * Clean all script objects
      */
     void cleanAllScript();
+
+	/**@~english
+	* Gets the time that the ScriptingCore was initalized
+	*/
+	std::chrono::steady_clock::time_point getEngineStartTime() const;
     
     /**@~english
      * Initialize everything, including the js context, js global object etc.
@@ -529,6 +538,16 @@ public:
      */
     virtual void garbageCollect() override;
 
+    /**
+     * Sets the js object that is being finalizing in the script engine, internal use only, please do not call this function
+     */
+    void setFinalizing (JSObject *finalizing) {_finalizing = finalizing;};
+
+    /**
+     * Gets the js object that is being finalizing in the script engine
+     */
+    JSObject *getFinalizing () {return _finalizing;};
+
 private:
     void string_report(JS::HandleValue val);
     void initRegister();
@@ -561,9 +580,8 @@ bool jsb_get_reserved_slot(JSObject *obj, uint32_t idx, jsval& ret);
 template <class T>
 js_type_class_t *jsb_register_class(JSContext *cx, JSClass *jsClass, JS::HandleObject proto, JS::HandleObject parentProto)
 {
-    TypeTest<T> t;
     js_type_class_t *p = nullptr;
-    std::string typeName = t.s_name();
+    std::string typeName = TypeTest<T>::s_name();
     if (_js_global_type_map.find(typeName) == _js_global_type_map.end())
     {
         JS::RootedObject protoRoot(cx, proto);

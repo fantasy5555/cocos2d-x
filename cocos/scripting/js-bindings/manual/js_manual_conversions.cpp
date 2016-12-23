@@ -154,7 +154,7 @@ JSFunctionWrapper::~JSFunctionWrapper()
 {
     JS::RootedValue ownerVal(_cx, _owner);
 
-    if (!ownerVal.isNullOrUndefined())
+    if (!ownerVal.isNullOrUndefined() && ScriptingCore::getInstance()->getFinalizing() != ownerVal.toObjectOrNull())
     {
         JS::RootedValue thisVal(_cx, OBJECT_TO_JSVAL(_jsthis));
         if (!thisVal.isNullOrUndefined())
@@ -602,7 +602,7 @@ bool jsval_to_long_long(JSContext *cx, JS::HandleValue vp, long long* r)
 }
 
 bool jsval_to_std_string(JSContext *cx, JS::HandleValue v, std::string* ret) {
-    if(v.isString() || v.isBoolean())
+    if (v.isString() || v.isBoolean() || v.isNumber())
     {
         JSString *tmp = JS::ToString(cx, v);
         JSB_PRECONDITION3(tmp, cx, false, "Error processing arguments");
