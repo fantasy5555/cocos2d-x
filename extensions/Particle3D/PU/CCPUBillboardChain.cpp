@@ -698,7 +698,7 @@ void PUBillboardChain::render( Renderer* renderer, const Mat4 &transform, Partic
         {
             GLuint texId = this->getTextureName();
             _stateBlock->setBlendFunc(particleSystem->getBlendFunc());
-            _meshCommand->init(0,
+            _meshCommand->init(particleSystem->getGlobalZOrder(),
                                texId,
                                _glProgramState,
                                _stateBlock,

@@ -55,17 +55,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-CC_DLL float s_default2dObjectGlobalZOrder = 0;
-
-namespace wext {
-    void CC_DLL let3DObjectZOrderProperly(bool yes)
-    {
-        if (yes)
-            s_default2dObjectGlobalZOrder = 1.f;
-        else
-            s_default2dObjectGlobalZOrder = 0.f;
-    }
-}
 // FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
 unsigned int Node::s_globalOrderOfArrival = 0;
 
@@ -98,7 +87,7 @@ Node::Node()
 #if !CC_64BITS && defined(_WIN32)
 , _orderOfArrival(0)
 #endif
-, _globalZOrder(1)
+, _globalZOrder(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
 , _tag(Node::INVALID_TAG)
