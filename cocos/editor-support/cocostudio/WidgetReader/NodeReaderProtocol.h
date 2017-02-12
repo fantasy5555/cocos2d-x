@@ -86,6 +86,8 @@ namespace cocos2d {
         class ScrollView;
         class ListView;
         class PageView;
+
+        class Widget;
     }
     namespace wext {
 		CC_STUDIOP_DLL extern void(*onLoadSpriteFramesWithFile)(std::string& file);
@@ -101,6 +103,7 @@ namespace cocos2d {
 
         // Object creator Hooks
 		CC_STUDIOP_DLL extern cocos2d::Node*(*aNode)();
+        CC_STUDIOP_DLL extern cocos2d::ui::Widget*(*aWidget)();
 		CC_STUDIOP_DLL extern cocos2d::Sprite*(*aSprite)();
 		CC_STUDIOP_DLL extern cocos2d::ui::ImageView*(*aImageView)();
         CC_STUDIOP_DLL extern cocos2d::ui::Button*(*aButton)();
