@@ -70,6 +70,7 @@ namespace cocos2d {
         void(*onAfterLoadObjectAsset)(cocos2d::Node*, cocos2d::ResourceData& assets, int index/*= 0*/) = &onLoadObjectAssetDummy;
         void(*onLoadSpriteFramesWithFile)(std::string& file) = nullptr;
         cocos2d::Node*(*aNode)();
+        cocos2d::ui::Widget*(*aWidget)();
         cocos2d::Sprite*(*aSprite)();
         cocos2d::ui::ImageView*(*aImageView)();
         cocos2d::ui::Button*(*aButton)();
@@ -94,6 +95,7 @@ namespace cocos2d {
 
             aNode = object_create_func<Node>;
             aSprite = object_create_func<Sprite>;
+            aWidget = object_create_func<ui::Widget>;
             aImageView = object_create_func<ui::ImageView>;
             aButton = object_create_func<ui::Button>;
             aCheckBox = object_create_func<ui::CheckBox>;
