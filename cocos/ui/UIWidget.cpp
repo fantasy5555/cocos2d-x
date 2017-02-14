@@ -56,7 +56,7 @@ class Widget::FocusNavigationController
     }
     ~FocusNavigationController();
 protected:
-    void setFirstFocsuedWidget(Widget* widget);
+    void setFirstFocusedWidget(Widget* widget);
 
     void onKeypadKeyPressed(EventKeyboard::KeyCode, Event*);
 
@@ -112,7 +112,7 @@ void Widget::FocusNavigationController::enableFocusNavigation(bool flag)
         this->removeKeyboardEventListener();
 }
 
-void Widget::FocusNavigationController::setFirstFocsuedWidget(Widget* widget)
+void Widget::FocusNavigationController::setFirstFocusedWidget(Widget* widget)
 {
     _firstFocusedWidget = widget;
 }
@@ -690,36 +690,41 @@ LayoutComponent* Widget::getOrCreateLayoutComponent()
     }
 
 
-    Widget* Widget::getAncensterWidget(Node* node)
+Widget* Widget::getAncestorWidget(Node* node)
+{
+    if (nullptr == node)
     {
-        if (nullptr == node)
-        {
-            return nullptr;
-        }
-
-        Node* parent = node->getParent();
-        if (nullptr == parent)
-        {
-            return nullptr;
-        }
-        Widget* parentWidget = dynamic_cast<Widget*>(parent);
-        if (parentWidget)
-        {
-            return parentWidget;
-        }
-        else
-        {
-            return this->getAncensterWidget(parent->getParent());
-        }
+        return nullptr;
     }
 
-    bool Widget::isAncestorsVisible(Node* node)
+    Node* parent = node->getParent();
+    if (nullptr == parent)
     {
-        if (nullptr == node)
-        {
-            return true;
-        }
-        Node* parent = node->getParent();
+        return nullptr;
+    }
+    Widget* parentWidget = dynamic_cast<Widget*>(parent);
+    if (parentWidget)
+    {
+        return parentWidget;
+    }
+    else
+    {
+        return this->getAncestorWidget(parent->getParent());
+    }
+}
+
+Widget* Widget::getAncensterWidget(Node* node)
+{
+    return getAncestorWidget(node);
+}
+
+bool Widget::isAncestorsVisible(Node* node)
+{
+    if (nullptr == node)
+    {
+        return true;
+    }
+    Node* parent = node->getParent();
 
         if (parent && !parent->isVisible())
         {
@@ -728,17 +733,17 @@ LayoutComponent* Widget::getOrCreateLayoutComponent()
         return this->isAncestorsVisible(parent);
     }
 
-    bool Widget::isAncestorsEnabled()
+bool Widget::isAncestorsEnabled()
+{
+    Widget* parentWidget = this->getAncestorWidget(this);
+    if (parentWidget == nullptr)
     {
-        Widget* parentWidget = this->getAncensterWidget(this);
-        if (parentWidget == nullptr)
-        {
-            return true;
-        }
-        if (parentWidget && !parentWidget->isEnabled())
-        {
-            return false;
-        }
+        return true;
+    }
+    if (parentWidget && !parentWidget->isEnabled())
+    {
+        return false;
+    }
 
         return parentWidget->isAncestorsEnabled();
     }
@@ -856,8 +861,16 @@ void Widget::onTouchEnded(Touch *touch, Event* /*unusedEvent*/)
         }
     }
 
-void Widget::onTouchCancelled(Touch* /*touch*/, Event* /*unusedEvent*/)
+void Widget::onTouchCancelled(Touch* touch, Event* /*unusedEvent*/)
 {
+    /*
+     * Propagate touch events to its parents
+     */
+    if (_propagateTouchEvents)
+    {
+        this->propagateTouchEvent(TouchEventType::CANCELED, this, touch);
+    }
+    
     setHighlighted(false);
     cancelUpEvent();
 }
@@ -1226,18 +1239,12 @@ void Widget::onTouchCancelled(Touch* /*touch*/, Event* /*unusedEvent*/)
 
 GLProgramState* Widget::getNormalGLProgramState(Texture2D* texture)const
 {
-    GLProgramState *glState = nullptr;
-
-    glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture);
-    return glState;
+    return GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture);
 }
 
 GLProgramState* Widget::getGrayGLProgramState(Texture2D* texture)const
 {
-    GLProgramState *glState = nullptr;
-
-    glState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE, texture);
-    return glState;
+    return GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_GRAYSCALE, texture);
 }
 
 void Widget::copySpecialProperties(Widget* /*model*/)
@@ -1380,13 +1387,13 @@ void Widget::copySpecialProperties(Widget* /*model*/)
     {
         _focused = focus;
 
-        //make sure there is only one focusedWidget
-        if (focus) {
-            _focusedWidget = this;
-            if (_focusNavigationController) {
-                _focusNavigationController->setFirstFocsuedWidget(this);
-            }
+    //make sure there is only one focusedWidget
+    if (focus) {
+        _focusedWidget = this;
+        if (_focusNavigationController) {
+            _focusNavigationController->setFirstFocusedWidget(this);
         }
+    }
 
     }
 
@@ -1511,7 +1518,7 @@ void Widget::enableDpadNavigation(bool enable)
             _focusNavigationController = new (std::nothrow) FocusNavigationController;
             if (_focusedWidget)
             {
-                _focusNavigationController->setFirstFocsuedWidget(_focusedWidget);
+                _focusNavigationController->setFirstFocusedWidget(_focusedWidget);
             }
         }
     }

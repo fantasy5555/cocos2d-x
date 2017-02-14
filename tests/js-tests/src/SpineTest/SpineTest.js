@@ -94,7 +94,7 @@ var SpineTestLayerNormal = SpineTestLayer.extend({
         /////////////////////////////
         // Make Spine's Animated skeleton Node
         // You need 'json + atlas + image' resource files to make it.
-        var spineBoy = sp.SkeletonAnimation.create('spine/spineboy.json', 'spine/spineboy.atlas');
+        var spineBoy = sp.SkeletonAnimation.createWithJsonFile('spine/spineboy.json', 'spine/spineboy.atlas', 0.6);
         spineBoy.setPosition(cc.p(size.width / 2, size.height / 2 - 150));
         spineBoy.setMix('walk', 'jump', 0.2);
         spineBoy.setMix('jump', 'run', 0.2);
@@ -103,21 +103,21 @@ var SpineTestLayerNormal = SpineTestLayer.extend({
         spineBoy.setScale(0.5);
         this.addChild(spineBoy, 4);
         this._spineboy = spineBoy;
-        spineBoy.setStartListener(function(trackIndex){
-            var entry = spineBoy.getState().getCurrent(trackIndex);
-            if(entry){
-                var animationName = entry.animation ? entry.animation.name : "";
-                cc.log("%d start: %s", trackIndex, animationName);
+        spineBoy.setStartListener(function(trackEntry){
+            if(trackEntry){
+                var animationName = trackEntry.animation ? trackEntry.animation.name : "";
+                cc.log("%d start: %s", trackEntry.trackIndex, animationName);
             }
         });
-        spineBoy.setEndListener(function(traceIndex){
-            cc.log("%d end.", traceIndex);
+        spineBoy.setEndListener(function(trackEntry){
+            cc.log("%d end.", trackEntry.trackIndex);
         });
-        spineBoy.setCompleteListener(function(traceIndex, loopCount){
-            cc.log("%d complete: %d", traceIndex, loopCount);
+        spineBoy.setCompleteListener(function(trackEntry){
+            var loopCount = Math.floor(trackEntry.trackTime / trackEntry.animationEnd);
+            cc.log("%d complete: %d", trackEntry.trackIndex, loopCount);
         });
-        spineBoy.setEventListener(function(traceIndex, event){
-            cc.log( traceIndex + " event: %s, %d, %f, %s",event.data.name, event.intValue, event.floatValue, event.stringValue);
+        spineBoy.setEventListener(function(trackEntry, event){
+            cc.log( trackEntry.trackIndex + " event: %s, %d, %d, %s",event.data.name, event.intValue, event.floatValue, event.stringValue);
         });
 
         var jumpEntry = spineBoy.addAnimation(0, "jump", false, 3);
@@ -216,7 +216,7 @@ var SpineTestLayerFFD = SpineTestLayer.extend({
     ctor: function(){
         this._super(cc.color(0,0,0,255), cc.color(98,99,117,255));
 
-        var skeletonNode = sp.SkeletonAnimation.create("spine/goblins.json", "spine/goblins.atlas", 1.5);
+        var skeletonNode = sp.SkeletonAnimation.createWithJsonFile("spine/goblins_mesh.json", "spine/goblins.atlas", 1.5);
         skeletonNode.setAnimation(0, "walk", true);
         skeletonNode.setSkin("goblin");
 
@@ -260,7 +260,7 @@ var SpineTestPerformanceLayer = SpineTestLayer.extend({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             onTouchBegan: function(touch, event){
                 var pos = self.convertToNodeSpace(touch.getLocation());
-                var skeletonNode = sp.SkeletonAnimation.create("spine/goblins.json", "spine/goblins.atlas", 1.5);
+                var skeletonNode = sp.SkeletonAnimation.createWithJsonFile("spine/goblins_mesh.json", "spine/goblins.atlas", 1.5);
                 skeletonNode.setAnimation(0, "walk", true);
                 skeletonNode.setSkin("goblin");
 
@@ -282,7 +282,7 @@ var SpineTestPerformanceLayer = SpineTestLayer.extend({
 
 SpineTestScene.testLayers = [
     SpineTestLayerNormal,
-    SpineTestLayerNormal // custom spine,diff code in sample
+    //SpineTestLayerNormal // custom spine,diff code in sample
     //SpineTestLayerFFD,        //it doesn't support mesh on Web.
     //SpineTestPerformanceLayer
 ];
