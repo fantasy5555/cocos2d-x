@@ -1,50 +1,35 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := spine_static
+LOCAL_MODULE := dragonbones_static
 
-LOCAL_MODULE_FILENAME := libspine
+LOCAL_MODULE_FILENAME := libdragonbones
 
 LOCAL_ARM_MODE := arm
 
 LOCAL_SRC_FILES := \
-Animation.c \
-AnimationState.c \
-AnimationStateData.c \
-Atlas.c \
-AtlasAttachmentLoader.c \
-Attachment.c \
-AttachmentLoader.c \
-AttachmentVertices.cpp \
-Bone.c \
-BoneData.c \
-BoundingBoxAttachment.c \
-Cocos2dAttachmentLoader.cpp \
-Event.c \
-EventData.c \
-IkConstraint.c \
-IkConstraintData.c \
-Json.c \
-MeshAttachment.c \
-PathAttachment.c \
-PathConstraint.c \
-PathConstraintData.c \
-RegionAttachment.c \
-Skeleton.c \
-SkeletonAnimation.cpp \
-SkeletonBatch.cpp \
-SkeletonBounds.c \
-SkeletonData.c \
-SkeletonJson.c \
-SkeletonRenderer.cpp \
-Skin.c \
-Slot.c \
-SlotData.c \
-TransformConstraint.c \
-TransformConstraintData.c \
-VertexAttachment.c \
-extension.c \
-spine-cocos2dx.cpp
+animation/Animation.cpp \
+model/AnimationData.cpp \
+animation/AnimationState.cpp \
+armature/Armature.cpp \
+model/ArmatureData.cpp \
+factories/BaseFactory.cpp \
+core/BaseObject.cpp \
+armature/Bone.cpp \
+CCArmatureDisplay.cpp \
+CCFactory.cpp \
+CCSlot.cpp \
+CCTextureData.cpp \
+parsers/DataParser.cpp \
+model/DragonBonesData.cpp \
+events/EventObject.cpp \
+model/FrameData.cpp \
+parsers/JSONDataParser.cpp \
+armature/Slot.cpp \
+textures/TextureData.cpp \
+model/TimelineData.cpp \
+animation/TimelineState.cpp \
+animation/WorldClock.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 
