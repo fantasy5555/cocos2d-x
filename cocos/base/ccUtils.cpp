@@ -27,11 +27,6 @@ THE SOFTWARE.
 
 #include <cmath>
 #include <stdlib.h>
-#include <openssl/md5.h>
-
-#if 0
-#include <openssl/md5.h>
-#endif
 
 #include "base/CCDirector.h"
 #include "base/CCAsyncTaskPool.h"
