@@ -3172,10 +3172,6 @@
     <ClInclude Include="..\audio\win32\AudioDecoderManager.h">
       <Filter>audioengine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\flatbuffers\gprc.h" />
-    <ClInclude Include="..\..\external\flatbuffers\code_generators.h" />
-    <ClInclude Include="..\..\external\flatbuffers\reflection.h" />
-    <ClInclude Include="..\..\external\flatbuffers\reflection_generated.h" />
     <ClInclude Include="..\network\Uri.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>

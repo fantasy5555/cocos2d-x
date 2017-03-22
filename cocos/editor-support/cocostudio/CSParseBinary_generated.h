@@ -336,7 +336,7 @@ namespace flatbuffers {
     struct OptionsBuilder {
         flatbuffers::FlatBufferBuilder &fbb_;
         flatbuffers::uoffset_t start_;
-        void add_data(flatbuffers::Offset<Table> data) { fbb_.AddOffset(4, data); }
+        void add_data(flatbuffers::Offset<WidgetOptions> data) { fbb_.AddOffset(4, data); }
         OptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb) : fbb_(_fbb) { start_ = fbb_.StartTable(); }
         OptionsBuilder &operator=(const OptionsBuilder &);
         flatbuffers::Offset<Options> Finish() {
@@ -346,7 +346,7 @@ namespace flatbuffers {
     };
 
     inline flatbuffers::Offset<Options> CreateOptions(flatbuffers::FlatBufferBuilder &_fbb,
-        flatbuffers::Offset<Table> data = 0) {
+        flatbuffers::Offset<WidgetOptions> data = 0) {
         OptionsBuilder builder_(_fbb);
         builder_.add_data(data);
         return builder_.Finish();
@@ -3427,7 +3427,7 @@ namespace flatbuffers {
 
     inline const flatbuffers::CSParseBinary *GetCSParseBinary(const void *buf) { return flatbuffers::GetRoot<flatbuffers::CSParseBinary>(buf); }
 
-    inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<flatbuffers::CSParseBinary>(); }
+    inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<flatbuffers::CSParseBinary>(nullptr); }
 
     inline void FinishCSParseBinaryBuffer(flatbuffers::FlatBufferBuilder &fbb, flatbuffers::Offset<flatbuffers::CSParseBinary> root) { fbb.Finish(root); }
 

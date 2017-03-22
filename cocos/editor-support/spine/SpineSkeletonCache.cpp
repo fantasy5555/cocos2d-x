@@ -38,6 +38,8 @@ SpineSkeletonCache::SkeletonData* SpineSkeletonCache::addData(const char* dataFi
 	spAttachmentLoader* loader = nullptr;
 	bool ok = false;
 
+    auto fileExtension = cocos2d::FileUtils::getInstance()->getFileExtension(dataFile);
+
 	do {
 		spAtlas* atlas = spAtlas_createFromFile(atlasFile, 0);
 
@@ -46,36 +48,59 @@ SpineSkeletonCache::SkeletonData* SpineSkeletonCache::addData(const char* dataFi
 
 		loader = (spAttachmentLoader*)Cocos2dAttachmentLoader_create(atlas);
 
-		spSkeletonJson* json = spSkeletonJson_createWithLoader(loader); // spSkeletonJson_create(atlas);
-		if (nullptr == (json)) {
-			spAtlas_dispose(atlas);
-			break;
-		}
+        int failed = 0;
 
-		json->scale = scale;
-		skeletonData = spSkeletonJson_readSkeletonDataFile(json, dataFile);
+        /*
+        ** Atlas is used by shared attachment loader, temp json or binary should be dispose.
+        ** Cache, we just need SkeletonData & atlas.
+        */
+        if (fileExtension == ".skel") {
+            auto binary = spSkeletonBinary_createWithLoader(loader);
+            if (nullptr == binary) {
+                spAtlas_dispose(atlas);
+                break;
+            }
 
-		int failed = 0;
+            binary->scale = scale;
+            skeletonData = spSkeletonBinary_readSkeletonDataFile(binary, dataFile);
+            if ((binary->error != nullptr)) {
+                ++failed;
+                error_log("#parse spine .skel data file failed, error:%s", binary->error);
+            }
+
+            spSkeletonBinary_dispose(binary);
+        }
+        else {
+            spSkeletonJson* json = spSkeletonJson_createWithLoader(loader); 
+            if (nullptr == json) {
+                spAtlas_dispose(atlas);
+                break;
+            }
+
+            json->scale = scale;
+            skeletonData = spSkeletonJson_readSkeletonDataFile(json, dataFile);
+            if ((json->error != nullptr)) {
+                ++failed;
+                error_log("#parse spine .json data file failed, error:%s", json->error);
+            }
+
+            spSkeletonJson_dispose(json);
+        }
+
 		if ((loader->error1 != nullptr)) {
 			++failed;
 			error_log("#parse spine attachment failed, error:%s%s", loader->error1, loader->error2);
 		}
-		if ((json->error != nullptr)) {
-			++failed;
-			error_log("#parse spine .json data file failed, error:%s", json->error);
-		}
-
+		
 		if (failed > 0) {
 			if (skeletonData != nullptr)
 				spSkeletonData_dispose(skeletonData);
 
-			spSkeletonJson_dispose(json);
 			spAtlas_dispose(atlas);
 			spAttachmentLoader_dispose(loader);
 			break;
 		}
 
-		spSkeletonJson_dispose(json); // json should be dispose, and atlas is used by shared attachment loader
 		ok = true;
 	} while (false);
 

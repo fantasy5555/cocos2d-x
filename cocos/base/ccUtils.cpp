@@ -27,7 +27,10 @@ THE SOFTWARE.
 
 #include <cmath>
 #include <stdlib.h>
+
+#if 0
 #include <openssl/md5.h>
+#endif
 
 #include "base/CCDirector.h"
 #include "base/CCAsyncTaskPool.h"
@@ -411,6 +414,7 @@ Node* findChild(Node* levelRoot, int tag)
 
 std::string getFileMD5Hash(const std::string &filename)
 {
+#if 0
     unsigned char digest[MD5_DIGEST_LENGTH];
     Data d;
     FileUtils::getInstance()->getContents(filename, &d);
@@ -422,6 +426,9 @@ std::string getFileMD5Hash(const std::string &filename)
     for(int i = 0; i < 16; i++)
         sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
     return mdString;
+#else
+    return "";
+#endif
 }
 
 }

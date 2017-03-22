@@ -436,7 +436,7 @@ namespace cocostudio
                                          builder->CreateString(fontName),
                                          fontSize,
                                          builder->CreateString(text),
-                                         isLocalized,
+                                         /*isLocalized, pitfall: 3.15 changed the order of isLocalized */
                                          areaWidth,
                                          areaHeight,
                                          h_alignment,

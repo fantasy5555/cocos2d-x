@@ -275,7 +275,7 @@ namespace cocostudio
                                               builder->CreateString(fontName),
                                               fontSize,
                                               builder->CreateString(text),
-                                              isLocalized,
+                                              /*isLocalized,pitfall v3.15 use this order */
                                               builder->CreateString(placeHolder),
                                               passwordEnabled,
                                               builder->CreateString(passwordStyleText),

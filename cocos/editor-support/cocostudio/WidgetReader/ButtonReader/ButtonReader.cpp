@@ -701,7 +701,7 @@ namespace cocostudio
                                                               builder->CreateString(fontResourcePlistFile),
                                                               fontResourceResourceType),
                                            builder->CreateString(text),
-                                           isLocalized,
+                                           /*isLocalized, pitfall: 3.15 use this order */
                                            builder->CreateString(fontName),
                                            fontSize,
                                            &f_textColor,
