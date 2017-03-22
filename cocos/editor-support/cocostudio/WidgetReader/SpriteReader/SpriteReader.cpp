@@ -182,7 +182,6 @@ namespace cocostudio
         int resourceType = fileNameData.type;
         std::string& path = fileNameData.file;
         
-        bool fileExist = false;
         std::string errorFilePath = "";
         
         switch (resourceType)
@@ -192,12 +191,10 @@ namespace cocostudio
                 if (FileUtils::getInstance()->isFileExist(path))
                 {
                     sprite->setTexture(path);
-                    fileExist = true;
                 }
                 else
                 {
                     errorFilePath = path;
-                    fileExist = false;
                 }
                 break;
             }
@@ -209,7 +206,6 @@ namespace cocostudio
                 if (spriteFrame)
                 {
                     sprite->setSpriteFrame(spriteFrame);
-                    fileExist = true;
                 }
                 else
                 {
@@ -227,7 +223,6 @@ namespace cocostudio
                     {
                         errorFilePath = plist;
                     }
-                    fileExist = false;
                 }
                 break;
             }

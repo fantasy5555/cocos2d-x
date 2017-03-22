@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012      greathqy
  Copyright (c) 2012      cocos2d-x.org
- Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2013-2017 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -86,10 +86,10 @@ static int processDeleteTask(HttpClient* client,  HttpRequest* request, write_ca
 
 // Worker thread
 void HttpClient::networkThread()
-{   
-	increaseThreadCount();
-    
-    while (true) 
+{
+    increaseThreadCount();
+
+    while (true)
     {
         HttpRequest *request;
 
@@ -97,7 +97,7 @@ void HttpClient::networkThread()
         {
             std::lock_guard<std::mutex> lock(_requestQueueMutex);
             while (_requestQueue.empty())
-			{
+            {
                 _sleepCondition.wait(_requestQueueMutex);
             }
             request = _requestQueue.at(0);
@@ -112,9 +112,9 @@ void HttpClient::networkThread()
         
         // Create a HttpResponse object, the default setting is http access failed
         HttpResponse *response = new (std::nothrow) HttpResponse(request);
-        
-		processResponse(response, _responseMessage);
-        
+
+        processResponse(response, _responseMessage);
+
 
         // add response packet into queue
         _responseQueueMutex.lock();
@@ -139,18 +139,18 @@ void HttpClient::networkThread()
     _requestQueueMutex.lock();
     _requestQueue.clear();
     _requestQueueMutex.unlock();
-    
-	_responseQueueMutex.lock();
-	_responseQueue.clear();
-	_responseQueueMutex.unlock();
 
-	decreaseThreadCountAndMayDeleteThis();    
+    _responseQueueMutex.lock();
+    _responseQueue.clear();
+    _responseQueueMutex.unlock();
+
+    decreaseThreadCountAndMayDeleteThis();
 }
 
 // Worker thread
 void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response)
 {
-	increaseThreadCount();
+    increaseThreadCount();
 
 	char responseMessage[RESPONSE_BUFFER_SIZE] = { 0 };
 	processResponse(response, responseMessage);
@@ -183,22 +183,22 @@ void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response
 			Ref* pTarget = request->getTarget();
 			SEL_HttpResponse pSelector = request->getSelector();
 
-			if (callback != nullptr)
-			{
-				callback(this, response);
-			}
-			else if (pTarget && pSelector)
-			{
-				(pTarget->*pSelector)(this, response);
-			}
-			response->release();
-			// do not release in other thread
-			request->release();
-		});
-	}
-	_schedulerMutex.unlock();
+            if (callback != nullptr)
+            {
+                callback(this, response);
+            }
+            else if (pTarget && pSelector)
+            {
+                (pTarget->*pSelector)(this, response);
+            }
+            response->release();
+            // do not release in other thread
+            request->release();
+        });
+    }
+    _schedulerMutex.unlock();
 
-	decreaseThreadCountAndMayDeleteThis();
+    decreaseThreadCountAndMayDeleteThis();
 }
 
 //Configure curl's timeout property
@@ -222,14 +222,14 @@ static bool configureCURL(HttpClient* client, CURL* handle, char* errorBuffer)
         return false;
     }
 
-	std::string sslCaFilename = client->getSSLVerification();
-	if (sslCaFilename.empty()) {
+    std::string sslCaFilename = client->getSSLVerification();
+    if (sslCaFilename.empty()) {
         curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
         curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
     } else {
         curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 1L);
         curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
-		curl_easy_setopt(handle, CURLOPT_CAINFO, sslCaFilename.c_str());
+        curl_easy_setopt(handle, CURLOPT_CAINFO, sslCaFilename.c_str());
     }
     
     // FIXED #3224: The subthread of CCHttpClient interrupts main thread if timeout comes.
@@ -279,7 +279,7 @@ public:
     {
         if (!_curl)
             return false;
-		if (!configureCURL(client, _curl, errorBuffer))
+        if (!configureCURL(client, _curl, errorBuffer))
             return false;
 
         /* get custom header data (if set) */
@@ -293,12 +293,12 @@ public:
             if (!setOption(CURLOPT_HTTPHEADER, _headers))
                 return false;
         }
-		std::string cookieFilename = client->getCookieFilename();
-		if (!cookieFilename.empty()) {
-			if (!setOption(CURLOPT_COOKIEFILE, cookieFilename.c_str())) {
+        std::string cookieFilename = client->getCookieFilename();
+        if (!cookieFilename.empty()) {
+            if (!setOption(CURLOPT_COOKIEFILE, cookieFilename.c_str())) {
                 return false;
             }
-			if (!setOption(CURLOPT_COOKIEJAR, cookieFilename.c_str())) {
+            if (!setOption(CURLOPT_COOKIEJAR, cookieFilename.c_str())) {
                 return false;
             }
         }
@@ -331,7 +331,7 @@ public:
 static int processGetTask(HttpClient* client, HttpRequest* request, write_callback callback, void* stream, long* responseCode, write_callback headerCallback, void* headerStream, char* errorBuffer)
 {
     CURLRaii curl;
-	bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
+    bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
@@ -341,7 +341,7 @@ static int processGetTask(HttpClient* client, HttpRequest* request, write_callba
 static int processPostTask(HttpClient* client, HttpRequest* request, write_callback callback, void* stream, long* responseCode, write_callback headerCallback, void* headerStream, char* errorBuffer)
 {
     CURLRaii curl;
-	bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
+    bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
             && curl.setOption(CURLOPT_POST, 1)
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
@@ -353,7 +353,7 @@ static int processPostTask(HttpClient* client, HttpRequest* request, write_callb
 static int processPutTask(HttpClient* client, HttpRequest* request, write_callback callback, void* stream, long* responseCode, write_callback headerCallback, void* headerStream, char* errorBuffer)
 {
     CURLRaii curl;
-	bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
+    bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "PUT")
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
@@ -365,7 +365,7 @@ static int processPutTask(HttpClient* client, HttpRequest* request, write_callba
 static int processDeleteTask(HttpClient* client, HttpRequest* request, write_callback callback, void* stream, long* responseCode, write_callback headerCallback, void* headerStream, char* errorBuffer)
 {
     CURLRaii curl;
-	bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
+    bool ok = curl.init(client, request, callback, stream, headerCallback, headerStream, errorBuffer)
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "DELETE")
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
             && curl.perform(responseCode);
@@ -375,8 +375,8 @@ static int processDeleteTask(HttpClient* client, HttpRequest* request, write_cal
 // HttpClient implementation
 HttpClient* HttpClient::getInstance()
 {
-    if (_httpClient == nullptr) 
-	{
+    if (_httpClient == nullptr)
+    {
         _httpClient = new (std::nothrow) HttpClient();
     }
     
@@ -385,29 +385,29 @@ HttpClient* HttpClient::getInstance()
 
 void HttpClient::destroyInstance()
 {
-	if (nullptr == _httpClient)
-	{
-		CCLOG("HttpClient singleton is nullptr");
-		return;
-	}
+    if (nullptr == _httpClient)
+    {
+        CCLOG("HttpClient singleton is nullptr");
+        return;
+    }
 
-	CCLOG("HttpClient::destroyInstance begin");
-	auto thiz = _httpClient;
-	_httpClient = nullptr;
+    CCLOG("HttpClient::destroyInstance begin");
+    auto thiz = _httpClient;
+    _httpClient = nullptr;
 
-	thiz->_scheduler->unscheduleAllForTarget(thiz);
-	thiz->_schedulerMutex.lock();
-	thiz->_scheduler = nullptr;
-	thiz->_schedulerMutex.unlock();
+    thiz->_scheduler->unscheduleAllForTarget(thiz);
+    thiz->_schedulerMutex.lock();
+    thiz->_scheduler = nullptr;
+    thiz->_schedulerMutex.unlock();
 
-	thiz->_requestQueueMutex.lock();
-	thiz->_requestQueue.pushBack(thiz->_requestSentinel);
-	thiz->_requestQueueMutex.unlock();
+    thiz->_requestQueueMutex.lock();
+    thiz->_requestQueue.pushBack(thiz->_requestSentinel);
+    thiz->_requestQueueMutex.unlock();
 
-	thiz->_sleepCondition.notify_one();
-	thiz->decreaseThreadCountAndMayDeleteThis();
+    thiz->_sleepCondition.notify_one();
+    thiz->decreaseThreadCountAndMayDeleteThis();
 
-	CCLOG("HttpClient::destroyInstance() finished!");
+    CCLOG("HttpClient::destroyInstance() finished!");
 }
 
 void HttpClient::enableCookies(const char* cookieFile)
@@ -437,30 +437,30 @@ HttpClient::HttpClient()
 , _cookie(nullptr)
 , _requestSentinel(new HttpRequest())
 {
-	CCLOG("In the constructor of HttpClient!");
-	memset(_responseMessage, 0, RESPONSE_BUFFER_SIZE * sizeof(char));
-	_scheduler = Director::getInstance()->getScheduler();
-	increaseThreadCount();
+    CCLOG("In the constructor of HttpClient!");
+    memset(_responseMessage, 0, RESPONSE_BUFFER_SIZE * sizeof(char));
+    _scheduler = Director::getInstance()->getScheduler();
+    increaseThreadCount();
 }
 
 HttpClient::~HttpClient()
 {
-	CC_SAFE_RELEASE(_requestSentinel);
-	CCLOG("HttpClient destructor");
+    CC_SAFE_RELEASE(_requestSentinel);
+    CCLOG("HttpClient destructor");
 }
 
 //Lazy create semaphore & mutex & thread
 bool HttpClient::lazyInitThreadSemaphore()
 {
     if (_isInited)
-	{
+    {
         return true;
-    } 
-	else 
-	{
+    }
+    else
+    {
         auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
         t.detach();
-		_isInited = true;
+        _isInited = true;
     }
     
     return true;
@@ -468,8 +468,8 @@ bool HttpClient::lazyInitThreadSemaphore()
 
 //Add a get task to queue
 void HttpClient::send(HttpRequest* request)
-{    
-    if (false == lazyInitThreadSemaphore()) 
+{
+    if (false == lazyInitThreadSemaphore())
     {
         return;
     }
@@ -481,12 +481,12 @@ void HttpClient::send(HttpRequest* request)
         
     request->retain();
 
-	_requestQueueMutex.lock();
-	_requestQueue.pushBack(request);
-	_requestQueueMutex.unlock();
+    _requestQueueMutex.lock();
+    _requestQueue.pushBack(request);
+    _requestQueueMutex.unlock();
 
-	// Notify thread start to work
-	_sleepCondition.notify_one();
+    // Notify thread start to work
+    _sleepCondition.notify_one();
 }
 
 void HttpClient::sendImmediate(HttpRequest* request)
@@ -544,93 +544,93 @@ void HttpClient::dispatchResponseCallbacks()
 // Process Response
 void HttpClient::processResponse(HttpResponse* response, char* responseMessage)
 {
-	auto request = response->getHttpRequest();
-	long responseCode = -1;
-	int retValue = 0;
+    auto request = response->getHttpRequest();
+    long responseCode = -1;
+    int retValue = 0;
 
-	// Process the request -> get response packet
-	switch (request->getRequestType())
-	{
-	case HttpRequest::Type::GET: // HTTP GET
-		retValue = processGetTask(this, request,
-			writeData,
-			response->getResponseData(),
-			&responseCode,
-			writeHeaderData,
-			response->getResponseHeader(),
-			responseMessage);
-		break;
+    // Process the request -> get response packet
+    switch (request->getRequestType())
+    {
+    case HttpRequest::Type::GET: // HTTP GET
+        retValue = processGetTask(this, request,
+            writeData,
+            response->getResponseData(),
+            &responseCode,
+            writeHeaderData,
+            response->getResponseHeader(),
+            responseMessage);
+        break;
 
-	case HttpRequest::Type::POST: // HTTP POST
-		retValue = processPostTask(this, request,
-			writeData,
-			response->getResponseData(),
-			&responseCode,
-			writeHeaderData,
-			response->getResponseHeader(),
-			responseMessage);
-		break;
+    case HttpRequest::Type::POST: // HTTP POST
+        retValue = processPostTask(this, request,
+            writeData,
+            response->getResponseData(),
+            &responseCode,
+            writeHeaderData,
+            response->getResponseHeader(),
+            responseMessage);
+        break;
 
-	case HttpRequest::Type::PUT:
-		retValue = processPutTask(this, request,
-			writeData,
-			response->getResponseData(),
-			&responseCode,
-			writeHeaderData,
-			response->getResponseHeader(),
-			responseMessage);
-		break;
+    case HttpRequest::Type::PUT:
+        retValue = processPutTask(this, request,
+            writeData,
+            response->getResponseData(),
+            &responseCode,
+            writeHeaderData,
+            response->getResponseHeader(),
+            responseMessage);
+        break;
 
-	case HttpRequest::Type::DELETE:
-		retValue = processDeleteTask(this, request,
-			writeData,
-			response->getResponseData(),
-			&responseCode,
-			writeHeaderData,
-			response->getResponseHeader(),
-			responseMessage);
-		break;
+    case HttpRequest::Type::DELETE:
+        retValue = processDeleteTask(this, request,
+            writeData,
+            response->getResponseData(),
+            &responseCode,
+            writeHeaderData,
+            response->getResponseHeader(),
+            responseMessage);
+        break;
 
-	default:
-		CCASSERT(false, "CCHttpClient: unknown request type, only GET,POST,PUT or DELETE is supported");
-		break;
-	}
+    default:
+        CCASSERT(false, "CCHttpClient: unknown request type, only GET, POST, PUT or DELETE is supported");
+        break;
+    }
 
-	// write data to HttpResponse
-	response->setResponseCode(responseCode);
-	if (retValue != 0)
-	{
-		response->setSucceed(false);
-		response->setErrorBuffer(responseMessage);
-	}
-	else
-	{
-		response->setSucceed(true);
-	}
+    // write data to HttpResponse
+    response->setResponseCode(responseCode);
+    if (retValue != 0)
+    {
+        response->setSucceed(false);
+        response->setErrorBuffer(responseMessage);
+    }
+    else
+    {
+        response->setSucceed(true);
+    }
 }
 
 void HttpClient::increaseThreadCount()
 {
-	_threadCountMutex.lock();
-	++_threadCount;
-	_threadCountMutex.unlock();
+    _threadCountMutex.lock();
+    ++_threadCount;
+    _threadCountMutex.unlock();
 }
 
 void HttpClient::decreaseThreadCountAndMayDeleteThis()
 {
-	bool needDeleteThis = false;
-	_threadCountMutex.lock();
-	--_threadCount;
-	if (0 == _threadCount)
-	{
-		needDeleteThis = true;
-	}
+    bool needDeleteThis = false;
+    _threadCountMutex.lock();
+    --_threadCount;
+    if (0 == _threadCount)
+    {
+        needDeleteThis = true;
+    }
 
-	_threadCountMutex.unlock();
-	if (needDeleteThis)
-	{
-		delete this;
-	}
+    _threadCountMutex.unlock();
+    if (needDeleteThis)
+    {
+        delete this;
+    }
 }
 
 void HttpClient::setTimeoutForConnect(int value)

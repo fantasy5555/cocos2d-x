@@ -436,6 +436,7 @@ namespace cocostudio
                                          builder->CreateString(fontName),
                                          fontSize,
                                          builder->CreateString(text),
+                                         isLocalized,
                                          areaWidth,
                                          areaHeight,
                                          h_alignment,

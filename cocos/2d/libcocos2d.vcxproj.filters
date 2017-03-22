@@ -1585,6 +1585,12 @@
     <ClCompile Include="..\audio\win32\AudioDecoderManager.cpp">
       <Filter>audioengine</Filter>
     </ClCompile>
+    <ClCompile Include="..\network\CCDownloader-curl.cpp">
+      <Filter>network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\network\Uri.cpp">
+      <Filter>network\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\physics\CCPhysicsBody.h">
@@ -3118,9 +3124,6 @@
     <ClInclude Include="..\network\CCDownloader.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\network\CCDownloaderImpl.h">
-      <Filter>network\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\network\CCIDownloaderImpl.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>
@@ -3168,6 +3171,13 @@
     </ClInclude>
     <ClInclude Include="..\audio\win32\AudioDecoderManager.h">
       <Filter>audioengine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\gprc.h" />
+    <ClInclude Include="..\..\external\flatbuffers\code_generators.h" />
+    <ClInclude Include="..\..\external\flatbuffers\reflection.h" />
+    <ClInclude Include="..\..\external\flatbuffers\reflection_generated.h" />
+    <ClInclude Include="..\network\Uri.h">
+      <Filter>network\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

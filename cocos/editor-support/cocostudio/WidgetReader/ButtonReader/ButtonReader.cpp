@@ -701,6 +701,7 @@ namespace cocostudio
                                                               builder->CreateString(fontResourcePlistFile),
                                                               fontResourceResourceType),
                                            builder->CreateString(text),
+                                           isLocalized,
                                            builder->CreateString(fontName),
                                            fontSize,
                                            &f_textColor,
@@ -744,6 +745,11 @@ namespace cocostudio
                 if (FileUtils::getInstance()->isFileExist(normalTexturePath))
                 {
                     normalFileExist = true;
+                }
+                else if (SpriteFrameCache::getInstance()->getSpriteFrameByName(normalTexturePath))
+                {
+                    normalFileExist = true;
+                    normalType = 1;
                 }
                 else
                 {
