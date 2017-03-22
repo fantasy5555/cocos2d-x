@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 #include <cmath>
 #include <stdlib.h>
+#include <openssl/md5.h>
 
 #if 0
 #include <openssl/md5.h>
