@@ -30,7 +30,6 @@ SpineSkeletonCache::SkeletonData* SpineSkeletonCache::addData(const char* dataFi
 {
 	auto target = _cacheTable.find(dataFile);
 	if (target != _cacheTable.end()) {
-		target->second->retain();
 		return target->second;
 	}
 
