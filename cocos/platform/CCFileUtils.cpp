@@ -34,9 +34,7 @@ THE SOFTWARE.
 //#include "base/ccUtils.h"
 
 #include "tinyxml2/tinyxml2.h"
-#if 0
 #include "tinydir/tinydir.h"
-#endif
 
 #ifdef MINIZIP_FROM_SYSTEM
 #include <minizip/unzip.h>
@@ -1174,7 +1172,6 @@ std::vector<std::string> FileUtils::listFiles(const std::string& dirPath) const
 {
     std::string fullpath = fullPathForFilename(dirPath);
     std::vector<std::string> files;
-#if 0
     if (isDirectoryExist(fullpath))
     {
         tinydir_dir dir;
@@ -1227,13 +1224,11 @@ std::vector<std::string> FileUtils::listFiles(const std::string& dirPath) const
         }
         tinydir_close(&dir);
     }
-#endif
     return files;
 }
 
 void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std::string> *files) const
 {
-#if 0
     std::string fullpath = fullPathForFilename(dirPath);
     if (isDirectoryExist(fullpath))
     {
@@ -1295,7 +1290,6 @@ void FileUtils::listFilesRecursively(const std::string& dirPath, std::vector<std
         }
         tinydir_close(&dir);
     }
-#endif
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

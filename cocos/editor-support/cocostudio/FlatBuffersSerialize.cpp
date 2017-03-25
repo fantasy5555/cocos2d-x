@@ -262,7 +262,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::s
             if (name == "Animation") // action
             {
                 const tinyxml2::XMLElement* animation = child;
-                aciton = thiz->createNodeAction(animation);
+                action = thiz->createNodeAction(animation);
             }
             else if (name == "ObjectData") // nodeTree
             {
@@ -303,7 +303,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::s
             thiz->_builder->CreateVector(thiz->_textures),
             thiz->_builder->CreateVector(thiz->_texturePngs),
             nodeTree,
-            aciton,
+            action,
             thiz->_builder->CreateVector(animationInfos));
         thiz->_builder->Finish(csparsebinary);
 
