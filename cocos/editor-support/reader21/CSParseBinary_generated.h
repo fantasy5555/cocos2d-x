@@ -2649,7 +2649,7 @@ inline flatbuffers::Offset<BlendFrame> CreateBlendFrame(flatbuffers::FlatBufferB
 
 inline const CSParseBinary *GetCSParseBinary(const void *buf) { return flatbuffers::GetRoot<CSParseBinary>(buf); }
 
-inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<CSParseBinary>(); }
+inline bool VerifyCSParseBinaryBuffer(flatbuffers::Verifier &verifier) { return verifier.VerifyBuffer<CSParseBinary>(nullptr); }
 
 inline void FinishCSParseBinaryBuffer(flatbuffers::FlatBufferBuilder &fbb, flatbuffers::Offset<CSParseBinary> root) { fbb.Finish(root); }
 

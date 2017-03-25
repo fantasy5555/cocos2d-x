@@ -250,7 +250,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::s
         thiz->_builder = new (std::nothrow) FlatBufferBuilder();
 
         Offset<NodeTree> nodeTree;
-        Offset<NodeAction> aciton;
+        Offset<NodeAction> action;
         std::vector<Offset<flatbuffers::AnimationInfo>> animationInfos;
 
         const tinyxml2::XMLElement* child = element->FirstChildElement();
@@ -1360,7 +1360,7 @@ FlatBufferBuilder* FlatBuffersSerialize::createFlatBuffersWithXMLFileForSimulato
         _builder = new (std::nothrow) FlatBufferBuilder();
 
         Offset<NodeTree> nodeTree;
-        Offset<NodeAction> aciton;
+        Offset<NodeAction> action;
         std::vector<Offset<flatbuffers::AnimationInfo> > animationInfos;
 
         const tinyxml2::XMLElement* child = element->FirstChildElement();
@@ -1372,7 +1372,7 @@ FlatBufferBuilder* FlatBuffersSerialize::createFlatBuffersWithXMLFileForSimulato
             if (name == "Animation") // action
             {
                 const tinyxml2::XMLElement* animation = child;
-                aciton = createNodeAction(animation);
+                action = createNodeAction(animation);
             }
             else if (name == "ObjectData") // nodeTree
             {
@@ -1405,14 +1405,14 @@ FlatBufferBuilder* FlatBuffersSerialize::createFlatBuffersWithXMLFileForSimulato
 
             child = child->NextSiblingElement();
         }
-
-        auto csparsebinary = CreateCSParseBinary(*_builder,
-            _builder->CreateString(_csdVersion),
-            _builder->CreateVector(_textures),
-            _builder->CreateVector(_texturePngs),
-            nodeTree,
-            aciton,
-            _builder->CreateVector(animationInfos));
+        
+		auto csparsebinary = CreateCSParseBinary(*_builder,
+                                                 _builder->CreateString(_csdVersion),
+                                                 _builder->CreateVector(_textures),
+                                                 _builder->CreateVector(_texturePngs),
+                                                 nodeTree,
+                                                 action,
+                                                 _builder->CreateVector(animationInfos));
         _builder->Finish(csparsebinary);
 
         _textures.clear();
