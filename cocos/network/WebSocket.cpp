@@ -225,11 +225,11 @@ static lws_context_creation_info convertToContextCreationInfo(const struct lws_p
     info.uid = -1;
     if (peerServerCert)
     {
-        info.options = 0; // TODO: new version needed, LWS_SERVER_OPTION_EXPLICIT_VHOSTS | LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
+        info.options = LWS_SERVER_OPTION_EXPLICIT_VHOSTS | LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
     }
     else
     {
-        info.options = 0; // TODO: new version needed, LWS_SERVER_OPTION_EXPLICIT_VHOSTS | LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT | LWS_SERVER_OPTION_PEER_CERT_NOT_REQUIRED;
+        info.options = LWS_SERVER_OPTION_EXPLICIT_VHOSTS | LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT | LWS_SERVER_OPTION_PEER_CERT_NOT_REQUIRED;
     }
     info.user = nullptr;
 
@@ -833,11 +833,11 @@ struct lws_vhost* WebSocket::createVhost(struct lws_protocols* protocols, int& s
         else
         {
             LOGD("WARNING: CA Root file isn't set. SSL connection will not peer server certificate\n");
-            //sslConnection = sslConnection | LCCSCF_ALLOW_SELFSIGNED | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK;
+            sslConnection = sslConnection | LCCSCF_ALLOW_SELFSIGNED | LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK;
         }
     }
 
-    lws_vhost* vhost = nullptr; // TODO: new version needed, lws_create_vhost(__wsContext, &info);
+    lws_vhost* vhost = lws_create_vhost(__wsContext, &info);
 
     return vhost;
 }
@@ -872,7 +872,7 @@ void WebSocket::onClientOpenConnectionRequest()
 
         int sslConnection = 0;
         if (uri.isSecure())
-            sslConnection = 0; // TODO: new version needed, LCCSCF_USE_SSL;
+            sslConnection = LCCSCF_USE_SSL;
 
         struct lws_vhost* vhost = nullptr;
         if (_lwsProtocols != nullptr)
@@ -907,7 +907,7 @@ void WebSocket::onClientOpenConnectionRequest()
         connectInfo.ietf_version_or_minus_one = -1;
         connectInfo.userdata = this;
         connectInfo.client_exts = exts;
-        // TODO: new version needed, connectInfo.vhost = vhost;
+        connectInfo.vhost = vhost;
 
         _wsInstance = lws_client_connect_via_info(&connectInfo);
 
