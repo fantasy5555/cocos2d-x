@@ -203,7 +203,7 @@ CSLoader::CSLoader()
     , _jsonPath("")
     , _monoCocos2dxVersion("")
     , _rootNode(nullptr)
-    , _csBuildID("10.0.593.0")
+    , _csBuildID("10.0.1080.0")
 {
     CREATE_CLASS_NODE_READER_INFO(NodeReader);
     CREATE_CLASS_NODE_READER_INFO(SingleNodeReader);

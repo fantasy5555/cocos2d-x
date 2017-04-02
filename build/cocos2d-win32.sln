@@ -7,9 +7,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua-tests", "..\tests\lua-tests\project\proj.win32\lua-tests.win32.vcxproj", "{4E6A7A0E-DDD8-4BAA-8B22-C964069364ED}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-empty-test", "..\tests\cpp-empty-test\proj.win32\cpp-empty-test.vcxproj", "{B8BF9E81-35FD-4582-BA1C-B85FA365BABB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{98A51BB0-FC3A-415B-AC8F-8C7BD464E93E} = {98A51BB0-FC3A-415B-AC8F-8C7BD464E93E}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua-empty-test", "..\tests\lua-empty-test\project\proj.win32\lua-empty-test.vcxproj", "{13E55395-94A2-4CD9-BFC2-1A051F80C17D}"
 EndProject

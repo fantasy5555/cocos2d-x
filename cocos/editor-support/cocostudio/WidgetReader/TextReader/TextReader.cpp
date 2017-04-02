@@ -436,7 +436,7 @@ namespace cocostudio
                                          builder->CreateString(fontName),
                                          fontSize,
                                          builder->CreateString(text),
-                                         /*isLocalized, pitfall: 3.15 changed the order of isLocalized */
+                                         isLocalized, /* pitfall: 3.15 changed the order of isLocalized */
                                          areaWidth,
                                          areaHeight,
                                          h_alignment,
@@ -452,8 +452,7 @@ namespace cocostudio
                                          shadowOffset.height,
                                          shadowBlurRadius,
 			                             glowEnabled,
-			                             &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled,
-                                         isLocalized);
+			                             &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled);
         
         return *(Offset<Table>*)(&options);
     }
