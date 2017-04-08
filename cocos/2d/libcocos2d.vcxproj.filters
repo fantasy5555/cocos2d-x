@@ -154,6 +154,9 @@
     <Filter Include="vr">
       <UniqueIdentifier>{5cbd879f-02ae-4f28-af33-2c4f980dd6f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\md5">
+      <UniqueIdentifier>{d3d38486-e13f-47b4-96b0-51a7c78e6d69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -994,8 +997,9 @@
     <ClCompile Include="..\base\allocator\CCAllocatorGlobalNewDelete.cpp">
       <Filter>base\allocator</Filter>
     </ClCompile>
-    <ClCompile Include="..\3d\CCFrustum.cpp" />
-    <ClCompile Include="..\3d\CCPlane.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.cpp">
+      <Filter>cocostudio\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClCompile>
     <ClCompile Include="..\3d\CCAABB.cpp">
       <Filter>3d</Filter>
     </ClCompile>
@@ -1590,6 +1594,15 @@
     </ClCompile>
     <ClCompile Include="..\network\Uri.cpp">
       <Filter>network\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3d\CCFrustum.cpp">
+      <Filter>3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3d\CCPlane.cpp">
+      <Filter>3d</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\md5\md5.c">
+      <Filter>external\md5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2557,8 +2570,12 @@
     <ClInclude Include="..\base\allocator\CCAllocatorStrategyPool.h">
       <Filter>base\allocator</Filter>
     </ClInclude>
-    <ClInclude Include="..\3d\CCFrustum.h" />
-    <ClInclude Include="..\3d\CCPlane.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.h">
+      <Filter>cocostudio\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ArmatureNodeReader\CSArmatureNode_generated.h">
+      <Filter>cocostudio\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
     <ClInclude Include="..\physics\CCPhysicsHelper.h">
       <Filter>physics</Filter>
     </ClInclude>
@@ -3174,6 +3191,15 @@
     </ClInclude>
     <ClInclude Include="..\network\Uri.h">
       <Filter>network\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3d\CCFrustum.h">
+      <Filter>3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3d\CCPlane.h">
+      <Filter>3d</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\md5\md5.h">
+      <Filter>external\md5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

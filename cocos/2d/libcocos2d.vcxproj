@@ -380,7 +380,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\openssl\prebuilt\win32\*.*" "$(OutDir)"
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTF.c" />
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTFWrapper.cpp" />
     <ClCompile Include="..\..\external\edtaa3func\edtaa3func.cpp" />
-    <ClCompile Include="..\..\external\poly2tri\common\shapes.cc" />
+    <ClCompile Include="..\..\external\md5\md5.c" />
+	<ClCompile Include="..\..\external\poly2tri\common\shapes.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\advancing_front.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\cdt.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\sweep.cc" />
