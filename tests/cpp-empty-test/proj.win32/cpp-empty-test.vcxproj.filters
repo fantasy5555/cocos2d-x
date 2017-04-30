@@ -50,6 +50,9 @@
     <ClCompile Include="..\Classes\crypto-support\xxfsutility.cpp">
       <Filter>crypto-support</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\crypto-support\ibinarystream.cpp">
+      <Filter>crypto-support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">

@@ -148,6 +148,7 @@ xcopy "$(OutDir)..\*.dll" "$(OutDir)" /D /Y</Command>
     <ClCompile Include="..\Classes\crypto-support\aes_core.cpp" />
     <ClCompile Include="..\Classes\crypto-support\crypto_utils.cpp" />
     <ClCompile Include="..\Classes\crypto-support\crypto_wrapper.cpp" />
+    <ClCompile Include="..\Classes\crypto-support\ibinarystream.cpp" />
     <ClCompile Include="..\Classes\crypto-support\libb64.cpp" />
     <ClCompile Include="..\Classes\crypto-support\md5.cpp" />
     <ClCompile Include="..\Classes\crypto-support\md6.cpp" />
