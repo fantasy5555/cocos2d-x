@@ -9,6 +9,7 @@
 
 #include "EncryptManager.h"
 #include "crypto-support/crypto_wrapper.h"
+#include "crypto-support/nsconv.h"
 
 USING_NS_CC;
 

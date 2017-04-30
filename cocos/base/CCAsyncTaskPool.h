@@ -132,7 +132,7 @@ protected:
                                           }
                                           
                                           task();
-                                          Director::getInstance()->getScheduler()->performFunctionInCocosThread([&, callback]{ callback.callback(callback.callbackParam); });
+                                          callback.callback(callback.callbackParam);
                                       }
                                   }
                                   );

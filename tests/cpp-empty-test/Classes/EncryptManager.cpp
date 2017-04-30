@@ -97,7 +97,7 @@ EncryptManager* EncryptManager::getInstance()
     return &s_EncryptManager;
 }
 
-void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key)
+void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const std::string& ivec)
 {
 	if (bVal && !key.empty()) {
 
@@ -105,8 +105,14 @@ void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key)
 		int keysize = key.size();
 		if (keysize > 32)
 			keysize = 32;
+        
+		::memcpy(&_encryptKey.front(), key.c_str(), keysize);
 
-		::memcpy(&_encryptKey.front(), key.c_str(), key.size());
+        if (!ivec.empty()) {
+            _encryptIvec.resize(16);
+            ::memcpy(&_encryptIvec.front(), ivec.c_str(), (std::min)(16, (int)ivec.size()));
+            crypto::aes::detail::set_ivec(_encryptIvec.c_str());
+        }
 
 		setupHookFuncs();
         _encryptEnabled = bVal;
