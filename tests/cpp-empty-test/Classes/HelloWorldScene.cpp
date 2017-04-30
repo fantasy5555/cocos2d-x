@@ -17,30 +17,30 @@ USING_NS_CC;
 
 static void centerNode(Node* pNode, const cocos2d::Size& parentSize)
 {
-	CC_ASSERT(pNode);
+    CC_ASSERT(pNode);
 
-	cocos2d::Size size = pNode->getContentSize()/* * nodes_utility::getScale2D(pNode)*/;
-	cocos2d::Point achor = Vec2::ZERO;
-	if (!pNode->isIgnoreAnchorPointForPosition())
-	{
-		achor = pNode->getAnchorPoint();
-	}
-	pNode->setPosition(cocos2d::Vec2(center_coord(parentSize.width, size.width, achor.x),
-		center_coord(parentSize.height, size.height, achor.y)));
+    cocos2d::Size size = pNode->getContentSize()/* * nodes_utility::getScale2D(pNode)*/;
+    cocos2d::Point achor = Vec2::ZERO;
+    if (!pNode->isIgnoreAnchorPointForPosition())
+    {
+        achor = pNode->getAnchorPoint();
+    }
+    pNode->setPosition(cocos2d::Vec2(center_coord(parentSize.width, size.width, achor.x),
+        center_coord(parentSize.height, size.height, achor.y)));
 }
 
 static void centerNode(Node* pNode)
 {
-	Node* pNodeParent = pNode->getParent();
-	if (pNodeParent != nullptr)
-	{
-		centerNode(pNode, pNodeParent->getContentSize());
-	}
+    Node* pNodeParent = pNode->getParent();
+    if (pNodeParent != nullptr)
+    {
+        centerNode(pNode, pNodeParent->getContentSize());
+    }
 }
 
 Scene* HelloWorld::scene()
 {
-     return HelloWorld::create();
+    return HelloWorld::create();
 }
 
 // on "init" you need to initialize your instance
@@ -48,11 +48,11 @@ bool HelloWorld::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Scene::init() )
+    if (!Scene::init())
     {
         return false;
     }
-    
+
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
@@ -62,10 +62,10 @@ bool HelloWorld::init()
     //    you may modify it.
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        CC_CALLBACK_1(HelloWorld::menuCloseCallback,this));
-    
+        "CloseNormal.png",
+        "CloseSelected.png",
+        CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+
     closeItem->setPosition(origin + Vec2(visibleSize) - Vec2(closeItem->getContentSize() / 2));
 
     // create menu, it's an autorelease object
@@ -73,12 +73,26 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 #endif
-	EncryptManager::getInstance()->setEncryptEnabled(true, "262381263");
+
+#if 1
+    EncryptManager::getInstance()->setEncryptEnabled(true,
+        nsc::hex2bin("f5cac53155c3826baa2518149d6381b7bcd74ab0cf97db1ca3f3b4813ebcac09"),
+        nsc::hex2bin("8ed7ec623af53ece6b2c636918cf2447")
+    );
+
+    auto encryptFileData = FileUtils::getInstance()->getStringFromFile("encrypt_test.txt");
+
+    EncryptManager::getInstance()->setEncryptEnabled(false);
+
+    auto noencryptFileData = FileUtils::getInstance()->getStringFromFile("encrypt_test1.txt");
+#endif
+
+    EncryptManager::getInstance()->setEncryptEnabled(true, "262381263");
 
     /////////////////////////////
     // 3. add your codes below...
-	this->addChild(CSLoader::createNode("scene1.csb"));
-	
+    this->addChild(CSLoader::createNode("scene1.csb"));
+
 #if 0
     // github.com/cocos2d/cocos2d-x issues: #16399 The latest Label calculate Size seems not correct with some .ttf font
     auto label = Label::createWithTTF("99999/99999", "fonts/arial.ttf", 24);
@@ -122,7 +136,7 @@ bool HelloWorld::init()
         this->addChild(_armatureDisplay);
 
         _armatureDisplay->getAnimation().play("attack1");
-    }
+}
 #endif
     return true;
 }

@@ -3,6 +3,7 @@
 #include <string>
 
 #include "crypto-support/crypto_wrapper.h"
+
 #include "cocos2d.h"
 
 #include "platform/win32/CCFileUtils-win32.h"
@@ -10,7 +11,7 @@
 #include "platform/winrt/CCFileUtilsWinRT.h"
 
 #include "EncryptManager.h"
-
+#include "crypto-support/nsconv.h"
 
 using namespace cocos2d;
 
@@ -26,7 +27,6 @@ typedef public FileUtils FileUtilsImpl;
 
 class FileUtilsNoEncrypt : public FileUtilsImpl
 {
-
 };
 
 class FileUtilsEncrypt : public FileUtilsImpl
@@ -56,8 +56,8 @@ public:
 
         size_t size = 0;
         crypto::aes::privacy::mode_spec<>::decrypt(data.getBytes(), data.getSize(), data.getBytes(), size, encryptManager._encryptKey.c_str());
-       
-		// auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
+
+        // auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
 
         auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
         size = uncomprData.size();
@@ -104,40 +104,46 @@ EncryptManager* EncryptManager::getInstance()
 
 void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const std::string& ivec)
 {
-	if (bVal && !key.empty()) {
+    if (bVal && !key.empty()) {
+        _encryptKey.clear();
+        _encryptIvec.clear();
 
-		_encryptKey.resize(32);
-		int keysize = key.size();
-		if (keysize > 32)
-			keysize = 32;
-        
-		::memcpy(&_encryptKey.front(), key.c_str(), keysize);
+        _encryptKey.resize(32);
+        int keysize = key.size();
+        if (keysize > 32)
+            keysize = 32;
+
+        ::memcpy(&_encryptKey.front(), key.c_str(), keysize);
 
         if (!ivec.empty()) {
             _encryptIvec.resize(16);
             ::memcpy(&_encryptIvec.front(), ivec.c_str(), (std::min)(16, (int)ivec.size()));
-            crypto::aes::detail::set_ivec(_encryptIvec.c_str());
+        }
+        else {
+            _encryptIvec = nsc::hex2bin("00234b89aa96fecdaf80fbf178a25621");
         }
 
-		setupHookFuncs();
+        crypto::aes::detail::set_ivec(_encryptIvec.c_str());
+
+        setupHookFuncs();
         _encryptEnabled = bVal;
-	}
-	else {
+    }
+    else {
         auto fileUtilsNoEncrypt = new FileUtilsNoEncrypt();
         fileUtilsNoEncrypt->init();
         FileUtils::setDelegate(fileUtilsNoEncrypt);
 
         _encryptEnabled = false;
-	}
+    }
 }
 
 void EncryptManager::setupHookFuncs()
 {
-	auto fileUtilsEncrypt = new FileUtilsEncrypt(*this);
-	fileUtilsEncrypt->init();
+    auto fileUtilsEncrypt = new FileUtilsEncrypt(*this);
+    fileUtilsEncrypt->init();
     FileUtils::setDelegate(fileUtilsEncrypt);
 
-	auto fileUtils = FileUtils::getInstance();
+    auto fileUtils = FileUtils::getInstance();
 
     std::string writablePath = FileUtils::getInstance()->getWritablePath();
     cocos2d::log("Writable Path:%s", writablePath.c_str());
