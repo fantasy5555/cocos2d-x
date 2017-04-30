@@ -19,9 +19,9 @@ public:
     2.If you use x-studio365 to publish assets with specific encrypt key, you do not need translate
     it with nsc::hex2bin.
 
-    Why we are need to encrypt data(picture or script, any other blob data)?
+    Why we are need to compress data before encrypt(picture or script, any other blob data)?
     Because when encrypt with AES-CBC mode, the result data will be few of redundancy data, any compress
-    algorithm could compress the AES-CBC encrypted data again, so we need compress data before encrypt it.
+    algorithm could not compress the AES-CBC encrypted data again, so we need compress data before encrypt it.
     Then final package(.apk,.ipa,.appx) will small, both of platform app pacakge use zip algorithm.
     */
     void setEncryptEnabled(bool bVal, const std::string& key = "", const std::string& ivec = "");
