@@ -113,6 +113,25 @@ EncryptManager* EncryptManager::getInstance()
     return &s_EncryptManager;
 }
 
+std::string EncryptManager::decryptData(const std::string& encryptedData, const std::string& key, const std::string& ivec)
+{
+    std::string encrpytKey,encryptIvec;
+
+    encrpytKey.resize(32);
+    ::memcpy(&encrpytKey.front(), key.c_str(), (std::min)(32, (int)key.size()));
+
+    if (!ivec.empty()) {
+        encryptIvec.resize(16);
+        ::memcpy(&encryptIvec.front(), ivec.c_str(), (std::min)(16, (int)ivec.size()));
+    }
+    else {
+        encryptIvec = nsc::hex2bin("00234b89aa96fecdaf80fbf178a25621");
+    }
+
+    crypto::aes::detail::set_ivec(encryptIvec.c_str(), 16);
+    return crypto::aes::decrypt(encryptedData, encrpytKey.c_str());
+}
+
 void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const std::string& ivec)
 {
     if (bVal && !key.empty()) {
@@ -142,6 +161,7 @@ void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const 
     else {
         auto fileUtilsNoEncrypt = new FileUtilsNoEncrypt();
         fileUtilsNoEncrypt->init();
+        fileUtilsNoEncrypt->setSearchPaths(FileUtils::getInstance()->getSearchPaths());
         FileUtils::setDelegate(fileUtilsNoEncrypt);
 
         _encryptEnabled = false;
@@ -152,13 +172,12 @@ void EncryptManager::setupHookFuncs()
 {
     auto fileUtilsEncrypt = new FileUtilsEncrypt(*this);
     fileUtilsEncrypt->init();
+    fileUtilsEncrypt->setSearchPaths(FileUtils::getInstance()->getSearchPaths());
     FileUtils::setDelegate(fileUtilsEncrypt);
 
-    auto fileUtils = FileUtils::getInstance();
-
-    std::string writablePath = FileUtils::getInstance()->getWritablePath();
+    std::string writablePath = fileUtilsEncrypt->getWritablePath();
     cocos2d::log("Writable Path:%s", writablePath.c_str());
-    FileUtils::getInstance()->addSearchPath(writablePath, true);
+    fileUtilsEncrypt->addSearchPath(writablePath, true);
 }
 
 void EncryptManager::enableFileIndex(const std::string& indexFile, FileIndexFormat format)

@@ -27,6 +27,8 @@ public:
     void setEncryptEnabled(bool bVal, const std::string& key = "", const std::string& ivec = "");
     bool isEncryptEnabled(void) const { return _encryptEnabled; }
 
+    static std::string decryptData(const std::string& encryptedData, const std::string& key, const std::string& ivec = "");
+
 protected:
     void setupHookFuncs();
 
