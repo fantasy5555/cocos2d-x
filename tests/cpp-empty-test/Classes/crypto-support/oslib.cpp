@@ -4,6 +4,12 @@
 #if defined (_WIN32)
 #include <Windows.h>
 
+#ifdef _WIN32
+#ifndef strncasecmp
+#define strncasecmp _strnicmp
+#endif
+#endif
+
 /// the implemention of atoll on win32 for visual studio 2012 or before
 #if _MSC_VER <= 1700
 extern long long atoll(const char* p)  
@@ -83,7 +89,7 @@ bool xstrtob(const purelib::unmanaged_string& str)
     case 1:
         return !!(str.at(0) - '0');
     case 4:
-        return memicmp(str.c_str(), "true", str.size()) == 0;
+        return strncasecmp(str.c_str(), "true", str.size()) == 0;
     }
     return false;
 }

@@ -6,6 +6,8 @@
 #include <fcntl.h>
 #ifdef _WIN32
 #include <io.h>
+#include <Shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
 #else
 #define O_BINARY 0
 #include <dirent.h>
@@ -13,8 +15,6 @@
 #include "xxfsutility.h"
 #include "nsconv.h"
 #include <set>
-#include <Shlwapi.h>
-#pragma comment(lib, "Shlwapi.lib")
 
 USING_NS_PURELIB;
 
@@ -252,7 +252,7 @@ bool fsutil::exists(const char* filename)
 {
     return 0 == access(filename, 0);
 }
-
+#ifdef _WIN32
 bool fsutil::is_dir_exists(const char* dir)
 {
     return PathIsDirectoryA(dir) && fsutil::exists(dir);
@@ -262,6 +262,7 @@ bool fsutil::is_file_exists(const char* filename)
 {
     return !PathIsDirectoryA(filename) && fsutil::exists(filename);
 }
+#endif
 
 bool  fsutil::is_type_of(const std::string& filename, const char* type)
 {

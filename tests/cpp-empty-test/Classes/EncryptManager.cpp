@@ -29,6 +29,8 @@ using namespace cocos2d;
 
 class FileUtilsNoEncrypt : public FileUtilsImpl
 {
+public:
+    using FileUtilsImpl::init;
 };
 
 class FileUtilsEncrypt : public FileUtilsImpl

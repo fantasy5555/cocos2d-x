@@ -10,6 +10,7 @@
 #include "EncryptManager.h"
 #include "crypto-support/crypto_wrapper.h"
 #include "crypto-support/nsconv.h"
+#include "crypto-support/oslib.h"
 
 USING_NS_CC;
 
@@ -55,7 +56,7 @@ bool HelloWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
-
+    
 #if 0
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
