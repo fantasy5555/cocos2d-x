@@ -6,9 +6,19 @@
 
 #include "cocos2d.h"
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 #include "platform/win32/CCFileUtils-win32.h"
+typedef cocos2d::FileUtilsWin32 FileUtilsImpl;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #include "platform/android/CCFileUtils-android.h"
+typedef cocos2d::FileUtilsAndroid FileUtilsImpl;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 #include "platform/winrt/CCFileUtilsWinRT.h"
+typedef cocos2d::CCFileUtilsWinRT FileUtilsImpl;
+#else /* ios or mac */
+#include "platform/apple/CCFileUtils-apple.h"
+typedef cocos2d::FileUtilsApple FileUtilsImpl;
+#endif
 
 #include "EncryptManager.h"
 #include "crypto-support/nsconv.h"
@@ -16,16 +26,6 @@
 #include "crypto-support/ibinarystream.h"
 
 using namespace cocos2d;
-
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-typedef FileUtilsWin32 FileUtilsImpl;
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-typedef FileUtilsAndroid FileUtilsImpl;
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-typedef CCFileUtilsWinRT FileUtilsImpl;
-#else /* ios or mac */
-typedef public FileUtils FileUtilsImpl;
-#endif
 
 class FileUtilsNoEncrypt : public FileUtilsImpl
 {
