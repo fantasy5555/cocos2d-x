@@ -24,6 +24,11 @@ typedef CCFileUtilsWinRT FileUtilsImpl;
 typedef public FileUtils FileUtilsImpl;
 #endif
 
+class FileUtilsNoEncrypt : public FileUtilsImpl
+{
+
+};
+
 class FileUtilsEncrypt : public FileUtilsImpl
 {
 public:
@@ -118,7 +123,10 @@ void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const 
         _encryptEnabled = bVal;
 	}
 	else {
-		FileUtils::destroyInstance();
+        auto fileUtilsNoEncrypt = new FileUtilsNoEncrypt();
+        fileUtilsNoEncrypt->init();
+        FileUtils::setDelegate(fileUtilsNoEncrypt);
+
         _encryptEnabled = false;
 	}
 }
