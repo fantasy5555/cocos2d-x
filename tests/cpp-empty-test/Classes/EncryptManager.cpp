@@ -12,6 +12,8 @@
 
 #include "EncryptManager.h"
 #include "crypto-support/nsconv.h"
+#include "crypto-support/fastest_csv_parser.h"
+#include "crypto-support/ibinarystream.h"
 
 using namespace cocos2d;
 
@@ -93,6 +95,15 @@ public:
         return (unsigned char*)uncomprData.deatch();
     }
 
+    std::string fullPathForFilename(const std::string &filename) const override
+    {
+        auto iter = encryptManager._indexFileMap.find(filename);
+        if (iter != encryptManager._indexFileMap.end())
+            return iter->second;
+
+        return FileUtilsImpl::fullPathForFilename(filename);
+    }
+
     EncryptManager& encryptManager;
 };
 
@@ -148,4 +159,46 @@ void EncryptManager::setupHookFuncs()
     std::string writablePath = FileUtils::getInstance()->getWritablePath();
     cocos2d::log("Writable Path:%s", writablePath.c_str());
     FileUtils::getInstance()->addSearchPath(writablePath, true);
+}
+
+void EncryptManager::enableFileIndex(const std::string& indexFile, FileIndexFormat format)
+{
+    this->_indexFileMap.clear();
+
+    auto buffer = FileUtils::getInstance()->getStringFromFile(indexFile);
+    if (format == FileIndexFormat::Binary)
+    {
+        int fileCount = 0;
+        ibinarystream ibs(buffer.c_str(), buffer.size());
+        ibs.read_i(fileCount);
+        for (auto i = 0; i < fileCount; ++i)
+        {
+            std::string key, value;
+            ibs.read_v(key);
+            ibs.read_v(value);
+            this->_indexFileMap.emplace(std::move(key), std::move(value));
+        }
+    }
+    else if (format == FileIndexFormat::Csv)
+    {
+        const char* endl = buffer.c_str();
+        const char* cursor = nullptr;
+        do {
+            std::string key, value;
+            cursor = endl;
+            auto counter = 0;
+            endl = fastest_csv_parser::csv_parse_line(cursor, [&](const char* v_start, const char* v_end) {
+                if (counter == 0)
+                {
+                    key.assign(v_start, v_end - v_start);
+                }
+                else {
+                    value.assign(v_start, v_end - v_start);
+                }
+                ++counter;
+            });
+
+            _indexFileMap.emplace(std::move(key), std::move(value));
+        } while ((endl - buffer.c_str()) < buffer.size());
+    }
 }

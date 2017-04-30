@@ -36,7 +36,11 @@ private:
     std::string _encryptIvec; // CBC mode needs
     /// file index support, TODO: implement.
 public:
-    void enableFileIndex(const std::string& indexFile);
+    enum class FileIndexFormat {
+        Binary,
+        Csv,
+    };
+    void enableFileIndex(const std::string& indexFile, FileIndexFormat format = FileIndexFormat::Binary);
 private:
     std::string _indexFilename;
     std::unordered_map<std::string, std::string> _indexFileMap;
