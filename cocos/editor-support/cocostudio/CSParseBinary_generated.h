@@ -628,13 +628,13 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_FLIPY = 30,
     VT_IGNORESIZE = 32,
     VT_TOUCHENABLED = 34,
-    VT_CASCADECOLORENABLED = 36,
-    VT_CASCADEOPACITYENABLED = 38,
-    VT_FRAMEEVENT = 40,
-    VT_CUSTOMPROPERTY = 42,
-    VT_CALLBACKTYPE = 44,
-    VT_CALLBACKNAME = 46,
-    VT_LAYOUTCOMPONENT = 48
+    VT_FRAMEEVENT = 36,
+    VT_CUSTOMPROPERTY = 38,
+    VT_CALLBACKTYPE = 40,
+    VT_CALLBACKNAME = 42,
+    VT_LAYOUTCOMPONENT = 44,
+    VT_CASCADECOLORENABLED = 46,
+    VT_CASCADEOPACITYENABLED = 48
   };
   const flatbuffers::String *name() const {
     return GetPointer<const flatbuffers::String *>(VT_NAME);
@@ -684,12 +684,6 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool touchEnabled() const {
     return GetField<uint8_t>(VT_TOUCHENABLED, 0) != 0;
   }
-  bool cascadeColorEnabled() const {
-    return GetField<uint8_t>(VT_CASCADECOLORENABLED, 0) != 0;
-  }
-  bool cascadeOpacityEnabled() const {
-    return GetField<uint8_t>(VT_CASCADEOPACITYENABLED, 0) != 0;
-  }
   const flatbuffers::String *frameEvent() const {
     return GetPointer<const flatbuffers::String *>(VT_FRAMEEVENT);
   }
@@ -704,6 +698,12 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   const LayoutComponentTable *layoutComponent() const {
     return GetPointer<const LayoutComponentTable *>(VT_LAYOUTCOMPONENT);
+  }
+  bool cascadeColorEnabled() const {
+    return GetField<uint8_t>(VT_CASCADECOLORENABLED, 0) != 0;
+  }
+  bool cascadeOpacityEnabled() const {
+    return GetField<uint8_t>(VT_CASCADEOPACITYENABLED, 0) != 0;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -724,8 +724,6 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<uint8_t>(verifier, VT_FLIPY) &&
            VerifyField<uint8_t>(verifier, VT_IGNORESIZE) &&
            VerifyField<uint8_t>(verifier, VT_TOUCHENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_CASCADECOLORENABLED) &&
-           VerifyField<uint8_t>(verifier, VT_CASCADEOPACITYENABLED) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_FRAMEEVENT) &&
            verifier.Verify(frameEvent()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_CUSTOMPROPERTY) &&
@@ -736,6 +734,8 @@ struct WidgetOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.Verify(callBackName()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_LAYOUTCOMPONENT) &&
            verifier.VerifyTable(layoutComponent()) &&
+           VerifyField<uint8_t>(verifier, VT_CASCADECOLORENABLED) &&
+           VerifyField<uint8_t>(verifier, VT_CASCADEOPACITYENABLED) &&
            verifier.EndTable();
   }
 };
@@ -791,12 +791,6 @@ struct WidgetOptionsBuilder {
   void add_touchEnabled(bool touchEnabled) {
     fbb_.AddElement<uint8_t>(WidgetOptions::VT_TOUCHENABLED, static_cast<uint8_t>(touchEnabled), 0);
   }
-  void add_cascadeColorEnabled(bool cascadeColorEnabled) {
-    fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADECOLORENABLED, static_cast<uint8_t>(cascadeColorEnabled), 0);
-  }
-  void add_cascadeOpacityEnabled(bool cascadeOpacityEnabled) {
-    fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADEOPACITYENABLED, static_cast<uint8_t>(cascadeOpacityEnabled), 0);
-  }
   void add_frameEvent(flatbuffers::Offset<flatbuffers::String> frameEvent) {
     fbb_.AddOffset(WidgetOptions::VT_FRAMEEVENT, frameEvent);
   }
@@ -811,6 +805,12 @@ struct WidgetOptionsBuilder {
   }
   void add_layoutComponent(flatbuffers::Offset<LayoutComponentTable> layoutComponent) {
     fbb_.AddOffset(WidgetOptions::VT_LAYOUTCOMPONENT, layoutComponent);
+  }
+  void add_cascadeColorEnabled(bool cascadeColorEnabled) {
+    fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADECOLORENABLED, static_cast<uint8_t>(cascadeColorEnabled), 0);
+  }
+  void add_cascadeOpacityEnabled(bool cascadeOpacityEnabled) {
+    fbb_.AddElement<uint8_t>(WidgetOptions::VT_CASCADEOPACITYENABLED, static_cast<uint8_t>(cascadeOpacityEnabled), 0);
   }
   WidgetOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -842,13 +842,13 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptions(
     bool flipY = false,
     bool ignoreSize = false,
     bool touchEnabled = false,
-    bool cascadeColorEnabled = false,
-    bool cascadeOpacityEnabled = false,
     flatbuffers::Offset<flatbuffers::String> frameEvent = 0,
     flatbuffers::Offset<flatbuffers::String> customProperty = 0,
     flatbuffers::Offset<flatbuffers::String> callBackType = 0,
     flatbuffers::Offset<flatbuffers::String> callBackName = 0,
-    flatbuffers::Offset<LayoutComponentTable> layoutComponent = 0) {
+    flatbuffers::Offset<LayoutComponentTable> layoutComponent = 0,
+    bool cascadeColorEnabled = false,
+    bool cascadeOpacityEnabled = false) {
   WidgetOptionsBuilder builder_(_fbb);
   builder_.add_layoutComponent(layoutComponent);
   builder_.add_callBackName(callBackName);
@@ -894,13 +894,13 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptionsDirect(
     bool flipY = false,
     bool ignoreSize = false,
     bool touchEnabled = false,
-    bool cascadeColorEnabled = false,
-    bool cascadeOpacityEnabled = false,
     const char *frameEvent = nullptr,
     const char *customProperty = nullptr,
     const char *callBackType = nullptr,
     const char *callBackName = nullptr,
-    flatbuffers::Offset<LayoutComponentTable> layoutComponent = 0) {
+    flatbuffers::Offset<LayoutComponentTable> layoutComponent = 0,
+    bool cascadeColorEnabled = false,
+    bool cascadeOpacityEnabled = false) {
   return flatbuffers::CreateWidgetOptions(
       _fbb,
       name ? _fbb.CreateString(name) : 0,
@@ -919,13 +919,13 @@ inline flatbuffers::Offset<WidgetOptions> CreateWidgetOptionsDirect(
       flipY,
       ignoreSize,
       touchEnabled,
-      cascadeColorEnabled,
-      cascadeOpacityEnabled,
       frameEvent ? _fbb.CreateString(frameEvent) : 0,
       customProperty ? _fbb.CreateString(customProperty) : 0,
       callBackType ? _fbb.CreateString(callBackType) : 0,
       callBackName ? _fbb.CreateString(callBackName) : 0,
-      layoutComponent);
+      layoutComponent,
+      cascadeColorEnabled,
+      cascadeOpacityEnabled);
 }
 
 struct LayoutComponentTable FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
@@ -1654,22 +1654,22 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_DISABLEDDATA = 10,
     VT_FONTRESOURCE = 12,
     VT_TEXT = 14,
-    VT_ISLOCALIZED = 16,
-    VT_FONTNAME = 18,
-    VT_FONTSIZE = 20,
-    VT_TEXTCOLOR = 22,
-    VT_CAPINSETS = 24,
-    VT_SCALE9SIZE = 26,
-    VT_SCALE9ENABLED = 28,
-    VT_DISPLAYSTATE = 30,
-    VT_OUTLINEENABLED = 32,
-    VT_OUTLINECOLOR = 34,
-    VT_OUTLINESIZE = 36,
-    VT_SHADOWENABLED = 38,
-    VT_SHADOWCOLOR = 40,
-    VT_SHADOWOFFSETX = 42,
-    VT_SHADOWOFFSETY = 44,
-    VT_SHADOWBLURRADIUS = 46,
+    VT_FONTNAME = 16,
+    VT_FONTSIZE = 18,
+    VT_TEXTCOLOR = 20,
+    VT_CAPINSETS = 22,
+    VT_SCALE9SIZE = 24,
+    VT_SCALE9ENABLED = 26,
+    VT_DISPLAYSTATE = 28,
+    VT_OUTLINEENABLED = 30,
+    VT_OUTLINECOLOR = 32,
+    VT_OUTLINESIZE = 34,
+    VT_SHADOWENABLED = 36,
+    VT_SHADOWCOLOR = 38,
+    VT_SHADOWOFFSETX = 40,
+    VT_SHADOWOFFSETY = 42,
+    VT_SHADOWBLURRADIUS = 44,
+    VT_ISLOCALIZED = 46,
     VT_GLOWENABLED = 48,
     VT_GLOWCOLOR = 50,
     VT_BOLDENABLED = 52,
@@ -1694,9 +1694,6 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   const flatbuffers::String *text() const {
     return GetPointer<const flatbuffers::String *>(VT_TEXT);
-  }
-  bool isLocalized() const {
-    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
   }
   const flatbuffers::String *fontName() const {
     return GetPointer<const flatbuffers::String *>(VT_FONTNAME);
@@ -1743,6 +1740,9 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t shadowBlurRadius() const {
     return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0);
   }
+  bool isLocalized() const {
+    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
+  }
   bool glowEnabled() const {
     return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0;
   }
@@ -1775,7 +1775,6 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyTable(fontResource()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_TEXT) &&
            verifier.Verify(text()) &&
-           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_FONTNAME) &&
            verifier.Verify(fontName()) &&
            VerifyField<int32_t>(verifier, VT_FONTSIZE) &&
@@ -1792,6 +1791,7 @@ struct ButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_SHADOWOFFSETX) &&
            VerifyField<float>(verifier, VT_SHADOWOFFSETY) &&
            VerifyField<int32_t>(verifier, VT_SHADOWBLURRADIUS) &&
+           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            VerifyField<uint8_t>(verifier, VT_GLOWENABLED) &&
            VerifyField<Color>(verifier, VT_GLOWCOLOR) &&
            VerifyField<uint8_t>(verifier, VT_BOLDENABLED) &&
@@ -1822,9 +1822,6 @@ struct ButtonOptionsBuilder {
   }
   void add_text(flatbuffers::Offset<flatbuffers::String> text) {
     fbb_.AddOffset(ButtonOptions::VT_TEXT, text);
-  }
-  void add_isLocalized(bool isLocalized) {
-    fbb_.AddElement<uint8_t>(ButtonOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
   }
   void add_fontName(flatbuffers::Offset<flatbuffers::String> fontName) {
     fbb_.AddOffset(ButtonOptions::VT_FONTNAME, fontName);
@@ -1871,6 +1868,9 @@ struct ButtonOptionsBuilder {
   void add_shadowBlurRadius(int32_t shadowBlurRadius) {
     fbb_.AddElement<int32_t>(ButtonOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0);
   }
+  void add_isLocalized(bool isLocalized) {
+    fbb_.AddElement<uint8_t>(ButtonOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
+  }
   void add_glowEnabled(bool glowEnabled) {
     fbb_.AddElement<uint8_t>(ButtonOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0);
   }
@@ -1909,7 +1909,6 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(
     flatbuffers::Offset<ResourceData> disabledData = 0,
     flatbuffers::Offset<ResourceData> fontResource = 0,
     flatbuffers::Offset<flatbuffers::String> text = 0,
-    bool isLocalized = false,
     flatbuffers::Offset<flatbuffers::String> fontName = 0,
     int32_t fontSize = 0,
     const Color *textColor = 0,
@@ -1925,6 +1924,7 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(
     float shadowOffsetX = 2.0f,
     float shadowOffsetY = -2.0f,
     int32_t shadowBlurRadius = 0,
+    bool isLocalized = false,
     bool glowEnabled = false,
     const Color *glowColor = 0,
     bool boldEnabled = false,
@@ -1955,11 +1955,11 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptions(
   builder_.add_underlineEnabled(underlineEnabled);
   builder_.add_boldEnabled(boldEnabled);
   builder_.add_glowEnabled(glowEnabled);
+  builder_.add_isLocalized(isLocalized);
   builder_.add_shadowEnabled(shadowEnabled);
   builder_.add_outlineEnabled(outlineEnabled);
   builder_.add_displaystate(displaystate);
   builder_.add_scale9Enabled(scale9Enabled);
-  builder_.add_isLocalized(isLocalized);
   return builder_.Finish();
 }
 
@@ -1971,7 +1971,6 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptionsDirect(
     flatbuffers::Offset<ResourceData> disabledData = 0,
     flatbuffers::Offset<ResourceData> fontResource = 0,
     const char *text = nullptr,
-    bool isLocalized = false,
     const char *fontName = nullptr,
     int32_t fontSize = 0,
     const Color *textColor = 0,
@@ -1987,6 +1986,7 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptionsDirect(
     float shadowOffsetX = 2.0f,
     float shadowOffsetY = -2.0f,
     int32_t shadowBlurRadius = 0,
+    bool isLocalized = false,
     bool glowEnabled = false,
     const Color *glowColor = 0,
     bool boldEnabled = false,
@@ -2001,7 +2001,6 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptionsDirect(
       disabledData,
       fontResource,
       text ? _fbb.CreateString(text) : 0,
-      isLocalized,
       fontName ? _fbb.CreateString(fontName) : 0,
       fontSize,
       textColor,
@@ -2017,6 +2016,7 @@ inline flatbuffers::Offset<ButtonOptions> CreateButtonOptionsDirect(
       shadowOffsetX,
       shadowOffsetY,
       shadowBlurRadius,
+      isLocalized,
       glowEnabled,
       glowColor,
       boldEnabled,
@@ -2596,21 +2596,21 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_FONTNAME = 8,
     VT_FONTSIZE = 10,
     VT_TEXT = 12,
-    VT_ISLOCALIZED = 14,
-    VT_AREAWIDTH = 16,
-    VT_AREAHEIGHT = 18,
-    VT_HALIGNMENT = 20,
-    VT_VALIGNMENT = 22,
-    VT_TOUCHSCALEENABLE = 24,
-    VT_ISCUSTOMSIZE = 26,
-    VT_OUTLINEENABLED = 28,
-    VT_OUTLINECOLOR = 30,
-    VT_OUTLINESIZE = 32,
-    VT_SHADOWENABLED = 34,
-    VT_SHADOWCOLOR = 36,
-    VT_SHADOWOFFSETX = 38,
-    VT_SHADOWOFFSETY = 40,
-    VT_SHADOWBLURRADIUS = 42,
+    VT_AREAWIDTH = 14,
+    VT_AREAHEIGHT = 16,
+    VT_HALIGNMENT = 18,
+    VT_VALIGNMENT = 20,
+    VT_TOUCHSCALEENABLE = 22,
+    VT_ISCUSTOMSIZE = 24,
+    VT_OUTLINEENABLED = 26,
+    VT_OUTLINECOLOR = 28,
+    VT_OUTLINESIZE = 30,
+    VT_SHADOWENABLED = 32,
+    VT_SHADOWCOLOR = 34,
+    VT_SHADOWOFFSETX = 36,
+    VT_SHADOWOFFSETY = 38,
+    VT_SHADOWBLURRADIUS = 40,
+    VT_ISLOCALIZED = 42,
     VT_GLOWENABLED = 44,
     VT_GLOWCOLOR = 46,
     VT_BOLDENABLED = 48,
@@ -2632,9 +2632,6 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   const flatbuffers::String *text() const {
     return GetPointer<const flatbuffers::String *>(VT_TEXT);
-  }
-  bool isLocalized() const {
-    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
   }
   int32_t areaWidth() const {
     return GetField<int32_t>(VT_AREAWIDTH, 0);
@@ -2678,6 +2675,9 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t shadowBlurRadius() const {
     return GetField<int32_t>(VT_SHADOWBLURRADIUS, 0);
   }
+  bool isLocalized() const {
+    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
+  }
   bool glowEnabled() const {
     return GetField<uint8_t>(VT_GLOWENABLED, 0) != 0;
   }
@@ -2707,7 +2707,6 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_FONTSIZE) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_TEXT) &&
            verifier.Verify(text()) &&
-           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            VerifyField<int32_t>(verifier, VT_AREAWIDTH) &&
            VerifyField<int32_t>(verifier, VT_AREAHEIGHT) &&
            VerifyField<int32_t>(verifier, VT_HALIGNMENT) &&
@@ -2722,6 +2721,7 @@ struct TextOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<float>(verifier, VT_SHADOWOFFSETX) &&
            VerifyField<float>(verifier, VT_SHADOWOFFSETY) &&
            VerifyField<int32_t>(verifier, VT_SHADOWBLURRADIUS) &&
+           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            VerifyField<uint8_t>(verifier, VT_GLOWENABLED) &&
            VerifyField<Color>(verifier, VT_GLOWCOLOR) &&
            VerifyField<uint8_t>(verifier, VT_BOLDENABLED) &&
@@ -2749,9 +2749,6 @@ struct TextOptionsBuilder {
   }
   void add_text(flatbuffers::Offset<flatbuffers::String> text) {
     fbb_.AddOffset(TextOptions::VT_TEXT, text);
-  }
-  void add_isLocalized(bool isLocalized) {
-    fbb_.AddElement<uint8_t>(TextOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
   }
   void add_areaWidth(int32_t areaWidth) {
     fbb_.AddElement<int32_t>(TextOptions::VT_AREAWIDTH, areaWidth, 0);
@@ -2795,6 +2792,9 @@ struct TextOptionsBuilder {
   void add_shadowBlurRadius(int32_t shadowBlurRadius) {
     fbb_.AddElement<int32_t>(TextOptions::VT_SHADOWBLURRADIUS, shadowBlurRadius, 0);
   }
+  void add_isLocalized(bool isLocalized) {
+    fbb_.AddElement<uint8_t>(TextOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
+  }
   void add_glowEnabled(bool glowEnabled) {
     fbb_.AddElement<uint8_t>(TextOptions::VT_GLOWENABLED, static_cast<uint8_t>(glowEnabled), 0);
   }
@@ -2832,7 +2832,6 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(
     flatbuffers::Offset<flatbuffers::String> fontName = 0,
     int32_t fontSize = 0,
     flatbuffers::Offset<flatbuffers::String> text = 0,
-    bool isLocalized = false,
     int32_t areaWidth = 0,
     int32_t areaHeight = 0,
     int32_t hAlignment = 0,
@@ -2847,6 +2846,7 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(
     float shadowOffsetX = 2.0f,
     float shadowOffsetY = -2.0f,
     int32_t shadowBlurRadius = 0,
+    bool isLocalized = false,
     bool glowEnabled = false,
     const Color *glowColor = 0,
     bool boldEnabled = false,
@@ -2875,11 +2875,11 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptions(
   builder_.add_underlineEnabled(underlineEnabled);
   builder_.add_boldEnabled(boldEnabled);
   builder_.add_glowEnabled(glowEnabled);
+  builder_.add_isLocalized(isLocalized);
   builder_.add_shadowEnabled(shadowEnabled);
   builder_.add_outlineEnabled(outlineEnabled);
   builder_.add_isCustomSize(isCustomSize);
   builder_.add_touchScaleEnable(touchScaleEnable);
-  builder_.add_isLocalized(isLocalized);
   return builder_.Finish();
 }
 
@@ -2890,7 +2890,6 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptionsDirect(
     const char *fontName = nullptr,
     int32_t fontSize = 0,
     const char *text = nullptr,
-    bool isLocalized = false,
     int32_t areaWidth = 0,
     int32_t areaHeight = 0,
     int32_t hAlignment = 0,
@@ -2905,6 +2904,7 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptionsDirect(
     float shadowOffsetX = 2.0f,
     float shadowOffsetY = -2.0f,
     int32_t shadowBlurRadius = 0,
+    bool isLocalized = false,
     bool glowEnabled = false,
     const Color *glowColor = 0,
     bool boldEnabled = false,
@@ -2918,7 +2918,6 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptionsDirect(
       fontName ? _fbb.CreateString(fontName) : 0,
       fontSize,
       text ? _fbb.CreateString(text) : 0,
-      isLocalized,
       areaWidth,
       areaHeight,
       hAlignment,
@@ -2933,6 +2932,7 @@ inline flatbuffers::Offset<TextOptions> CreateTextOptionsDirect(
       shadowOffsetX,
       shadowOffsetY,
       shadowBlurRadius,
+      isLocalized,
       glowEnabled,
       glowColor,
       boldEnabled,
@@ -3010,15 +3010,15 @@ struct TextFieldOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_FONTNAME = 8,
     VT_FONTSIZE = 10,
     VT_TEXT = 12,
-    VT_ISLOCALIZED = 14,
-    VT_PLACEHOLDER = 16,
-    VT_PASSWORDENABLED = 18,
-    VT_PASSWORDSTYLETEXT = 20,
-    VT_MAXLENGTHENABLED = 22,
-    VT_MAXLENGTH = 24,
-    VT_AREAWIDTH = 26,
-    VT_AREAHEIGHT = 28,
-    VT_ISCUSTOMSIZE = 30
+    VT_PLACEHOLDER = 14,
+    VT_PASSWORDENABLED = 16,
+    VT_PASSWORDSTYLETEXT = 18,
+    VT_MAXLENGTHENABLED = 20,
+    VT_MAXLENGTH = 22,
+    VT_AREAWIDTH = 24,
+    VT_AREAHEIGHT = 26,
+    VT_ISCUSTOMSIZE = 28,
+    VT_ISLOCALIZED = 30
   };
   const WidgetOptions *widgetOptions() const {
     return GetPointer<const WidgetOptions *>(VT_WIDGETOPTIONS);
@@ -3034,9 +3034,6 @@ struct TextFieldOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   const flatbuffers::String *text() const {
     return GetPointer<const flatbuffers::String *>(VT_TEXT);
-  }
-  bool isLocalized() const {
-    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
   }
   const flatbuffers::String *placeHolder() const {
     return GetPointer<const flatbuffers::String *>(VT_PLACEHOLDER);
@@ -3062,6 +3059,9 @@ struct TextFieldOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool isCustomSize() const {
     return GetField<uint8_t>(VT_ISCUSTOMSIZE, 0) != 0;
   }
+  bool isLocalized() const {
+    return GetField<uint8_t>(VT_ISLOCALIZED, 0) != 0;
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_WIDGETOPTIONS) &&
@@ -3073,7 +3073,6 @@ struct TextFieldOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_FONTSIZE) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_TEXT) &&
            verifier.Verify(text()) &&
-           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_PLACEHOLDER) &&
            verifier.Verify(placeHolder()) &&
            VerifyField<uint8_t>(verifier, VT_PASSWORDENABLED) &&
@@ -3084,6 +3083,7 @@ struct TextFieldOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_AREAWIDTH) &&
            VerifyField<int32_t>(verifier, VT_AREAHEIGHT) &&
            VerifyField<uint8_t>(verifier, VT_ISCUSTOMSIZE) &&
+           VerifyField<uint8_t>(verifier, VT_ISLOCALIZED) &&
            verifier.EndTable();
   }
 };
@@ -3105,9 +3105,6 @@ struct TextFieldOptionsBuilder {
   }
   void add_text(flatbuffers::Offset<flatbuffers::String> text) {
     fbb_.AddOffset(TextFieldOptions::VT_TEXT, text);
-  }
-  void add_isLocalized(bool isLocalized) {
-    fbb_.AddElement<uint8_t>(TextFieldOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
   }
   void add_placeHolder(flatbuffers::Offset<flatbuffers::String> placeHolder) {
     fbb_.AddOffset(TextFieldOptions::VT_PLACEHOLDER, placeHolder);
@@ -3133,6 +3130,9 @@ struct TextFieldOptionsBuilder {
   void add_isCustomSize(bool isCustomSize) {
     fbb_.AddElement<uint8_t>(TextFieldOptions::VT_ISCUSTOMSIZE, static_cast<uint8_t>(isCustomSize), 0);
   }
+  void add_isLocalized(bool isLocalized) {
+    fbb_.AddElement<uint8_t>(TextFieldOptions::VT_ISLOCALIZED, static_cast<uint8_t>(isLocalized), 0);
+  }
   TextFieldOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
@@ -3152,7 +3152,6 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptions(
     flatbuffers::Offset<flatbuffers::String> fontName = 0,
     int32_t fontSize = 0,
     flatbuffers::Offset<flatbuffers::String> text = 0,
-    bool isLocalized = false,
     flatbuffers::Offset<flatbuffers::String> placeHolder = 0,
     bool passwordEnabled = false,
     flatbuffers::Offset<flatbuffers::String> passwordStyleText = 0,
@@ -3160,7 +3159,8 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptions(
     int32_t maxLength = 0,
     int32_t areaWidth = 0,
     int32_t areaHeight = 0,
-    bool isCustomSize = false) {
+    bool isCustomSize = false,
+    bool isLocalized = false) {
   TextFieldOptionsBuilder builder_(_fbb);
   builder_.add_areaHeight(areaHeight);
   builder_.add_areaWidth(areaWidth);
@@ -3172,10 +3172,10 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptions(
   builder_.add_fontName(fontName);
   builder_.add_fontResource(fontResource);
   builder_.add_widgetOptions(widgetOptions);
+  builder_.add_isLocalized(isLocalized);
   builder_.add_isCustomSize(isCustomSize);
   builder_.add_maxLengthEnabled(maxLengthEnabled);
   builder_.add_passwordEnabled(passwordEnabled);
-  builder_.add_isLocalized(isLocalized);
   return builder_.Finish();
 }
 
@@ -3186,7 +3186,6 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptionsDirect(
     const char *fontName = nullptr,
     int32_t fontSize = 0,
     const char *text = nullptr,
-    bool isLocalized = false,
     const char *placeHolder = nullptr,
     bool passwordEnabled = false,
     const char *passwordStyleText = nullptr,
@@ -3194,7 +3193,8 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptionsDirect(
     int32_t maxLength = 0,
     int32_t areaWidth = 0,
     int32_t areaHeight = 0,
-    bool isCustomSize = false) {
+    bool isCustomSize = false,
+    bool isLocalized = false) {
   return flatbuffers::CreateTextFieldOptions(
       _fbb,
       widgetOptions,
@@ -3202,7 +3202,6 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptionsDirect(
       fontName ? _fbb.CreateString(fontName) : 0,
       fontSize,
       text ? _fbb.CreateString(text) : 0,
-      isLocalized,
       placeHolder ? _fbb.CreateString(placeHolder) : 0,
       passwordEnabled,
       passwordStyleText ? _fbb.CreateString(passwordStyleText) : 0,
@@ -3210,7 +3209,8 @@ inline flatbuffers::Offset<TextFieldOptions> CreateTextFieldOptionsDirect(
       maxLength,
       areaWidth,
       areaHeight,
-      isCustomSize);
+      isCustomSize,
+      isLocalized);
 }
 
 struct LoadingBarOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {

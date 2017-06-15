@@ -701,7 +701,6 @@ namespace cocostudio
                                                               builder->CreateString(fontResourcePlistFile),
                                                               fontResourceResourceType),
                                            builder->CreateString(text),
-                                           isLocalized, /*pitfall: 3.15 use this order */
                                            builder->CreateString(fontName),
                                            fontSize,
                                            &f_textColor,
@@ -718,6 +717,7 @@ namespace cocostudio
                                            shadowOffset.height,
                                            shadowBlurRadius,
 			                               glowEnabled,
+                                           isLocalized, /*pitfall: 3.16 use this order */
 		                                   &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled);
         
         return *(Offset<Table>*)(&options);

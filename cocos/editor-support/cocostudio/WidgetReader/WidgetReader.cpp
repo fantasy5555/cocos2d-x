@@ -782,13 +782,13 @@ namespace cocostudio
                                            flipY,
                                            ignoreSize,
                                            touchEnabled,
-			                               cascadeColorEnabled,
-			                               cascadeOpacityEnabled,
                                            builder->CreateString(frameEvent),
                                            builder->CreateString(customProperty),
                                            builder->CreateString(callbackType),
                                            builder->CreateString(callbackName),
-                                           f_layoutComponent);
+                                           f_layoutComponent,
+                                           cascadeColorEnabled,
+                                           cascadeOpacityEnabled);
         
         return *(Offset<Table>*)(&options);
     }

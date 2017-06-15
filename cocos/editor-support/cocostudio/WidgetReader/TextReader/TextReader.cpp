@@ -436,7 +436,6 @@ namespace cocostudio
                                          builder->CreateString(fontName),
                                          fontSize,
                                          builder->CreateString(text),
-                                         isLocalized, /* pitfall: 3.15 changed the order of isLocalized */
                                          areaWidth,
                                          areaHeight,
                                          h_alignment,
@@ -451,6 +450,7 @@ namespace cocostudio
                                          shadowOffset.width,
                                          shadowOffset.height,
                                          shadowBlurRadius,
+                                         isLocalized, /* pitfall: 3.16 changed the order of isLocalized */
 			                             glowEnabled,
 			                             &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled);
         

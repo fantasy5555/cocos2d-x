@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="reader20">
+      <UniqueIdentifier>{dbdbbfad-71fc-4f1d-a809-b43651f87267}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\TimelineAction">
+      <UniqueIdentifier>{c75d4c37-d555-4a5b-a0ba-4bc9a3d846e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader">
+      <UniqueIdentifier>{67bdb22e-8cfc-41ed-bb07-861e88a31752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader">
+      <UniqueIdentifier>{284a709e-9efa-484a-a595-83db6c7836c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ButtonReader">
+      <UniqueIdentifier>{3c7267f2-06ea-4c7c-a13c-552076a3dc8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\CheckBoxReader">
+      <UniqueIdentifier>{b47c2297-bf5e-43e6-ae70-741efee00689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ImageViewReader">
+      <UniqueIdentifier>{1b5e8a9e-87cf-4800-bb7b-4f63504fb132}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\LayoutReader">
+      <UniqueIdentifier>{d47fb3dd-9ab8-4559-b8b5-776d87aba319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ListViewReader">
+      <UniqueIdentifier>{65c0429b-5a85-46ac-ab4a-edb0aeb5d388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\LoadingBarReader">
+      <UniqueIdentifier>{8bdf34ea-1e66-41b0-9dbf-7530ba14dce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\PageViewReader">
+      <UniqueIdentifier>{690fb572-be0b-4bb6-9b8b-a007afb99b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ScrollViewReader">
+      <UniqueIdentifier>{5e397fa9-4e36-43f3-8c4f-1dd3382c1458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\SliderReader">
+      <UniqueIdentifier>{fa2abcd0-6362-4741-a144-a3b0226fe4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\TextAtlasReader">
+      <UniqueIdentifier>{03596848-0d59-4d69-8193-30f404683c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\TextBMFontReader">
+      <UniqueIdentifier>{4d27423a-d9e8-496b-bcc4-8684230c6c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\TextFieldReader">
+      <UniqueIdentifier>{075b4cf0-63ae-4cb1-a6d8-e7cb24146531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\TextReader">
+      <UniqueIdentifier>{9421ece2-69f8-4cee-8e59-575c3ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\Node3DReader">
+      <UniqueIdentifier>{9421ece2-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\UserCameraReader">
+      <UniqueIdentifier>{9421e104-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\Particle3DReader">
+      <UniqueIdentifier>{9421e104-1028-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\Sprite3DReader">
+      <UniqueIdentifier>{94210432-69f8-4cee-8e59-51043ba06f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\json">
+      <UniqueIdentifier>{a9901b6a-0c7b-4adb-8e17-105c872d744d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\json\rapidjson">
+      <UniqueIdentifier>{a9a3bf20-9daf-465d-9525-cce2ab0d85a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\json\rapidjson\internal">
+      <UniqueIdentifier>{0cf2210c-3544-41ed-9d4e-88987a1c7bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\components">
+      <UniqueIdentifier>{dc6e53e4-e518-403f-b2a9-97f6f7cd0961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\TimelineAction\trigger">
+      <UniqueIdentifier>{0554a5b1-03a1-4d38-87a5-976dbe9a39d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\json\flatbuffers">
+      <UniqueIdentifier>{db915acb-1838-413d-b290-dc280365eabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ComAudioReader">
+      <UniqueIdentifier>{b71e98df-9863-4ee5-9818-04fad2ef8da1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\GameMapReader">
+      <UniqueIdentifier>{78a3fbcc-4233-47f0-9b53-5a445dad9400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\NodeReader">
+      <UniqueIdentifier>{737cc376-2a40-4203-8280-842362c5db49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ParticleReader">
+      <UniqueIdentifier>{7604b98b-40ff-440f-8335-7729e1fa310c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ProjectNodeReader">
+      <UniqueIdentifier>{da363675-4650-4c12-892e-d5755a8b608f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\SingleNodeReader">
+      <UniqueIdentifier>{39a43e29-dd58-47a3-9906-bf714b185f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\SpriteReader">
+      <UniqueIdentifier>{9aee531c-f935-4836-bf84-be42e78e38bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\reader\WidgetReader\ArmatureNodeReader">
+      <UniqueIdentifier>{e1848cce-b225-42c4-bb6e-6430b6da123b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reader20\TimelineAction\Skeleton">
+      <UniqueIdentifier>{ca5e1475-3bfd-4aae-ad54-2e19d5021b92}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\editor-support\reader20\TriggerBase.cpp">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\TriggerMng.cpp">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\TriggerObj.cpp">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCActionTimeline.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCFrame.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCActionTimelineCache.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCTimeLine.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCSGUIReader.cpp">
+      <Filter>reader20\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCSSceneReader.cpp">
+      <Filter>reader20\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\WidgetReader.cpp">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ButtonReader\ButtonReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ButtonReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\CheckBoxReader\CheckBoxReader.cpp">
+      <Filter>reader20\reader\WidgetReader\CheckBoxReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ImageViewReader\ImageViewReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ImageViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\LayoutReader\LayoutReader.cpp">
+      <Filter>reader20\reader\WidgetReader\LayoutReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ListViewReader\ListViewReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ListViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\LoadingBarReader\LoadingBarReader.cpp">
+      <Filter>reader20\reader\WidgetReader\LoadingBarReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\PageViewReader\PageViewReader.cpp">
+      <Filter>reader20\reader\WidgetReader\PageViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ScrollViewReader\ScrollViewReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ScrollViewReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\SliderReader\SliderReader.cpp">
+      <Filter>reader20\reader\WidgetReader\SliderReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\TextAtlasReader\TextAtlasReader.cpp">
+      <Filter>reader20\reader\WidgetReader\TextAtlasReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\TextBMFontReader\TextBMFontReader.cpp">
+      <Filter>reader20\reader\WidgetReader\TextBMFontReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\TextFieldReader\TextFieldReader.cpp">
+      <Filter>reader20\reader\WidgetReader\TextFieldReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\TextReader\TextReader.cpp">
+      <Filter>reader20\reader\WidgetReader\TextReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\Node3DReader\Node3DReader.cpp">
+      <Filter>reader20\reader\WidgetReader\Node3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\Sprite3DReader\Sprite3DReader.cpp">
+      <Filter>reader20\reader\WidgetReader\Sprite3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\UserCameraReader\UserCameraReader.cpp">
+      <Filter>reader20\reader\WidgetReader\UserCameraReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\Particle3DReader\Particle3DReader.cpp">
+      <Filter>reader20\reader\WidgetReader\Particle3DReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCComAttribute.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCComAudio.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCComController.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCComRender.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCInputDelegate.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CSLoader.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\FlatBuffersSerialize.cpp">
+      <Filter>reader20\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ComAudioReader\ComAudioReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ComAudioReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\GameMapReader\GameMapReader.cpp">
+      <Filter>reader20\reader\WidgetReader\GameMapReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\NodeReader\NodeReader.cpp">
+      <Filter>reader20\reader\WidgetReader\NodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ParticleReader\ParticleReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ParticleReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ProjectNodeReader\ProjectNodeReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ProjectNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\SingleNodeReader\SingleNodeReader.cpp">
+      <Filter>reader20\reader\WidgetReader\SingleNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\SpriteReader\SpriteReader.cpp">
+      <Filter>reader20\reader\WidgetReader\SpriteReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetCallBackHandlerProtocol.cpp">
+      <Filter>reader20\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCActionTimelineNode.cpp">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.cpp">
+      <Filter>reader20\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCBoneNode.cpp">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCSkeletonNode.cpp">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\ActionTimeline\CCSkinNode.cpp">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CCComExtensionData.cpp">
+      <Filter>reader20\components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\LocalizationManager.cpp">
+      <Filter>reader20\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\GameNode3DReader\GameNode3DReader.cpp">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\WidgetReader\Light3DReader\Light3DReader.cpp">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\reader20\CocoStudio.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\editor-support\reader20\CocosStudioExport.h">
+      <Filter>reader20</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\TriggerBase.h">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\TriggerMng.h">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\TriggerObj.h">
+      <Filter>reader20\TimelineAction\trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCActionTimeline.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCFrame.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCActionTimelineCache.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCTimeLine.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCTimelineMacro.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCSGUIReader.h">
+      <Filter>reader20\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCSSceneReader.h">
+      <Filter>reader20\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\WidgetReader.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\WidgetReaderProtocol.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ButtonReader\ButtonReader.h">
+      <Filter>reader20\reader\WidgetReader\ButtonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\CheckBoxReader\CheckBoxReader.h">
+      <Filter>reader20\reader\WidgetReader\CheckBoxReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ImageViewReader\ImageViewReader.h">
+      <Filter>reader20\reader\WidgetReader\ImageViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\LayoutReader\LayoutReader.h">
+      <Filter>reader20\reader\WidgetReader\LayoutReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ListViewReader\ListViewReader.h">
+      <Filter>reader20\reader\WidgetReader\ListViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\LoadingBarReader\LoadingBarReader.h">
+      <Filter>reader20\reader\WidgetReader\LoadingBarReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\PageViewReader\PageViewReader.h">
+      <Filter>reader20\reader\WidgetReader\PageViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ScrollViewReader\ScrollViewReader.h">
+      <Filter>reader20\reader\WidgetReader\ScrollViewReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\SliderReader\SliderReader.h">
+      <Filter>reader20\reader\WidgetReader\SliderReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\TextAtlasReader\TextAtlasReader.h">
+      <Filter>reader20\reader\WidgetReader\TextAtlasReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\TextBMFontReader\TextBMFontReader.h">
+      <Filter>reader20\reader\WidgetReader\TextBMFontReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\TextFieldReader\TextFieldReader.h">
+      <Filter>reader20\reader\WidgetReader\TextFieldReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\TextReader\TextReader.h">
+      <Filter>reader20\reader\WidgetReader\TextReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\Node3DReader\Node3DReader.h">
+      <Filter>reader20\reader\WidgetReader\Node3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\UserCameraReader\UserCameraReader.h">
+      <Filter>reader20\reader\WidgetReader\UserCameraReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\Particle3DReader\Particle3DReader.h">
+      <Filter>reader20\reader\WidgetReader\Particle3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\Sprite3DReader\Sprite3DReader.h">
+      <Filter>reader20\reader\WidgetReader\Sprite3DReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\document.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\filestream.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\prettywriter.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\rapidjson.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\reader.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\stringbuffer.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\writer.h">
+      <Filter>reader20\json\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\pow10.h">
+      <Filter>reader20\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\stack.h">
+      <Filter>reader20\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\json\internal\strfunc.h">
+      <Filter>reader20\json\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComAttribute.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComAudio.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComBase.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComController.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComRender.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCInputDelegate.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CSLoader.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\flatbuffers.h">
+      <Filter>reader20\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\idl.h">
+      <Filter>reader20\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\flatbuffers\util.h">
+      <Filter>reader20\json\flatbuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CSParseBinary_generated.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CSParse3DBinary_generated.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\FlatBuffersSerialize.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ComAudioReader\ComAudioReader.h">
+      <Filter>reader20\reader\WidgetReader\ComAudioReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\GameMapReader\GameMapReader.h">
+      <Filter>reader20\reader\WidgetReader\GameMapReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\NodeReader\NodeReader.h">
+      <Filter>reader20\reader\WidgetReader\NodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ParticleReader\ParticleReader.h">
+      <Filter>reader20\reader\WidgetReader\ParticleReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ProjectNodeReader\ProjectNodeReader.h">
+      <Filter>reader20\reader\WidgetReader\ProjectNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\SingleNodeReader\SingleNodeReader.h">
+      <Filter>reader20\reader\WidgetReader\SingleNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\SpriteReader\SpriteReader.h">
+      <Filter>reader20\reader\WidgetReader\SpriteReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\NodeReaderDefine.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\NodeReaderProtocol.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetCallBackHandlerProtocol.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCActionTimelineNode.h">
+      <Filter>reader20\TimelineAction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ArmatureNodeReader\ArmatureNodeReader.h">
+      <Filter>reader20\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\ArmatureNodeReader\CSArmatureNode_generated.h">
+      <Filter>reader20\reader\WidgetReader\ArmatureNodeReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCBoneNode.h">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCSkeletonNode.h">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\ActionTimeline\CCSkinNode.h">
+      <Filter>reader20\TimelineAction\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CCComExtensionData.h">
+      <Filter>reader20\components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\CSLanguageDataBinary_generated.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\LocalizationManager.h">
+      <Filter>reader20\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\GameNode3DReader\GameNode3DReader.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\reader20\WidgetReader\Light3DReader\Light3DReader.h">
+      <Filter>reader20\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\editor-support\reader20\CocoStudio.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="libxreader20.rc" />
+  </ItemGroup>
+</Project>

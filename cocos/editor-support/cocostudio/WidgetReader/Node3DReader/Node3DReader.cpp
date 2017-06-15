@@ -302,13 +302,14 @@ namespace cocostudio
             flipY,
             ignoreSize,
             touchEnabled,
-			false, // 3D Node currently: fixed: cascadeColorEnabled = false
-			false,// 3D Node currently: fixed: cascadeOpacityEnabled = false
             builder->CreateString(frameEvent),
             builder->CreateString(customProperty),
             0,
             0,
-            f_layoutComponent);
+            f_layoutComponent,
+            false, // 3D Node currently: fixed: cascadeColorEnabled = false
+            false// 3D Node currently: fixed: cascadeOpacityEnabled = false
+            );
 
         return *(Offset<Table>*)(&options);
     }

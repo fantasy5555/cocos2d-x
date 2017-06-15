@@ -56,6 +56,11 @@ bool HelloWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
+
+    auto bval = xstrtob("True");
+
+    std::string oring = "ababhello";
+    strstr(oring.c_str(), "hello");
     
 #if 0
     /////////////////////////////

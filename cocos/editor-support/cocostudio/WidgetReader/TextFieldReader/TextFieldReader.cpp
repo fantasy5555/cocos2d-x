@@ -275,7 +275,6 @@ namespace cocostudio
                                               builder->CreateString(fontName),
                                               fontSize,
                                               builder->CreateString(text),
-                                              isLocalized, /*pitfall v3.15 use this order */
                                               builder->CreateString(placeHolder),
                                               passwordEnabled,
                                               builder->CreateString(passwordStyleText),
@@ -283,7 +282,8 @@ namespace cocostudio
                                               maxLength,
                                               areaWidth,
                                               areaHeight,
-                                              isCustomSize);
+                                              isCustomSize, 
+                                              isLocalized /*pitfall v3.15 use this order */);
         
         return *(Offset<Table>*)(&options);
     }
