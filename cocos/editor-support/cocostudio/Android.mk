@@ -44,6 +44,11 @@ TriggerMng.cpp \
 TriggerObj.cpp \
 CocoLoader.cpp \
 WidgetReader/NodeReaderProtocol.cpp \
+WidgetReader/RichTextReader/RichTextReader.cpp \
+WidgetReader/RadioButtonReader/RadioButtonGroupReader.cpp \
+WidgetReader/RadioButtonReader/RadioButtonReader.cpp \
+WidgetReader/SpineSkeletonReader/SpineSkeletonReader.cpp \
+WidgetReader/ControlSwitchReader/ControlSwitchReader.cpp \
 WidgetReader/NodeReader/NodeReader.cpp \
 WidgetReader/SingleNodeReader/SingleNodeReader.cpp \
 WidgetReader/SpriteReader/SpriteReader.cpp \
