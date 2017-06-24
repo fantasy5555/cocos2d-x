@@ -43,6 +43,7 @@ TriggerBase.cpp \
 TriggerMng.cpp \
 TriggerObj.cpp \
 CocoLoader.cpp \
+WidgetReader/NodeReaderProtocol.cpp \
 WidgetReader/NodeReader/NodeReader.cpp \
 WidgetReader/SingleNodeReader/SingleNodeReader.cpp \
 WidgetReader/SpriteReader/SpriteReader.cpp \
