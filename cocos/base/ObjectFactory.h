@@ -28,6 +28,7 @@ THE SOFTWARE.
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <vector>
 #include "base/CCRef.h"
 #include "platform/CCPlatformMacros.h"
 
