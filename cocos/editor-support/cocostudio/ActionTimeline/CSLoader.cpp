@@ -203,7 +203,7 @@ CSLoader::CSLoader()
     , _jsonPath("")
     , _monoCocos2dxVersion("")
     , _rootNode(nullptr)
-    , _csBuildID("10.0.2100")
+    , _csBuildID("10.0.2100.0")
 {
     CREATE_CLASS_NODE_READER_INFO(NodeReader);
     CREATE_CLASS_NODE_READER_INFO(SingleNodeReader);
@@ -918,7 +918,7 @@ Node * CSLoader::createNode(const Data& data, const ccNodeLoadCallback &callback
                 switch (++revisionIndex)
                 {
                 case 3:
-                    endv = '\0';
+                    *endv = '\0';
                     writterVersion = atoi(start);
                     *endv = charS;
                     break;
@@ -933,7 +933,7 @@ Node * CSLoader::createNode(const Data& data, const ccNodeLoadCallback &callback
                 switch (++revisionIndex)
                 {
                 case 3:
-                    endv = '\0';
+                    *endv = '\0';
                     readerVersion = atoi(start);
                     *endv = charS;
                     break;
@@ -1033,7 +1033,38 @@ Node* CSLoader::nodeWithFlatBuffersFile(const std::string &fileName, const ccNod
     auto csBuildId = csparsebinary->version();
     if (csBuildId)
     {
-        CCASSERT(strcmp(_csBuildID.c_str(), csBuildId->c_str()) == 0,
+        int readerVersion = 0, writterVersion = 0;
+        // parse writter version
+        int revisionIndex = 0;
+        fast_split(csBuildId->c_str(), '.', [&](const char* start, const char* end) {
+            auto endv = const_cast<char*>(end);
+            char charS = *endv;
+            switch (++revisionIndex)
+            {
+            case 3:
+                *endv = '\0';
+                writterVersion = atoi(start);
+                *endv = charS;
+                break;
+            }
+        });
+
+        // parse reader version
+        revisionIndex = 0;
+        fast_split(&_csBuildID.front(), '.', [&](char* start, char* end) {
+            auto endv = const_cast<char*>(end);
+            char charS = *endv;
+            switch (++revisionIndex)
+            {
+            case 3:
+                *endv = '\0';
+                readerVersion = atoi(start);
+                *endv = charS;
+                break;
+            }
+        });
+
+        CCASSERT(readerVersion >= writterVersion,
             StringUtils::format("%s%s%s%s%s%s%s%s%s%s",
                 "The reader build id of your Cocos exported file(",
                 csBuildId->c_str(),

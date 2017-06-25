@@ -51,10 +51,17 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 
 	bool isloop = false;
 	bool isAutoPlay = false;
-	std::string currentAnimationName = "";
+	std::string currentAnimationName;
+    std::string currentArmatureName;
 
 	int type = 0;
 	std::string path = "";
+
+    float armatureScale = 1.0f;
+    float timeScale = 1.0f;
+
+    /*int textureInfoFileType = 0;
+    std::string textureInfoFilePath;*/
 
 	const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
 	while (attribute)
@@ -74,6 +81,18 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 		{
 			currentAnimationName = value;
 		}
+        else if (attriname == "CurrentArmatureName")
+        {
+            currentArmatureName = value;
+        }
+        else if (attriname == "ArmatureScale")
+        {
+            armatureScale = atof(value.c_str());
+        }
+        else if (attriname == "TimeScale")
+        {
+            timeScale = atof(value.c_str());
+        }
 
 		attribute = attribute->Next();
 	}
@@ -103,6 +122,27 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 				attribute = attribute->Next();
 			}
 		}
+        /*else if (attriname == "TextureInfoFileData")
+        {
+            attribute = child->FirstAttribute();
+
+            while (attribute)
+            {
+                attriname = attribute->Name();
+                std::string value = attribute->Value();
+
+                if (attriname == "Type")
+                {
+                    textureInfoFileType = 0;
+                }
+                else if (attriname == "Path")
+                {
+                    textureInfoFilePath = value;
+                }
+
+                attribute = attribute->Next();
+            }
+        }*/
 
 		child = child->NextSiblingElement();
 	}
@@ -114,7 +154,13 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 			builder->CreateString(path)),
 		isloop,
 		isAutoPlay,
-		builder->CreateString(currentAnimationName));
+		builder->CreateString(currentAnimationName),
+        builder->CreateString(currentArmatureName),
+        armatureScale,
+        timeScale/*
+        CreateResourceItemData(*builder,
+            textureInfoFileType, 
+            builder->CreateString(textureInfoFilePath))*/);
 
 	return *(Offset<Table>*)(&options);
 }
@@ -136,7 +182,7 @@ void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
 
 		auto filep = filepath.rfind('.');
 		if (filep != std::string::npos && strcmp(&filepath[filep], ".json") == 0)
-		{ // Currently, adjust by file ext, regard as DragonBones 4.5
+		{ // Currently, adjust by file ext, regard as DragonBones 4.5/5.0
             // 4.5 texture info is fixed as texture.png, texture.json
             // 5.o texture info is _tex.json _tex.png
 			auto sharedFactory = dragonBones::CCFactory::getInstance();
@@ -148,13 +194,20 @@ void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
 					slash = filepath.rfind("\\");
 				if (slash != std::string::npos) {
 					auto folder = filepath.substr(0, slash + 1);
-					if (sharedFactory->loadTextureAtlasData(folder + "texture.json", filepath) != nullptr)
+                    // try dragonBones 5.0 firstly;
+                    std::string commonName;
+                    auto _skePos = filepath.find("_ske");
+                    if(_skePos != std::string::npos) {
+                        commonName = filepath.substr(slash + 1, _skePos - slash - 1);
+                    }
+                    auto succeed = sharedFactory->loadTextureAtlasData(folder + commonName + "_tex.json", filepath) != nullptr;
+					if (succeed || sharedFactory->loadTextureAtlasData(folder + "texture.json", filepath) != nullptr)
 					{
-						const auto& armatureNames = dragonBonesData->getArmatureNames();
-						const auto& armatureName = armatureNames[0];
-
-						auto armatureNode = sharedFactory->buildArmatureDisplay(armatureName);
-						armatureNode->setScale(1.0);
+                        std::string designArmatureName(options->currentArmatureName()->c_str());
+						auto armatureNode = sharedFactory->buildArmatureDisplay(designArmatureName);
+						
+                        armatureNode->setScale(options->armatureScale());
+                        armatureNode->getAnimation().timeScale = options->timeScale();
 
 						std::string currentname = options->currentAnimationName()->c_str();
 						armatureNode->getAnimation().play(currentname, options->isLoop() ? -1 : 1);
