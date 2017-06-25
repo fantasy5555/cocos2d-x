@@ -192,7 +192,7 @@ std::string FlatBuffersSerialize::serializeFlatBuffersWithXMLBuffer(const std::s
             if (attribute)
                 thiz->_csdVersion = attribute->Value();
 
-            thiz->_csdVersion = "10.0.1080.0";
+            thiz->_csdVersion = "10.0.2100.0";
         }
 
         if (strcmp("Content", element->Name()) == 0)

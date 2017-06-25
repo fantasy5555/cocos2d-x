@@ -286,7 +286,7 @@ namespace cocostudio
             child = child->NextSiblingElement();
         }
         
-        auto options = CreateCheckBoxOptions(*builder,
+        auto options = CreateRadioButtonOptions(*builder,
                                              widgetOptions,
                                              CreateResourceData(*builder,
                                                                 builder->CreateString(backgroundboxPath),

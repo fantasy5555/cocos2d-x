@@ -2170,11 +2170,11 @@ struct RadioButtonOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const ResourceData *frontCrossDisabledData() const {
     return GetPointer<const ResourceData *>(VT_FRONTCROSSDISABLEDDATA);
   }
-  uint8_t selectedState() const {
-    return GetField<uint8_t>(VT_SELECTEDSTATE, 0);
+  bool selectedState() const {
+    return GetField<uint8_t>(VT_SELECTEDSTATE, 0) != 0;
   }
-  uint8_t displaystate() const {
-    return GetField<uint8_t>(VT_DISPLAYSTATE, 0);
+  bool displaystate() const {
+    return GetField<uint8_t>(VT_DISPLAYSTATE, 0) != 0;
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -2217,11 +2217,11 @@ struct RadioButtonOptionsBuilder {
   void add_frontCrossDisabledData(flatbuffers::Offset<ResourceData> frontCrossDisabledData) {
     fbb_.AddOffset(RadioButtonOptions::VT_FRONTCROSSDISABLEDDATA, frontCrossDisabledData);
   }
-  void add_selectedState(uint8_t selectedState) {
-    fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_SELECTEDSTATE, selectedState, 0);
+  void add_selectedState(bool selectedState) {
+    fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_SELECTEDSTATE, static_cast<uint8_t>(selectedState), 0);
   }
-  void add_displaystate(uint8_t displaystate) {
-    fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_DISPLAYSTATE, displaystate, 0);
+  void add_displaystate(bool displaystate) {
+    fbb_.AddElement<uint8_t>(RadioButtonOptions::VT_DISPLAYSTATE, static_cast<uint8_t>(displaystate), 0);
   }
   RadioButtonOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -2243,8 +2243,8 @@ inline flatbuffers::Offset<RadioButtonOptions> CreateRadioButtonOptions(
     flatbuffers::Offset<ResourceData> frontCrossData = 0,
     flatbuffers::Offset<ResourceData> backGroundBoxDisabledData = 0,
     flatbuffers::Offset<ResourceData> frontCrossDisabledData = 0,
-    uint8_t selectedState = 0,
-    uint8_t displaystate = 0) {
+    bool selectedState = false,
+    bool displaystate = false) {
   RadioButtonOptionsBuilder builder_(_fbb);
   builder_.add_frontCrossDisabledData(frontCrossDisabledData);
   builder_.add_backGroundBoxDisabledData(backGroundBoxDisabledData);

@@ -137,6 +137,8 @@ void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
 		auto filep = filepath.rfind('.');
 		if (filep != std::string::npos && strcmp(&filepath[filep], ".json") == 0)
 		{ // Currently, adjust by file ext, regard as DragonBones 4.5
+            // 4.5 texture info is fixed as texture.png, texture.json
+            // 5.o texture info is _tex.json _tex.png
 			auto sharedFactory = dragonBones::CCFactory::getInstance();
 			const auto dragonBonesData = sharedFactory->loadDragonBonesData(filepath, filepath);
 

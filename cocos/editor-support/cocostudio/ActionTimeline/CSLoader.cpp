@@ -203,7 +203,7 @@ CSLoader::CSLoader()
     , _jsonPath("")
     , _monoCocos2dxVersion("")
     , _rootNode(nullptr)
-    , _csBuildID("10.0.1080.0")
+    , _csBuildID("10.0.2100")
 {
     CREATE_CLASS_NODE_READER_INFO(NodeReader);
     CREATE_CLASS_NODE_READER_INFO(SingleNodeReader);
@@ -878,6 +878,25 @@ cocos2d::Node* CSLoader::createNode(const Data& data)
     return createNode(data, nullptr);
 }
 
+template<typename _Elem, typename _Fty> inline
+void fast_split(_Elem* s, typename std::remove_const<_Elem>::type delim, const _Fty& op)
+{
+    auto _Start = s; // the start of every string
+    auto _Ptr = s;   // source string iterator
+    while (*_Ptr != '\0')
+    {
+        if (delim == *_Ptr/* && _Ptr != _Start*/)
+        {
+            if (_Ptr != _Start)
+                op(_Start, _Ptr);
+            _Start = _Ptr + 1;
+        }
+        ++_Ptr;
+    }
+    if (_Start != _Ptr) {
+        op(_Start, _Ptr);
+    }
+}
 Node * CSLoader::createNode(const Data& data, const ccNodeLoadCallback &callback)
 {
     CSLoader * loader = CSLoader::getInstance();
@@ -890,7 +909,38 @@ Node * CSLoader::createNode(const Data& data, const ccNodeLoadCallback &callback
         auto csBuildId = csparsebinary->version();
         if (csBuildId)
         {
-            CCASSERT(strcmp(loader->_csBuildID.c_str(), csBuildId->c_str()) == 0,
+            int readerVersion = 0, writterVersion = 0;
+            // parse writter version
+            int revisionIndex = 0;
+            fast_split(csBuildId->c_str(), '.', [&](const char* start, const char* end) {
+                auto endv = const_cast<char*>(end);
+                char charS = *endv;
+                switch (++revisionIndex)
+                {
+                case 3:
+                    endv = '\0';
+                    writterVersion = atoi(start);
+                    *endv = charS;
+                    break;
+                }
+            });
+
+            // parse reader version
+            revisionIndex = 0;
+            fast_split(&loader->_csBuildID.front(), '.', [&](char* start,  char* end) {
+                auto endv = const_cast<char*>(end);
+                char charS = *endv;
+                switch (++revisionIndex)
+                {
+                case 3:
+                    endv = '\0';
+                    readerVersion = atoi(start);
+                    *endv = charS;
+                    break;
+                }
+            });
+
+            CCASSERT(readerVersion >= writterVersion,
                 StringUtils::format("%s%s%s%s%s%s%s%s%s%s",
                     "The reader build id of your Cocos exported file(",
                     csBuildId->c_str(),

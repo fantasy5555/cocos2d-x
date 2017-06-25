@@ -8,6 +8,8 @@ xcopy /y /s /e /f /h "%COCOS2DX_ROOT%\cocos\editor-support\cocostudio\WidgetRead
 copy /y "%COCOS2DX_ROOT%\cocos\editor-support\spine\SpineSkeletonCache.*"  "frameworks\cocos2d-x\cocos\editor-support\spine\"
 
 copy /y "%COCOS2DX_ROOT%\cocos\2d\libxreader*"  "frameworks\cocos2d-x\cocos\2d\"
+copy /y "%COCOS2DX_ROOT%\cocos\2d\resource.h"  "frameworks\cocos2d-x\cocos\2d\"
+copy /y "%COCOS2DX_ROOT%\external\glfw3\include\win32\glfw3ext.h" "frameworks\cocos2d-x\external\glfw3\include\win32\glfw3ext.h"
 
 rem copy dragonBones
 xcopy /y /s /e /f /h "%COCOS2DX_ROOT%\cocos\editor-support\dragonBones"  "frameworks\cocos2d-x\cocos\editor-support\dragonBones\"
