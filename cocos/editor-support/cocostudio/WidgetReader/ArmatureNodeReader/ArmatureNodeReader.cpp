@@ -156,8 +156,9 @@ Offset<Table> ArmatureNodeReader::createOptionsWithFlatBuffers(const tinyxml2::X
 		isAutoPlay,
 		builder->CreateString(currentAnimationName),
         builder->CreateString(currentArmatureName),
-        armatureScale,
-        timeScale/*
+        timeScale,
+        armatureScale
+        /*
         CreateResourceItemData(*builder,
             textureInfoFileType, 
             builder->CreateString(textureInfoFilePath))*/);

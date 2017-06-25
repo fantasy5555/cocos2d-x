@@ -22,8 +22,8 @@ struct CSArmatureNodeOption FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
     VT_ISAUTOPLAY = 10,
     VT_CURRENTANIMATIONNAME = 12,
     VT_CURRENTARMATURENAME = 14,
-    VT_ARMATURESCALE = 16,
-    VT_TIMESCALE = 18
+    VT_TIMESCALE = 16,
+    VT_ARMATURESCALE = 18
   };
   const flatbuffers::WidgetOptions *nodeOptions() const {
     return GetPointer<const flatbuffers::WidgetOptions *>(VT_NODEOPTIONS);
@@ -43,11 +43,11 @@ struct CSArmatureNodeOption FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
   const flatbuffers::String *currentArmatureName() const {
     return GetPointer<const flatbuffers::String *>(VT_CURRENTARMATURENAME);
   }
-  float armatureScale() const {
-    return GetField<float>(VT_ARMATURESCALE, 0.0f);
-  }
   float timeScale() const {
     return GetField<float>(VT_TIMESCALE, 0.0f);
+  }
+  float armatureScale() const {
+    return GetField<float>(VT_ARMATURESCALE, 0.0f);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -61,8 +61,8 @@ struct CSArmatureNodeOption FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table
            verifier.Verify(currentAnimationName()) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_CURRENTARMATURENAME) &&
            verifier.Verify(currentArmatureName()) &&
-           VerifyField<float>(verifier, VT_ARMATURESCALE) &&
            VerifyField<float>(verifier, VT_TIMESCALE) &&
+           VerifyField<float>(verifier, VT_ARMATURESCALE) &&
            verifier.EndTable();
   }
 };
@@ -88,11 +88,11 @@ struct CSArmatureNodeOptionBuilder {
   void add_currentArmatureName(flatbuffers::Offset<flatbuffers::String> currentArmatureName) {
     fbb_.AddOffset(CSArmatureNodeOption::VT_CURRENTARMATURENAME, currentArmatureName);
   }
-  void add_armatureScale(float armatureScale) {
-    fbb_.AddElement<float>(CSArmatureNodeOption::VT_ARMATURESCALE, armatureScale, 0.0f);
-  }
   void add_timeScale(float timeScale) {
     fbb_.AddElement<float>(CSArmatureNodeOption::VT_TIMESCALE, timeScale, 0.0f);
+  }
+  void add_armatureScale(float armatureScale) {
+    fbb_.AddElement<float>(CSArmatureNodeOption::VT_ARMATURESCALE, armatureScale, 0.0f);
   }
   CSArmatureNodeOptionBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -114,11 +114,11 @@ inline flatbuffers::Offset<CSArmatureNodeOption> CreateCSArmatureNodeOption(
     bool isAutoPlay = true,
     flatbuffers::Offset<flatbuffers::String> currentAnimationName = 0,
     flatbuffers::Offset<flatbuffers::String> currentArmatureName = 0,
-    float armatureScale = 0.0f,
-    float timeScale = 0.0f) {
+    float timeScale = 0.0f,
+    float armatureScale = 0.0f) {
   CSArmatureNodeOptionBuilder builder_(_fbb);
-  builder_.add_timeScale(timeScale);
   builder_.add_armatureScale(armatureScale);
+  builder_.add_timeScale(timeScale);
   builder_.add_currentArmatureName(currentArmatureName);
   builder_.add_currentAnimationName(currentAnimationName);
   builder_.add_fileData(fileData);
@@ -136,8 +136,8 @@ inline flatbuffers::Offset<CSArmatureNodeOption> CreateCSArmatureNodeOptionDirec
     bool isAutoPlay = true,
     const char *currentAnimationName = nullptr,
     const char *currentArmatureName = nullptr,
-    float armatureScale = 0.0f,
-    float timeScale = 0.0f) {
+    float timeScale = 0.0f,
+    float armatureScale = 0.0f) {
   return flatbuffers::CreateCSArmatureNodeOption(
       _fbb,
       nodeOptions,
@@ -146,8 +146,8 @@ inline flatbuffers::Offset<CSArmatureNodeOption> CreateCSArmatureNodeOptionDirec
       isAutoPlay,
       currentAnimationName ? _fbb.CreateString(currentAnimationName) : 0,
       currentArmatureName ? _fbb.CreateString(currentArmatureName) : 0,
-      armatureScale,
-      timeScale);
+      timeScale,
+      armatureScale);
 }
 
 struct ResourceItemData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
