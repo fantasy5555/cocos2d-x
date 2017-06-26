@@ -1,6 +1,8 @@
 #include "main.h"
 #include "AppDelegate.h"
 #include "cocos2d.h"
+#pragma comment(lib, "libxreaderp.lib")
+#pragma comment(lib, "libxreader.lib")
 
 USING_NS_CC;
 

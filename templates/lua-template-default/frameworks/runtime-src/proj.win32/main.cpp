@@ -1,6 +1,8 @@
 #include "main.h"
 #include "SimulatorWin.h"
 #include <shellapi.h>
+#pragma comment(lib, "libxreaderp.lib")
+#pragma comment(lib, "libxreader.lib")
 
 int WINAPI _tWinMain(HINSTANCE hInstance,
 	HINSTANCE hPrevInstance,
