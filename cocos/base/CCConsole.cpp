@@ -448,6 +448,12 @@ namespace {
     }
 };
 
+#if defined(_WIN32)
+// @pitfall: don't use vsnprintf, the behavior not correct when buffer not enough in Windows 10 10.0.14393 SDK ucrt
+// Other version, not test.
+#define vsnprintf _vsnprintf
+#endif
+
 NS_CC_BEGIN
 
 extern const char* cocos2dVersion(void);
