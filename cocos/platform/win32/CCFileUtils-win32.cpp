@@ -65,9 +65,8 @@ inline std::string _transcode$IL(const std::wstring& wcb, UINT cp = CP_ACP)
     if (wcb.empty())
         return "";
     int buffersize = WideCharToMultiByte(cp, 0, wcb.c_str(), -1, NULL, 0, NULL, NULL);
-    std::string buffer(buffersize, '\0');
+    std::string buffer(buffersize - 1, '\0');
     WideCharToMultiByte(cp, 0, wcb.c_str(), -1, &buffer.front(), buffersize, NULL, NULL);
-    buffer.resize(buffersize - 1);
     return  buffer;
 }
 
@@ -76,9 +75,8 @@ inline std::wstring _transcode$IL(const std::string& mcb, UINT cp = CP_ACP)
     if (mcb.empty())
         return L"";
     int buffersize = MultiByteToWideChar(cp, 0, mcb.c_str(), -1, NULL, 0);
-    std::wstring buffer(buffersize, '\0');
+    std::wstring buffer(buffersize - 1, '\0');
     MultiByteToWideChar(cp, 0, mcb.c_str(), -1, &buffer.front(), buffersize);
-    buffer.resize(buffersize - 1);
     return buffer;
 }
 #endif
@@ -87,16 +85,15 @@ static void _checkPath()
     if (s_resourcePath.empty())
     {
         WCHAR utf16Path[CC_MAX_PATH] = { 0 };
-        GetModuleFileNameW(NULL, utf16Path, CC_MAX_PATH - 1);
-        WCHAR *pUtf16ExePath = &(utf16Path[0]);
+        int nNum = GetCurrentDirectoryW(CC_MAX_PATH - 2, utf16Path);
 
-        // We need only directory part without exe
-        WCHAR *pUtf16DirEnd = wcsrchr(pUtf16ExePath, L'\\');
-
-        char utf8ExeDir[CC_MAX_PATH] = { 0 };
-        int nNum = WideCharToMultiByte(CP_ACP, 0, pUtf16ExePath, pUtf16DirEnd-pUtf16ExePath+1, utf8ExeDir, sizeof(utf8ExeDir), nullptr, nullptr);
-
-        s_resourcePath = convertPathFormatToUnixStyle(utf8ExeDir);
+        char utf8WorkingDir[CC_MAX_PATH] = { 0 };
+        nNum = WideCharToMultiByte(CP_ACP, 0, utf16Path, nNum, utf8WorkingDir, sizeof(utf8WorkingDir), nullptr, nullptr);
+        if (nNum < (CC_MAX_PATH - 2)) {
+            utf8WorkingDir[nNum] = '\\';
+            utf8WorkingDir[nNum + 1] = '\0';
+            s_resourcePath = convertPathFormatToUnixStyle(utf8WorkingDir);
+        }
     }
 }
 
