@@ -38,7 +38,7 @@
 #include "aes.h"
 
 #if _HAS_OSSL
-#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "libcrypto.lib")
 #else
 
 /* crypto/aes/aes_locl.h -*- mode:C; c-file-style: "eay" -*- */
