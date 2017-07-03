@@ -59,7 +59,7 @@
 #endif
 
 #define _HAS_OSSL 1
-#define _OSSL_USE_DLL 0
+#define _OSSL_USE_DLL 1
 
 #if _HAS_OSSL
 
