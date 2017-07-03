@@ -225,17 +225,17 @@ void ArmatureNodeReader::setPropsWithFlatBuffers(cocos2d::Node *node,
 			FileUtils::getInstance()->addSearchPath(dirpath);
 
 			ArmatureDataManager::getInstance()->addArmatureFileInfo(filepath);
-			auto custom = Armature::create(getArmatureName(filepath));
+			auto armatureNode = Armature::create(getArmatureName(filepath));
 			std::string currentname = options->currentAnimationName()->c_str();
 			if (options->isAutoPlay())
-				custom->getAnimation()->play(currentname, -1, options->isLoop());
+				armatureNode->getAnimation()->play(currentname, -1, options->isLoop());
 			else
 			{
-				custom->getAnimation()->play(currentname);
-				custom->getAnimation()->gotoAndPause(0);
+				armatureNode->getAnimation()->play(currentname);
+				armatureNode->getAnimation()->gotoAndPause(0);
 			}
 
-			*ppResult = node;
+			*ppResult = armatureNode;
 		}
 	}
 	else
