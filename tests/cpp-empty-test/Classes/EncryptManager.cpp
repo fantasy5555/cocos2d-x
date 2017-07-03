@@ -46,8 +46,13 @@ public:
     std::string getStringFromFile(const std::string& filename) override
     {
         auto data = FileUtilsImpl::getStringFromFile(filename);
-        crypto::aes::decrypt(data, encryptManager._encryptKey.c_str());
-        return crypto::zlib::uncompress(data);
+        if (!data.empty()) {
+            crypto::aes::decrypt(data, encryptManager._encryptKey.c_str());
+            return crypto::zlib::uncompress(data);
+        }
+        else {
+            return "";
+        }
     }
 
     /**
@@ -57,18 +62,19 @@ public:
     Data getDataFromFile(const std::string& filename) override
     {
         auto data = FileUtilsImpl::getDataFromFile(filename);
+        if (data.getSize() > 0) {
+            size_t size = 0;
+            crypto::aes::privacy::mode_spec<>::decrypt(data.getBytes(), data.getSize(), data.getBytes(), size, encryptManager._encryptKey.c_str());
 
-        size_t size = 0;
-        crypto::aes::privacy::mode_spec<>::decrypt(data.getBytes(), data.getSize(), data.getBytes(), size, encryptManager._encryptKey.c_str());
+            // auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
 
-        // auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
+            auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
+            size = uncomprData.size();
 
-        auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
-        size = uncomprData.size();
+            data.clear();
 
-        data.clear();
-
-        data.fastSet((unsigned char*)uncomprData.deatch(), size);
+            data.fastSet((unsigned char*)uncomprData.deatch(), size);
+        }
 
         return data;
     }
@@ -85,16 +91,18 @@ public:
     virtual unsigned char* getFileData(const std::string& filename, const char* mode, ssize_t *size) override
     {
         auto data = FileUtilsImpl::getFileData(filename, mode, size);
+        if (data != nullptr && *size > 0) {
+            size_t outsize = 0;
+            crypto::aes::privacy::mode_spec<>::decrypt(data, *size, data, outsize, encryptManager._encryptKey.c_str());
 
-        size_t outsize = 0;
-        crypto::aes::privacy::mode_spec<>::decrypt(data, *size, data, outsize, encryptManager._encryptKey.c_str());
+            auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data, outsize));
+            *size = uncomprData.size();
 
-        auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data, outsize));
-        *size = uncomprData.size();
+            free(data);
 
-        free(data);
-
-        return (unsigned char*)uncomprData.deatch();
+            return (unsigned char*)uncomprData.deatch();
+        }
+        return nullptr;
     }
 
     std::string fullPathForFilename(const std::string &filename) const override

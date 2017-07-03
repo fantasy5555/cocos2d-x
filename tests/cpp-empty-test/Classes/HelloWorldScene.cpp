@@ -80,7 +80,7 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
 #endif
 
-#if 1
+#if 0
     EncryptManager::getInstance()->setEncryptEnabled(true,
         nsc::hex2bin("f5cac53155c3826baa2518149d6381b7bcd74ab0cf97db1ca3f3b4813ebcac09"),
         nsc::hex2bin("8ed7ec623af53ece6b2c636918cf2447")

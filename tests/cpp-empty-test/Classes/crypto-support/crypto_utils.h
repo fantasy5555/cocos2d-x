@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2014-2015 purelib - All Rights Reserved
 //
 #ifndef _CRYPTO_UTILS_H_
