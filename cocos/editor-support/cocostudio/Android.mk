@@ -43,6 +43,7 @@ TriggerBase.cpp \
 TriggerMng.cpp \
 TriggerObj.cpp \
 CocoLoader.cpp \
+WidgetReader/glslutils.cpp \
 WidgetReader/NodeReaderProtocol.cpp \
 WidgetReader/RichTextReader/RichTextReader.cpp \
 WidgetReader/RadioButtonReader/RadioButtonGroupReader.cpp \

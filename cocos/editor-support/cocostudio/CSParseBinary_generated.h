@@ -118,6 +118,8 @@ struct ResourceData;
 
 struct BlendFrame;
 
+struct FVec3;
+
 MANUALLY_ALIGNED_STRUCT(4) RotationSkew FLATBUFFERS_FINAL_CLASS {
  private:
   float rotationSkewX_;
@@ -1203,7 +1205,10 @@ struct SpriteOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   enum {
     VT_NODEOPTIONS = 4,
     VT_FILENAMEDATA = 6,
-    VT_BLENDFUNC = 8
+    VT_BLENDFUNC = 8,
+    VT_INTELLISHADINGENABLED = 10,
+    VT_HSV = 12,
+    VT_FILTER = 14
   };
   const WidgetOptions *nodeOptions() const {
     return GetPointer<const WidgetOptions *>(VT_NODEOPTIONS);
@@ -1214,6 +1219,15 @@ struct SpriteOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const BlendFunc *blendFunc() const {
     return GetStruct<const BlendFunc *>(VT_BLENDFUNC);
   }
+  bool intelliShadingEnabled() const {
+    return GetField<uint8_t>(VT_INTELLISHADINGENABLED, 0) != 0;
+  }
+  const FVec3 *hsv() const {
+    return GetPointer<const FVec3 *>(VT_HSV);
+  }
+  const FVec3 *filter() const {
+    return GetPointer<const FVec3 *>(VT_FILTER);
+  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_NODEOPTIONS) &&
@@ -1221,6 +1235,11 @@ struct SpriteOptions FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<flatbuffers::uoffset_t>(verifier, VT_FILENAMEDATA) &&
            verifier.VerifyTable(fileNameData()) &&
            VerifyField<BlendFunc>(verifier, VT_BLENDFUNC) &&
+           VerifyField<uint8_t>(verifier, VT_INTELLISHADINGENABLED) &&
+           VerifyField<flatbuffers::uoffset_t>(verifier, VT_HSV) &&
+           verifier.VerifyTable(hsv()) &&
+           VerifyField<flatbuffers::uoffset_t>(verifier, VT_FILTER) &&
+           verifier.VerifyTable(filter()) &&
            verifier.EndTable();
   }
 };
@@ -1237,13 +1256,22 @@ struct SpriteOptionsBuilder {
   void add_blendFunc(const BlendFunc *blendFunc) {
     fbb_.AddStruct(SpriteOptions::VT_BLENDFUNC, blendFunc);
   }
+  void add_intelliShadingEnabled(bool intelliShadingEnabled) {
+    fbb_.AddElement<uint8_t>(SpriteOptions::VT_INTELLISHADINGENABLED, static_cast<uint8_t>(intelliShadingEnabled), 0);
+  }
+  void add_hsv(flatbuffers::Offset<FVec3> hsv) {
+    fbb_.AddOffset(SpriteOptions::VT_HSV, hsv);
+  }
+  void add_filter(flatbuffers::Offset<FVec3> filter) {
+    fbb_.AddOffset(SpriteOptions::VT_FILTER, filter);
+  }
   SpriteOptionsBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
   SpriteOptionsBuilder &operator=(const SpriteOptionsBuilder &);
   flatbuffers::Offset<SpriteOptions> Finish() {
-    const auto end = fbb_.EndTable(start_, 3);
+    const auto end = fbb_.EndTable(start_, 6);
     auto o = flatbuffers::Offset<SpriteOptions>(end);
     return o;
   }
@@ -1253,11 +1281,17 @@ inline flatbuffers::Offset<SpriteOptions> CreateSpriteOptions(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<WidgetOptions> nodeOptions = 0,
     flatbuffers::Offset<ResourceData> fileNameData = 0,
-    const BlendFunc *blendFunc = 0) {
+    const BlendFunc *blendFunc = 0,
+    bool intelliShadingEnabled = false,
+    flatbuffers::Offset<FVec3> hsv = 0,
+    flatbuffers::Offset<FVec3> filter = 0) {
   SpriteOptionsBuilder builder_(_fbb);
+  builder_.add_filter(filter);
+  builder_.add_hsv(hsv);
   builder_.add_blendFunc(blendFunc);
   builder_.add_fileNameData(fileNameData);
   builder_.add_nodeOptions(nodeOptions);
+  builder_.add_intelliShadingEnabled(intelliShadingEnabled);
   return builder_.Finish();
 }
 
@@ -5636,6 +5670,66 @@ inline flatbuffers::Offset<BlendFrame> CreateBlendFrame(
   builder_.add_blendFunc(blendFunc);
   builder_.add_frameIndex(frameIndex);
   builder_.add_tween(tween);
+  return builder_.Finish();
+}
+
+struct FVec3 FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  enum {
+    VT_X = 4,
+    VT_Y = 6,
+    VT_Z = 8
+  };
+  float x() const {
+    return GetField<float>(VT_X, 0.0f);
+  }
+  float y() const {
+    return GetField<float>(VT_Y, 0.0f);
+  }
+  float z() const {
+    return GetField<float>(VT_Z, 0.0f);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<float>(verifier, VT_X) &&
+           VerifyField<float>(verifier, VT_Y) &&
+           VerifyField<float>(verifier, VT_Z) &&
+           verifier.EndTable();
+  }
+};
+
+struct FVec3Builder {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_x(float x) {
+    fbb_.AddElement<float>(FVec3::VT_X, x, 0.0f);
+  }
+  void add_y(float y) {
+    fbb_.AddElement<float>(FVec3::VT_Y, y, 0.0f);
+  }
+  void add_z(float z) {
+    fbb_.AddElement<float>(FVec3::VT_Z, z, 0.0f);
+  }
+  FVec3Builder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  FVec3Builder &operator=(const FVec3Builder &);
+  flatbuffers::Offset<FVec3> Finish() {
+    const auto end = fbb_.EndTable(start_, 3);
+    auto o = flatbuffers::Offset<FVec3>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<FVec3> CreateFVec3(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    float x = 0.0f,
+    float y = 0.0f,
+    float z = 0.0f) {
+  FVec3Builder builder_(_fbb);
+  builder_.add_z(z);
+  builder_.add_y(y);
+  builder_.add_x(x);
   return builder_.Finish();
 }
 

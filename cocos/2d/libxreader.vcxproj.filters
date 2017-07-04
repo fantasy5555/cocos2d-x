@@ -309,6 +309,12 @@
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.cpp">
       <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
     </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\glslutils.cpp">
+      <Filter>cocostudio\reader\WidgetReader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\matrix3f.cpp">
+      <Filter>cocostudio\reader\WidgetReader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\editor-support\cocostudio\CocosStudioExport.h">
@@ -566,6 +572,12 @@
     </ClInclude>
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\RadioButtonReader\RadioButtonGroupReader.h">
       <Filter>cocostudio\reader\WidgetReader\RadioButtonReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\glslutils.hpp">
+      <Filter>cocostudio\reader\WidgetReader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\matrix3f.hpp">
+      <Filter>cocostudio\reader\WidgetReader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

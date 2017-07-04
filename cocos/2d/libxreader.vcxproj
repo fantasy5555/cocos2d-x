@@ -216,11 +216,13 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\glslutils.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ImageViewReader\ImageViewReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ListViewReader\ListViewReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\LoadingBarReader\LoadingBarReader.cpp" />
+    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\matrix3f.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\NodeReader\NodeReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\PageViewReader\PageViewReader.cpp" />
     <ClCompile Include="..\editor-support\cocostudio\WidgetReader\ParticleReader\ParticleReader.cpp" />
@@ -298,11 +300,13 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ControlSwitchReader\ControlSwitchReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\GameMapReader\GameMapReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\glslutils.hpp" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ImageViewReader\ImageViewReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\LayoutReader\LayoutReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\ListViewReader\ListViewReader.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\LoadingBarReader\LoadingBarReader.h" />
+    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\matrix3f.hpp" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderDefine.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReaderProtocol.h" />
     <ClInclude Include="..\editor-support\cocostudio\WidgetReader\NodeReader\NodeReader.h" />

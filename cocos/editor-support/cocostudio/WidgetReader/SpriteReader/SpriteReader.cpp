@@ -35,6 +35,7 @@
 
 #include "tinyxml2.h"
 #include "flatbuffers/flatbuffers.h"
+#include "editor-support/cocostudio/WidgetReader/glslutils.hpp"
 
 USING_NS_CC;
 using namespace flatbuffers;
@@ -84,6 +85,9 @@ namespace cocostudio
         std::string path = "";
         std::string plistFile = "";
         int resourceType = 0;
+        bool intelliShadingEnabled = false;
+        cocos2d::Vec3 hsv;
+        cocos2d::Vec3 filter;
         
         cocos2d::BlendFunc blendFunc = cocos2d::BlendFunc::ALPHA_PREMULTIPLIED;
         
@@ -92,13 +96,13 @@ namespace cocostudio
         while (child)
         {
             std::string name = child->Name();
-            
+            const tinyxml2::XMLAttribute* attribute;
             if (name == "FileData")
             {
                 std::string texture = "";
                 std::string texturePng = "";
                 
-                const tinyxml2::XMLAttribute* attribute = child->FirstAttribute();
+                attribute = child->FirstAttribute();
                 
                 while (attribute)
                 {
@@ -130,8 +134,7 @@ namespace cocostudio
             }
             else if (name == "BlendFunc")
             {
-                const tinyxml2::XMLAttribute* attribute = child->FirstAttribute();
-                
+                attribute = child->FirstAttribute();
                 while (attribute)
                 {
                     name = attribute->Name();
@@ -149,6 +152,52 @@ namespace cocostudio
                     attribute = attribute->Next();
                 }
             }
+            else if (name == "HSV") {
+                attribute = child->FirstAttribute();
+                while (attribute)
+                {
+                    name = attribute->Name();
+                    std::string value = attribute->Value();
+
+                    if (name == "X")
+                    {
+                        hsv.x = atof(value.c_str());
+                    }
+                    else if (name == "Y")
+                    {
+                        hsv.y = atof(value.c_str());
+                    }
+                    else if (name == "Z")
+                    {
+                        hsv.z = atof(value.c_str());
+                    }
+
+                    attribute = attribute->Next();
+                }
+            }
+            else if (name == "Filter") {
+                attribute = child->FirstAttribute();
+                while (attribute)
+                {
+                    name = attribute->Name();
+                    std::string value = attribute->Value();
+
+                    if (name == "X")
+                    {
+                        filter.x = atof(value.c_str());
+                    }
+                    else if (name == "Y")
+                    {
+                        filter.y = atof(value.c_str());
+                    }
+                    else if (name == "Z")
+                    {
+                        filter.z = atof(value.c_str());
+                    }
+
+                    attribute = attribute->Next();
+                }
+            }
             
             child = child->NextSiblingElement();
         }
@@ -161,7 +210,10 @@ namespace cocostudio
                                                               builder->CreateString(path),
                                                               builder->CreateString(plistFile),
                                                               resourceType),
-                                           &f_blendFunc);
+                                           &f_blendFunc, 
+                                           intelliShadingEnabled, 
+                                           CreateFVec3(*builder, hsv.x, hsv.y, hsv.z), 
+                                           CreateFVec3(*builder, filter.x, filter.y, filter.z));
         
         return *(Offset<Table>*)(&options);
     }
@@ -263,6 +315,17 @@ namespace cocostudio
             sprite->setFlippedX(flipX);
         if(flipY != false)
             sprite->setFlippedY(flipY);
+
+        if (options->intelliShadingEnabled()) {
+            auto hsv = options->hsv();
+            auto filter = options->filter();
+            if (hsv != nullptr && filter != nullptr) {
+                glslutils::enableNodeIntelliShading(sprite,
+                    true,
+                    Vec3(hsv->x(), hsv->y(), hsv->z()),
+                    Vec3(filter->x(), filter->y(), filter->z()));
+            }
+        }
     }
     
     Node* SpriteReader::createNodeWithFlatBuffers(const flatbuffers::Table *spriteOptions)
