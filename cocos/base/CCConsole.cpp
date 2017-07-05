@@ -449,9 +449,9 @@ namespace {
 };
 
 #if defined(_WIN32)
-// @pitfall: don't use vsnprintf, the behavior not correct when buffer not enough in Windows 10 10.0.14393 SDK ucrt
-// Other version, not test.
-//#define vsnprintf _vsnprintf
+// @pitfall: The behavior of vsnprintf between vs2013 and vs2015/2017 is different
+// VS2013 or Unix-Like System will return -1 when buffer not enough, but VS2015/2017 will return the actural needed length for buffer at this station
+// #define vsnprintf _vsnprintf
 #endif
 
 NS_CC_BEGIN
@@ -532,35 +532,30 @@ namespace {
         //        break;
         //    
         //} while (true);
-		do
-		{
-			buf = new (std::nothrow) char[bufferSize];
-			if (buf == nullptr)
-				return;
-			int ret = vsnprintf(buf, bufferSize - 3, format, args);
-			if (ret >= 0)
-			{
-				if (ret <= bufferSize - 4)
-				{// the success it's not need to remalloc 
-					break;
-				}
-				else
-				{
-					bufferSize = ret + 4;
-					delete[] buf;
-				}
-			}
-			else
-			{	//Branch of failed about vc12 
-				if (ret < 0)
-				{
-					bufferSize *= 2;
-					delete[] buf;
-				}
-				else
-					break;
-			}
-		} while (true);
+        do
+        {
+            buf = new (std::nothrow) char[bufferSize];
+            if (buf == nullptr)
+                return;
+            int ret = vsnprintf(buf, bufferSize - 3, format, args);
+            if (ret >= 0)
+            {
+                if (ret <= bufferSize - 4)
+                {// the success it's not need to remalloc 
+                    break;
+                }
+                else
+                {
+                    bufferSize = ret + 4;
+                    delete[] buf;
+                }
+            }
+            else // Already < 0
+            {	//Branch of failed about vc12 
+	        bufferSize *= 2;
+	        delete[] buf;
+            }
+        } while (true);
         strcat(buf, "\n");
         
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
