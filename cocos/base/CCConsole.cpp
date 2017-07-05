@@ -514,39 +514,22 @@ namespace {
     {
         int bufferSize = MAX_LOG_LENGTH;
         char* buf = nullptr;
-        
-        //do
-        //{
-        //    buf = new (std::nothrow) char[bufferSize];
-        //    if (buf == nullptr)
-        //        return; // not enough memory
-        //    
-        //    int ret = vsnprintf(buf, bufferSize - 3, format, args);
-        //    if (ret < 0)
-        //    {
-        //        bufferSize *= 2;
-        //        
-        //        delete [] buf;
-        //    }
-        //    else
-        //        break;
-        //    
-        //} while (true);
+        int nret = 0;
         do
         {
             buf = new (std::nothrow) char[bufferSize];
             if (buf == nullptr)
                 return;
-            int ret = vsnprintf(buf, bufferSize - 3, format, args);
-            if (ret >= 0)
+            nret = vsnprintf(buf, bufferSize - 3, format, args);
+            if (nret >= 0)
             {
-                if (ret <= bufferSize - 4)
+                if (nret <= bufferSize - 3)
                 {// the success it's not need to remalloc 
                     break;
                 }
                 else
                 {
-                    bufferSize = ret + 4;
+                    bufferSize = ret + 3;
                     delete[] buf;
                 }
             }
@@ -556,7 +539,8 @@ namespace {
 	        delete[] buf;
             }
         } while (true);
-        strcat(buf, "\n");
+        buf[nret] = '\n';
+        buf[++nret] = '\0';
         
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         __android_log_print(ANDROID_LOG_DEBUG, "cocos2d-x debug info", "%s", buf);
@@ -564,7 +548,7 @@ namespace {
 #elif CC_TARGET_PLATFORM ==  CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
         
         int pos = 0;
-        int len = strlen(buf);
+        int len = nret;
         char tempBuf[MAX_LOG_LENGTH + 1] = { 0 };
         WCHAR wszBuf[MAX_LOG_LENGTH + 1] = { 0 };
         
