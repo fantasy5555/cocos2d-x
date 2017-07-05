@@ -449,8 +449,10 @@ namespace {
 };
 
 #if defined(_WIN32)
-// @pitfall: The behavior of vsnprintf between vs2013 and vs2015/2017 is different
+// @pitfall: The behavior of vsnprintf between VS2013 and VS2015/2017 is different
 // VS2013 or Unix-Like System will return -1 when buffer not enough, but VS2015/2017 will return the actural needed length for buffer at this station
+// The _vsnprintf behavior is compatible API which always return -1 when buffer isn't enough at VS2013/2015/2017
+// Yes, The vsnprintf is more efficient implemented by MSVC 19.0 or later, AND it's also standard-compliant.
 // #define vsnprintf _vsnprintf
 #endif
 
