@@ -531,7 +531,7 @@ namespace {
                 }
                 else
                 {
-                    bufferSize = ret + 3;
+                    bufferSize = nret + 3;
                     delete[] buf;
                 }
             }
