@@ -91,6 +91,22 @@ namespace cocostudio
         
         cocos2d::BlendFunc blendFunc = cocos2d::BlendFunc::ALPHA_PREMULTIPLIED;
         
+        // attributes
+        const tinyxml2::XMLAttribute* attribute = objectData->FirstAttribute();
+        while (attribute)
+        {
+            std::string attriname = attribute->Name();
+            std::string value = attribute->Value();
+
+            if (attriname == "IntelliShadingEnabled")
+            {
+                intelliShadingEnabled = (value == "True") ? true : false;
+                break;
+            }
+
+            attribute = attribute->Next();
+        }
+
         // FileData
         const tinyxml2::XMLElement* child = objectData->FirstChildElement();
         while (child)
@@ -175,7 +191,7 @@ namespace cocostudio
                     attribute = attribute->Next();
                 }
             }
-            else if (name == "Filter") {
+            else if (name == "FilterRGB") {
                 attribute = child->FirstAttribute();
                 while (attribute)
                 {
