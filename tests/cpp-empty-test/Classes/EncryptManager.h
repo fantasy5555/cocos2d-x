@@ -24,7 +24,7 @@ public:
     algorithm could not compress the AES-CBC encrypted data again, so we need compress data before encrypt it.
     Then final package(.apk,.ipa,.appx) will small, both of platform app pacakge use zip algorithm.
     */
-    void setEncryptEnabled(bool bVal, const std::string& key = "", const std::string& ivec = "");
+    void setEncryptEnabled(bool bVal, const std::string& key = "", const std::string& ivec = "", bool compressed = true);
     bool isEncryptEnabled(void) const { return _encryptEnabled; }
 
     static std::string decryptData(const std::string& encryptedData, const std::string& key, const std::string& ivec = "");
@@ -34,6 +34,7 @@ protected:
 
 private:
     bool _encryptEnabled = false;
+    bool _compressed = true;
     std::string _encryptKey;
     std::string _encryptIvec; // CBC mode needs
     /// file index support, TODO: implement.

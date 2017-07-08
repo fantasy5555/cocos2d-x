@@ -80,7 +80,7 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
 #endif
 
-#if 0
+#if 0 // test text encrypt
     EncryptManager::getInstance()->setEncryptEnabled(true,
         nsc::hex2bin("f5cac53155c3826baa2518149d6381b7bcd74ab0cf97db1ca3f3b4813ebcac09"),
         nsc::hex2bin("8ed7ec623af53ece6b2c636918cf2447")
@@ -91,6 +91,34 @@ bool HelloWorld::init()
     EncryptManager::getInstance()->setEncryptEnabled(false);
 
     auto noencryptFileData = FileUtils::getInstance()->getStringFromFile("encrypt_test1.txt");
+#endif
+
+#if 0 // test picture, encrypted by encrypt tool with compressed
+    EncryptManager::getInstance()->setEncryptEnabled(true,
+        nsc::hex2bin("614e3f91aeeaba641508f4da12b1e6f46b4e8787bb19d6ddb364568786cfa005"),
+        nsc::hex2bin("4585e519ca7539dff6b01c2de5957b2b")
+    );
+
+    auto sprite1 = Sprite::create("encrypt_tool/qq20170708223017.png");
+    this->addChild(sprite1);
+    centerNode(sprite1);
+
+    EncryptManager::getInstance()->setEncryptEnabled(false);
+#endif
+
+#if 1 // test picture, encrypted by encrypt tool without compressed
+    EncryptManager::getInstance()->setEncryptEnabled(true,
+        nsc::hex2bin("614e3f91aeeaba641508f4da12b1e6f46b4e8787bb19d6ddb364568786cfa005"),
+        nsc::hex2bin("4585e519ca7539dff6b01c2de5957b2b"),
+        false
+    );
+
+    auto sprite1 = Sprite::create("encrypt_tool/qq20170708223017_nc.png");
+    this->addChild(sprite1, 1);
+    sprite1->setScale(0.2);
+    centerNode(sprite1);
+
+    EncryptManager::getInstance()->setEncryptEnabled(false);
 #endif
 
     EncryptManager::getInstance()->setEncryptEnabled(true, "262381263");

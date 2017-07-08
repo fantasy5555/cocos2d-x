@@ -48,7 +48,12 @@ public:
         auto data = FileUtilsImpl::getStringFromFile(filename);
         if (!data.empty()) {
             crypto::aes::decrypt(data, encryptManager._encryptKey.c_str());
-            return crypto::zlib::uncompress(data);
+            if (encryptManager._compressed) {
+                return crypto::zlib::uncompress(data);
+            }
+            else {
+                return data;
+            }
         }
         else {
             return "";
@@ -66,14 +71,17 @@ public:
             size_t size = 0;
             crypto::aes::privacy::mode_spec<>::decrypt(data.getBytes(), data.getSize(), data.getBytes(), size, encryptManager._encryptKey.c_str());
 
-            // auto uncompr = crypto::zlib::uncompress(unmanaged_string((const char*)data.getBytes(), size));
+            if (encryptManager._compressed) {
+                auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
+                size = uncomprData.size();
 
-            auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data.getBytes(), size));
-            size = uncomprData.size();
+                data.clear();
 
-            data.clear();
-
-            data.fastSet((unsigned char*)uncomprData.deatch(), size);
+                data.fastSet((unsigned char*)uncomprData.deatch(), size);
+            }
+            else {
+                data.fastSet(data.getBytes(), size);
+            }
         }
 
         return data;
@@ -95,12 +103,18 @@ public:
             size_t outsize = 0;
             crypto::aes::privacy::mode_spec<>::decrypt(data, *size, data, outsize, encryptManager._encryptKey.c_str());
 
-            auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data, outsize));
-            *size = uncomprData.size();
+            if (encryptManager._compressed) {
+                auto uncomprData = crypto::zlib::abi::_inflate(unmanaged_string((const char*)data, outsize));
+                *size = uncomprData.size();
 
-            free(data);
+                free(data);
 
-            return (unsigned char*)uncomprData.deatch();
+                return (unsigned char*)uncomprData.deatch();
+            }
+            else {
+                *size = static_cast<ssize_t>(outsize);
+                return data;
+            }
         }
         return nullptr;
     }
@@ -142,7 +156,7 @@ std::string EncryptManager::decryptData(const std::string& encryptedData, const 
     return crypto::aes::decrypt(encryptedData, encrpytKey.c_str());
 }
 
-void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const std::string& ivec)
+void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const std::string& ivec, bool compressed)
 {
     if (bVal && !key.empty()) {
         _encryptKey.clear();
@@ -167,6 +181,7 @@ void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const 
 
         setupHookFuncs();
         _encryptEnabled = bVal;
+        _compressed = compressed;
     }
     else {
         auto fileUtilsNoEncrypt = new FileUtilsNoEncrypt();
@@ -175,6 +190,7 @@ void EncryptManager::setEncryptEnabled(bool bVal, const std::string& key, const 
         FileUtils::setDelegate(fileUtilsNoEncrypt);
 
         _encryptEnabled = false;
+        _compressed = true;
     }
 }
 
