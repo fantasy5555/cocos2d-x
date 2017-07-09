@@ -1123,8 +1123,7 @@ static bool glew_dynamic_binding()
             glGetFramebufferAttachmentParameteriv = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) wglGetProcAddress("glGetFramebufferAttachmentParameteriv");
             glGenerateMipmap = (PFNGLGENERATEMIPMAPPROC) wglGetProcAddress("glGenerateMipmap");
         }
-        else
-        if (strstr(gl_extensions, "EXT_framebuffer_object"))
+        else if (strstr(gl_extensions, "EXT_framebuffer_object"))
         {
             log("OpenGL: EXT_framebuffer_object is supported");
             glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC) wglGetProcAddress("glIsRenderbufferEXT");
@@ -1191,10 +1190,9 @@ bool GLViewImpl::initGlew()
         ccMessageBox("No OpenGL framebuffer support. Please upgrade the driver of your video card.", "OpenGL error");
         return false;
     }
-    if (!s_vsyncEnabled) {
-        // x-studio365 close _vsync_ default, for nvidia display card
-        ::glfwSwapInterval(0);
-    }
+
+    // x-studio365 close _vsync_ default, for nvidia display card
+    ::glfwSwapInterval(s_vsyncEnabled ? 1 : 0);
 #endif
 
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
