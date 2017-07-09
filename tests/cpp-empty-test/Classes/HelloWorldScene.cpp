@@ -106,7 +106,7 @@ bool HelloWorld::init()
     EncryptManager::getInstance()->setEncryptEnabled(false);
 #endif
 
-#if 1 // test picture, encrypted by encrypt tool without compressed
+#if 0 // test picture, encrypted by encrypt tool without compressed
     EncryptManager::getInstance()->setEncryptEnabled(true,
         nsc::hex2bin("614e3f91aeeaba641508f4da12b1e6f46b4e8787bb19d6ddb364568786cfa005"),
         nsc::hex2bin("4585e519ca7539dff6b01c2de5957b2b"),
