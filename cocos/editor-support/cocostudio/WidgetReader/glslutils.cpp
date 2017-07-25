@@ -2,9 +2,9 @@
 #include "glslutils.hpp"
 
 static const char* s_wintell_hsv_frag = R"(
-//#ifdef GL_ES
+#ifdef GL_ES
 precision mediump float;
-//#endif 
+#endif 
 
 varying vec2 v_texCoord;  
 varying vec4 v_fragmentColor;
