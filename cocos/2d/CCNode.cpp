@@ -269,12 +269,12 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrder.detail.zOrder = z;
+    _localZOrder.zOrder = z;
 }
 
 void Node::updateOrderOfArrival()
 {
-    _localZOrder.detail.orderOfArrival = (++s_globalOrderOfArrival);
+    _localZOrder.orderOfArrival = (++s_globalOrderOfArrival);
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
