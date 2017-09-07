@@ -121,7 +121,7 @@ function UICheckBoxDeprecated.getSelectedState(self)
    deprecatedTip("ccui.CheckBox:getSelectedState", "ccui.CheckBox:getSelected")
    return self:getSelected()
 end
-ccui.CheckBox.getSelectedState = UICheckBoxDeprecated.setSelectedState
+ccui.CheckBox.getSelectedState = UICheckBoxDeprecated.getSelectedState
 
 --functions of ccui.CheckBox will be deprecated end
 
