@@ -1950,7 +1950,7 @@ protected:
 00F32218  mov         eax,dword ptr [ebp-8]  
 00F3221B  mov         dword ptr [b],eax
     */
-#if defined(CC_LITTLE_ENDIAN)
+#if CC_LITTLE_ENDIAN
     union {
         struct {
             unsigned int orderOfArrival;
