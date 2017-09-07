@@ -947,7 +947,7 @@ public:
         });
 #else
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder.detail.zOrder == n2->_localZOrder.detail.zOrder && n1->_localZOrder.detail.orderOfArrival < n2->_localZOrder.detail.orderOfArrival) || n1->_localZOrder.detail.zOrder < n2->_localZOrder.detail.zOrder;
+            return (n1->_localZOrder.zOrder == n2->_localZOrder.zOrder && n1->_localZOrder.orderOfArrival < n2->_localZOrder.orderOfArrival) || n1->_localZOrder.zOrder < n2->_localZOrder.zOrder;
         });
 #endif
     }
@@ -1727,7 +1727,7 @@ public:
     void bringToFront(void);
     void sendToBack(void);
 
-	void moveAfter(Node* where);
+    void moveAfter(Node* where);
     // overrides
     /**
     * Return the node's opacity.
@@ -1955,7 +1955,7 @@ protected:
         struct {
             unsigned int orderOfArrival;
 	    int zOrder;
-        } detail;
+        };
         std::int64_t value;
     } _localZOrder;
 #else
@@ -1963,7 +1963,7 @@ protected:
         struct {
 	    int zOrder;
             unsigned int orderOfArrival;
-        } detail;
+        };
         std::int64_t value;
     } _localZOrder;
 #endif
