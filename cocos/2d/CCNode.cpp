@@ -83,6 +83,7 @@ Node::Node()
 // children (lazy allocs)
 // lazy alloc
 , _globalZOrder(0)
+, _localZOrderArrival(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
 , _tag(Node::INVALID_TAG)
@@ -113,7 +114,6 @@ Node::Node()
 #endif
 , _anchorPoint(0, 0)
 {
-    _localZOrder.value = 0;
     // set default scheduler and actionManager
     _director = Director::getInstance();
     _actionManager = _director->getActionManager();
@@ -269,12 +269,12 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrder.zOrder = z;
+    _localZOrder = z;
 }
 
 void Node::updateOrderOfArrival()
 {
-    _localZOrder.orderOfArrival = (++s_globalOrderOfArrival);
+    _orderOfArrival = (++s_globalOrderOfArrival);
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -1277,10 +1277,10 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
 
     _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
-    // FIX ME: Why need to set _localZOrder.detail.orderOfArrival to 0??
+    // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // reset for next frame
-    // _localZOrder.detail.orderOfArrival = 0;
+    // _orderOfArrival = 0;
 }
 
 Mat4 Node::transform(const Mat4& parentTransform)
