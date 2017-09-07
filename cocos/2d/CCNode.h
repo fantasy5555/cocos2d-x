@@ -186,11 +186,8 @@ public:
      *
      * @return The local (relative to its siblings) Z order.
      */
-#if CC_64BITS
-    virtual int getLocalZOrder() const { return static_cast<int>(_localZOrder >> 32); }
-#else
-    virtual int getLocalZOrder() const { return _localZOrder; }
-#endif
+    virtual int getLocalZOrder() const { return _localZOrder.detail.zOrder; }
+
 
     CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
 
@@ -946,15 +943,11 @@ public:
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder < n2->_localZOrder);
-        });
-#elif defined(_WIN32)
-        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival) || n1->_localZOrder < n2->_localZOrder;
+            return (n1->_localZOrder.value < n2->_localZOrder.value);
         });
 #else
-        std::stable_sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return n1->_localZOrder < n2->_localZOrder;
+        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
+            return (n1->_localZOrder.detail.zOrder == n2->_localZOrder.detail.zOrder && n1->_localZOrder.detail.orderOfArrival < n2->_localZOrder.detail.orderOfArrival) || n1->_localZOrder.detail.zOrder < n2->_localZOrder.detail.zOrder;
         });
 #endif
     }
@@ -1950,12 +1943,28 @@ protected:
     bool _transformUpdated;         ///< Whether or not the Transform object was updated since the last frame
 
 #if CC_64BITS
-    std::int64_t _localZOrder; /// cache, for 64bits compress optimize.
+    std::int64_t _localZOrderInternal; /// cache, for 64bits compress optimize.
 #else
     int _localZOrder; /// < Local order (relative to its siblings) used to sort the node
-#if defined(_WIN32)
     unsigned int _orderOfArrival;
 #endif
+
+#if defined(CC_LITTLE_ENDIAN)
+    union {
+        struct {
+            unsigned int orderOfArrival;
+	    int zOrder;
+        } detail;
+        std::int64_t value;
+    } _localZOrder;
+#else
+    union {
+        struct {
+	    int zOrder;
+            unsigned int orderOfArrival;
+        } detail;
+        std::int64_t value;
+    } _localZOrder;
 #endif
 
     float _globalZOrder;            ///< Global order used to sort the node
