@@ -1942,13 +1942,14 @@ protected:
     mutable bool _additionalTransformDirty; ///< transform dirty ?
     bool _transformUpdated;         ///< Whether or not the Transform object was updated since the last frame
 
-#if CC_64BITS
-    std::int64_t _localZOrderInternal; /// cache, for 64bits compress optimize.
-#else
-    int _localZOrder; /// < Local order (relative to its siblings) used to sort the node
-    unsigned int _orderOfArrival;
-#endif
-
+    /* The access union member asm code is follow, so no performance reduce.
+        auto a = obj._localZOrder0;
+00F32212  mov         eax,dword ptr [ebp-10h]  
+00F32215  mov         dword ptr [a],eax  
+    auto b = obj._localZOrder.detail.zOrder;
+00F32218  mov         eax,dword ptr [ebp-8]  
+00F3221B  mov         dword ptr [b],eax
+    */
 #if defined(CC_LITTLE_ENDIAN)
     union {
         struct {
