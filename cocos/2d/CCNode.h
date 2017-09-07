@@ -186,7 +186,7 @@ public:
      *
      * @return The local (relative to its siblings) Z order.
      */
-    virtual int getLocalZOrder() const { return _localZOrder.detail.zOrder; }
+    virtual int getLocalZOrder() const { return _localZOrder.zOrder; }
 
 
     CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
