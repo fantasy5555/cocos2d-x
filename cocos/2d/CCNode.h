@@ -186,7 +186,7 @@ public:
      *
      * @return The local (relative to its siblings) Z order.
      */
-    virtual int getLocalZOrder() const { return _localZOrder.zOrder; }
+    virtual int getLocalZOrder() const { return _localZOrder; }
 
 
     CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
@@ -943,11 +943,11 @@ public:
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder.value < n2->_localZOrder.value);
+            return (n1->_localZOrderArrival < n2->_localZOrderArrival);
         });
 #else
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrder.zOrder == n2->_localZOrder.zOrder && n1->_localZOrder.orderOfArrival < n2->_localZOrder.orderOfArrival) || n1->_localZOrder.zOrder < n2->_localZOrder.zOrder;
+            return (n1->_localZOrder == n2->_localZOrder && n1->_orderOfArrival < n2->_orderOfArrival) || n1->_localZOrder < n2->_localZOrder;
         });
 #endif
     }
@@ -1953,19 +1953,19 @@ protected:
 #if CC_LITTLE_ENDIAN
     union {
         struct {
-            unsigned int orderOfArrival;
-	    int zOrder;
+            unsigned int _orderOfArrival;
+	    int _localZOrder;
         };
-        std::int64_t value;
-    } _localZOrder;
+        std::int64_t _localZOrderArrival;
+    };
 #else
     union {
         struct {
-	    int zOrder;
-            unsigned int orderOfArrival;
+	    int _localZOrder;
+            unsigned int _orderOfArrival;
         };
-        std::int64_t value;
-    } _localZOrder;
+        std::int64_t _localZOrderArrival;
+    };
 #endif
 
     float _globalZOrder;            ///< Global order used to sort the node
