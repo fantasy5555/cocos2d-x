@@ -147,11 +147,11 @@ public:
 
      The Node's parent will sort all its children based on the LocalZOrder value.
      If two nodes have the same LocalZOrder, then the node that was added first to the children's array will be in front of the other node in the array.
-     
+
      Also, the Scene Graph is traversed using the "In-Order" tree traversal algorithm ( http://en.wikipedia.org/wiki/Tree_traversal#In-order )
      And Nodes that have LocalZOrder values < 0 are the "left" subtree
      While Nodes with LocalZOrder >=0 are the "right" subtree.
-     
+
      @see `setGlobalZOrder`
      @see `setVertexZ`
      *
@@ -160,8 +160,8 @@ public:
     virtual void setLocalZOrder(int localZOrder);
 
     CC_DEPRECATED_ATTRIBUTE virtual void setZOrder(int localZOrder) { setLocalZOrder(localZOrder); }
-    
-    /* 
+
+    /*
      Helper function used by `setLocalZOrder`. Don't use it unless you know what you are doing.
      @js NA
      */
@@ -198,14 +198,14 @@ public:
     /**
      Defines the order in which the nodes are renderer.
      Nodes that have a Global Z Order lower, are renderer first.
-     
+
      In case two or more nodes have the same Global Z Order, the order is not guaranteed.
      The only exception if the Nodes have a Global Z Order == 0. In that case, the Scene Graph order is used.
-     
+
      By default, all nodes have a Global Z Order = 0. That means that by default, the Scene Graph order is used to render the nodes.
-     
+
      Global Z Order is useful when you need to render nodes in an order different than the Scene Graph order.
-     
+
      Limitations: Global Z Order can't be used by Nodes that have SpriteBatchNode as one of their ancestors.
      And if ClippingNode is one of the ancestors, then "global Z order" will be relative to the ClippingNode.
 
@@ -360,7 +360,7 @@ public:
     virtual const Vec2& getPosition() const;
 
     /** Returns the normalized position.
-     * 
+     *
      * @return The normalized position.
      */
     virtual const Vec2& getPositionNormalized() const;
@@ -785,7 +785,7 @@ public:
     */
     template <typename T>
     T getChildByTag(int tag) const { return static_cast<T>(getChildByTag(tag)); }
-    
+
     /**
     * Gets a child from the container with its name.
     *
@@ -941,7 +941,7 @@ public:
     *
     */
     template<typename _T> inline
-    static void sortNodes(cocos2d::Vector<_T*>& nodes)
+        static void sortNodes(cocos2d::Vector<_T*>& nodes)
     {
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
@@ -1724,7 +1724,7 @@ public:
     */
     virtual void removeAllComponents();
     /// @} end of component functions
-	/// x-studio365 spec, insert a child without sort when index != -1
+    /// x-studio365 spec, insert a child without sort when index != -1
     virtual void insertAt(Node* n, int index = -1);
 
     void bringToFront(void);
@@ -1947,24 +1947,24 @@ protected:
 
     /* The access union member asm code is follow, so no performance reduce.
         auto a = obj._localZOrder0;
-00F32212  mov         eax,dword ptr [ebp-10h]  
-00F32215  mov         dword ptr [a],eax  
+00F32212  mov         eax,dword ptr [ebp-10h]
+00F32215  mov         dword ptr [a],eax
     auto b = obj._localZOrder.detail.zOrder;
-00F32218  mov         eax,dword ptr [ebp-8]  
+00F32218  mov         eax,dword ptr [ebp-8]
 00F3221B  mov         dword ptr [b],eax
     */
 #if CC_LITTLE_ENDIAN
     union {
         struct {
             unsigned int _orderOfArrival;
-	    int _localZOrder;
+            int _localZOrder;
         };
         std::int64_t _localZOrder$Arrival;
     };
 #else
     union {
         struct {
-	    int _localZOrder;
+            int _localZOrder;
             unsigned int _orderOfArrival;
         };
         std::int64_t _localZOrder$Arrival;
