@@ -179,6 +179,9 @@ public:
     */
     void updateOrderOfArrival();
 
+    void _setOrderOfArrival(unsigned int orderOfArrival);
+    unsigned int _getOrderOfArrival() const;
+
     /**
      * Gets the local Z order of this node.
      *
@@ -943,7 +946,7 @@ public:
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
 #if CC_64BITS
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrderArrival < n2->_localZOrderArrival);
+            return (n1->_localZOrder$Arrival < n2->_localZOrder$Arrival);
         });
 #else
         std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
@@ -1956,7 +1959,7 @@ protected:
             unsigned int _orderOfArrival;
 	    int _localZOrder;
         };
-        std::int64_t _localZOrderArrival;
+        std::int64_t _localZOrder$Arrival;
     };
 #else
     union {
@@ -1964,7 +1967,7 @@ protected:
 	    int _localZOrder;
             unsigned int _orderOfArrival;
         };
-        std::int64_t _localZOrderArrival;
+        std::int64_t _localZOrder$Arrival;
     };
 #endif
 

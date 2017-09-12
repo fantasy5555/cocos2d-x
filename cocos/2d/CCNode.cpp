@@ -83,7 +83,7 @@ Node::Node()
 // children (lazy allocs)
 // lazy alloc
 , _globalZOrder(0)
-, _localZOrderArrival(0)
+, _localZOrder$Arrival(0)
 , _parent(nullptr)
 // "whole screen" objects. like Scenes and Layers, should set _ignoreAnchorPointForPosition to true
 , _tag(Node::INVALID_TAG)
@@ -275,6 +275,16 @@ void Node::_setLocalZOrder(int z)
 void Node::updateOrderOfArrival()
 {
     _orderOfArrival = (++s_globalOrderOfArrival);
+}
+
+void Node::_setOrderOfArrival(unsigned int orderOfArrival)
+{
+    _orderOfArrival = orderOfArrival;
+}
+
+unsigned int Node::_getOrderOfArrival() const
+{
+    return _orderOfArrival;
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -2193,22 +2203,54 @@ void Node::moveAfter(Node* where)
             auto moving = *myIt;
             Node** ppv = nullptr;
             auto delta = (myIt - whereIt);
-            if (delta > 1) {
-                ppv = &(*(whereIt + 1));
-                ::memmove(&*(whereIt + 2), ppv, (myIt - whereIt - 1) * sizeof(Node*));
+            if (delta > 1) { // current Node is after where Node
+                auto newIt = whereIt + 1;
+                auto localZOrder = (*newIt)->getLocalZOrder();
+                auto orderOfArrival = (*newIt)->_getOrderOfArrival();
+                for (auto it = newIt; it != myIt; ++it) {
+                    (*it)->_setOrderOfArrival((*(it + 1))->_getOrderOfArrival());
+                    (*it)->_setLocalZOrder((*(it + 1))->getLocalZOrder());
+                }
+                (*myIt)->_setLocalZOrder(localZOrder);
+                (*myIt)->_setOrderOfArrival(orderOfArrival);
+
+                ppv = &(*(newIt)); // the next of where Node
+                ::memmove(&*(whereIt + 2), ppv, (delta - 1) * sizeof(Node*));
                 *ppv = moving;
             }
-            else if (-delta > 1) {
+            else if (delta < -1) { // current Node is before where Node
+                auto newIt = whereIt;
+                auto localZOrder = (*newIt)->getLocalZOrder();
+                auto orderOfArrival = (*newIt)->_getOrderOfArrival();
+                for (auto it = whereIt; it != myIt; --it) {
+                    (*it)->_setLocalZOrder((*(it - 1))->getLocalZOrder());
+                    (*it)->_setOrderOfArrival((*(it - 1))->_getOrderOfArrival());
+                }
+                (*myIt)->_setLocalZOrder(localZOrder);
+                (*myIt)->_setOrderOfArrival(orderOfArrival);
+
                 ppv = &(*(whereIt));
-                ::memmove(&(*(myIt)), &(*(myIt + 1)), (whereIt - myIt) * sizeof(Node*));
+                ::memmove(&(*(myIt)), &(*(myIt + 1)), -delta * sizeof(Node*));
                 *ppv = moving;
             }
-            else if (-delta == 1) { // myIt - whereIt == 1(do nothing) || whereIt - myIt == 1(swap only)
+            else if (delta == -1) { // myIt - whereIt == 1(do nothing) || whereIt - myIt == 1(swap only)
+                auto localZOrder = (*whereIt)->getLocalZOrder();
+                auto orderOfArrival = (*whereIt)->_getOrderOfArrival();
+                (*whereIt)->_setOrderOfArrival((*myIt)->_getOrderOfArrival());
+                (*myIt)->_setLocalZOrder(localZOrder);
+                (*myIt)->_setOrderOfArrival(orderOfArrival);
+
                 std::swap(*myIt, *whereIt);
             }
         }
         else { // be samlar with bubble, swap only.
             if (++whereIt != ss.end()) {
+                auto localZOrder = (*whereIt)->getLocalZOrder();
+                auto orderOfArrival = (*whereIt)->_getOrderOfArrival();
+                (*whereIt)->_setOrderOfArrival((*myIt)->_getOrderOfArrival());
+                (*myIt)->_setLocalZOrder(localZOrder);
+                (*myIt)->_setOrderOfArrival(orderOfArrival);
+
                 std::swap(*myIt, *whereIt);
             }
         }
@@ -2218,21 +2260,21 @@ void Node::moveAfter(Node* where)
 }
 
 void Node::bringToFront(void)
-{ // unused for editor: can be remove
+{ 
     auto parent = this->getParent();
     if (parent != nullptr && parent->getChildrenCount() >= 2) {
 
         auto& siblings = parent->getChildren();
 
         auto last = *siblings.rbegin();
-        // auto topOrderOfArrival = last->getOrderOfArrival();
+        auto topOrderOfArrival = last->_getOrderOfArrival();
         auto topLocalZOrder = last->getLocalZOrder();
 
-        for (size_t idx = siblings.size() - 1; idx > 0; --idx)
+        for (ssize_t idx = siblings.size() - 1; idx > 0; --idx)
         {
             auto sibling = siblings.at(idx);
             if (sibling != this) {
-                //sibling->setOrderOfArrival(siblings.at(idx - 1)->getOrderOfArrival());
+                sibling->_setOrderOfArrival(siblings.at(idx - 1)->_getOrderOfArrival());
                 sibling->_setLocalZOrder(siblings.at(idx - 1)->getLocalZOrder());
             }
             else {
@@ -2240,10 +2282,10 @@ void Node::bringToFront(void)
             }
         }
 
-        // this->setOrderOfArrival(topOrderOfArrival);
+        this->_setOrderOfArrival(topOrderOfArrival);
         this->_setLocalZOrder(topLocalZOrder);
 
-        sortNodes(siblings); // std::sort(std::begin(siblings), std::end(siblings), nodeComparisonLess);
+        sortNodes(siblings);
         _eventDispatcher->setDirtyForNode(this);
     }
 }
@@ -2253,25 +2295,16 @@ void Node::sendToBack(void)
     auto parent = this->getParent();
     if (parent != nullptr && parent->getChildrenCount() >= 2) {
 
-        auto& ss = parent->getChildren();
-        auto iter = std::find(ss.begin(), ss.end(), this);
-        if (iter != ss.end()) {
-            auto moving = *iter;
-            ::memmove(&(*(ss.begin() + 1)), &(*ss.begin()), (iter - ss.begin()) * sizeof(Node*));
-            *ss.begin() = moving;
-        }
-
-#if 0
         auto& siblings = parent->getChildren();
         auto start = *siblings.begin();
-        //auto bottomOrderOfArrival = start->getOrderOfArrival();
+        auto bottomOrderOfArrival = start->_getOrderOfArrival();
         auto bottomLocalZOrder = start->getLocalZOrder();
 
-        for (size_t idx = 0; idx < siblings.size() - 1; ++idx)
+        for (ssize_t idx = 0; idx < siblings.size() - 1; ++idx)
         {
             auto c = siblings.at(idx);
             if (c != this) {
-               // c->setOrderOfArrival(siblings.at(idx + 1)->getOrderOfArrival());
+                c->_setOrderOfArrival(siblings.at(idx + 1)->_getOrderOfArrival());
                 c->_setLocalZOrder(siblings.at(idx + 1)->getLocalZOrder());
             }
             else {
@@ -2279,13 +2312,13 @@ void Node::sendToBack(void)
             }
         }
 
-       // this->setOrderOfArrival(bottomOrderOfArrival);
+        this->_setOrderOfArrival(bottomOrderOfArrival);
         this->_setLocalZOrder(bottomLocalZOrder);
 
         sortNodes(siblings);
-#endif
+
         _eventDispatcher->setDirtyForNode(this);
-    }
+    }    
 }
 
 //======================= end of x-studio365 spec =============================
