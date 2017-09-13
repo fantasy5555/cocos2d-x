@@ -54,6 +54,8 @@ THE SOFTWARE.
 #include "base/CCProfiling.h"
 #include "base/ccUTF8.h"
 #include "renderer/CCTextureCache.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramState.h"
 #include "platform/CCFileUtils.h"
 
 using namespace std;
@@ -522,6 +524,8 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
                 if( !this->_texture)
                     CCLOGWARN("cocos2d: Warning: ParticleSystemQuad system without a texture");
             }
+
+            setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, _texture));
             ret = true;
         }
     } while (0);

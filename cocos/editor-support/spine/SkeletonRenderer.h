@@ -98,8 +98,7 @@ public:
     virtual void setOpacityModifyRGB (bool value) override;
     virtual bool isOpacityModifyRGB () const override;
 
-    // ---- ETC1 Alpha builtin support
-    void updateGLProgramState();
+
 
 CC_CONSTRUCTOR_ACCESS:
 	SkeletonRenderer ();
@@ -117,7 +116,8 @@ CC_CONSTRUCTOR_ACCESS:
 
 	virtual void initialize ();
 
-
+    // ---- ETC1 Alpha builtin support
+    void setupGLProgramState();
 
 protected:
 	void setSkeletonData (spSkeletonData* skeletonData, bool ownsSkeletonData);
