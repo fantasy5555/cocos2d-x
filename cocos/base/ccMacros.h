@@ -282,10 +282,7 @@ CC_ASSERT(__gl_error_code == GL_NO_ERROR, "Error"); \
 #endif
 
  /******************************************************************************************/
- /** LittleEndian Sense Macro, from google protobuf see:                                  **/
- /** https://github.com/google/protobuf/blob/master/src/google/protobuf/io/coded_stream.h **/
  /******************************************************************************************/
-/******************************************************************************************/
  /** LittleEndian Sense Macro, from google protobuf see:                                  **/
  /** https://github.com/google/protobuf/blob/master/src/google/protobuf/io/coded_stream.h **/
  /******************************************************************************************/
