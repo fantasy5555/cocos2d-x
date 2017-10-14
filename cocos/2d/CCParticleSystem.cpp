@@ -525,7 +525,6 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
                     CCLOGWARN("cocos2d: Warning: ParticleSystemQuad system without a texture");
             }
 
-            setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, _texture));
             ret = true;
         }
     } while (0);
@@ -1034,6 +1033,7 @@ void ParticleSystem::setTexture(Texture2D* var)
         CC_SAFE_RETAIN(var);
         CC_SAFE_RELEASE(_texture);
         _texture = var;
+        setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, _texture));
         updateBlendFunc();
     }
 }
