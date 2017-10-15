@@ -873,12 +873,10 @@ namespace cocostudio
         bool flippedY = options->flipY() != 0;
         widget->setFlippedY(flippedY);
         
-#if 0
         std::string callbackType = options->callBackType()->c_str();
         widget->setCallbackType(callbackType);
         std::string callbackName = options->callBackName()->c_str();
         widget->setCallbackName(callbackName);
-#endif
         
         setLayoutComponentPropsWithFlatBuffers(widget, widgetOptions);
     }

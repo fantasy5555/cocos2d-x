@@ -46,7 +46,7 @@ TransformConstraintData.c \
 VertexAttachment.c \
 extension.c \
 spine-cocos2dx.cpp \
-SpineSkeletonCache.cpp
+SkeletonDataCache.cpp
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/..
 

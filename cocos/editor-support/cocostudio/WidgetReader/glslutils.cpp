@@ -96,6 +96,8 @@ bool glslutils::enableNodeIntelliShading(cocos2d::Node* node,
     node->setGLProgramState(GLProgramState::create(glProgram));
 
     updateNodeHsv(node, hsv, filter, forceShading, hsvShading);
+
+    return true;
 }
 
 void glslutils::updateNodeHsv(cocos2d::Node* node,

@@ -717,7 +717,7 @@ namespace cocostudio
                                            shadowOffset.height,
                                            shadowBlurRadius,
 			                               glowEnabled,
-                                           isLocalized, /*pitfall: 3.16 use this order */
+                                           isLocalized,
 		                                   &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled);
         
         return *(Offset<Table>*)(&options);

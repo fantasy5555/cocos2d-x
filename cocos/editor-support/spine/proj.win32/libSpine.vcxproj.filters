@@ -125,14 +125,11 @@
     <ClCompile Include="..\VertexAttachment.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SpineSkeletonCache.cpp">
+    <ClCompile Include="..\SkeletonDataCache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\SpineSkeletonCache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\AnimationStateData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -248,6 +245,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Bone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SkeletonDataCache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -450,7 +450,7 @@ namespace cocostudio
                                          shadowOffset.width,
                                          shadowOffset.height,
                                          shadowBlurRadius,
-                                         isLocalized, /* pitfall: 3.16 changed the order of isLocalized */
+                                         isLocalized,
 			                             glowEnabled,
 			                             &f_glowColor, boldEnabled, underlineEnabled, italicsEnabled, strikethroughEnabled);
         
